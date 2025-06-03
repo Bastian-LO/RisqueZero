@@ -1,6 +1,8 @@
 package model.data.persistence;
 
-public class Secouriste {
+import model.User;
+
+public class Secouriste extends User{
     private long id;
     private String nom;
     private String prenom;
