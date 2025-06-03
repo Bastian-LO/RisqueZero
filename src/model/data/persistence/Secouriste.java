@@ -10,11 +10,21 @@ public class Secouriste {
     private String adresse;
 
     public Secouriste(long id, String nom, String prenom, String dateNaissance, String email, String tel, String adresse) throws IllegalArgumentException{
-        if(id == null || nom == null || nom.equals("") || nom == null || nom.equals("") || prenom == null || prenom.equals("") || dateNaissance == null || dateNaissance ){
+        // Checks 
+        if(id < 1 || nom == null || nom.equals("") || nom == null || nom.equals("") || prenom == null || 
+        prenom.equals("") || dateNaissance == null || !dateNaissance.matches("^\\d{2}/\\d{2}/\\d{4}$") ||
+        email == null || !email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$") || tel == null || 
+        !tel.matches("^0\\d{9}$") || adresse == null || adresse.equals("")){
             throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
-        }else if(dateNaissance.equals("" || )){
-            
         }
+
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateNaissance = dateNaissance;
+        this.email = email;
+        this.tel = tel;
+        this.adresse = adresse;
     }
     
     //================================
