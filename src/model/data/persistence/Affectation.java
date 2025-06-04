@@ -21,11 +21,11 @@ public class Affectation {
     }
 
     public Competence getCompetence(){
-        return (Competence) this.competence.clone();
+        return new Competence(this.competence.getIntitule(), this.competence.getRequis());
     }
 
-    public void setCompetecnce(Competence newCompetence){
-        if(newCompetence == null || newCompetence.getNom().trim().equals("")){
+    public void setCompetence(Competence newCompetence){
+        if(newCompetence == null || newCompetence.getIntitule().trim().equals("")){
             throw new IllegalArgumentException("setCompetence : paramètre invalide");
         }
         this.competence = newCompetence;
