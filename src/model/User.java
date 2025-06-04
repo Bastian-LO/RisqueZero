@@ -33,4 +33,6 @@ public interface User {
      * Sets the password of the user
      */
     public void setPassword(String password);
+
+    
 }
