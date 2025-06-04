@@ -1,5 +1,5 @@
 package model.data.persistence;
 
-public class Dispos {
+public class Affectation {
     
 }
