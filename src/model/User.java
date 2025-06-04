@@ -14,7 +14,7 @@ public abstract class User {
     /**
      * Returns the login of the user
      */
-    public  String getLogin(){
+    public String getLogin(){
         return login;
     }
 
