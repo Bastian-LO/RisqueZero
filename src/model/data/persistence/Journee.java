@@ -1,9 +1,11 @@
-public class Journée{
+package model.data.persistence;
+
+public class Journee{
     private int jour;
     private int mois;
     private int annee;
 
-    public Journée(int jour, int mois, int annee) throws IllegalArgumentException{
+    public Journee(int jour, int mois, int annee) throws IllegalArgumentException{
         checkDate(jour, mois, annee);
 
         this.jour = jour;
