@@ -6,7 +6,6 @@ public class View {
     public static void main(String[] args){
         MyConnection mc = MyConnection.getMyConnection();
         Connection c = mc.getConnection();
-        System.out.println("test github");
     }
     
 }

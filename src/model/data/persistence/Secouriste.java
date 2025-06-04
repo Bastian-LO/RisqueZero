@@ -1,6 +1,6 @@
 package model.data.persistence;
 
-public class Secouriste {
+public class Secouriste{
     private long id;
     private String nom;
     private String prenom;
@@ -10,11 +10,11 @@ public class Secouriste {
     private String adresse;
 
     public Secouriste(long id, String nom, String prenom, String dateNaissance, String email, String tel, String adresse) throws IllegalArgumentException{
-        // Checks 
-        if(id < 1 || nom == null || nom.equals("") || nom == null || nom.equals("") || prenom == null || 
-        prenom.equals("") || dateNaissance == null || !dateNaissance.matches("^\\d{2}/\\d{2}/\\d{4}$") ||
-        email == null || !email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$") || tel == null || 
-        !tel.matches("^0\\d{9}$") || adresse == null || adresse.equals("")){
+        // Checks if the parameters are valid
+        if(id < 1 || nom == null || nom.trim().equals("") || nom == null || nom.trim().equals("") || 
+        prenom == null || prenom.trim().equals("") || dateNaissance == null || !dateNaissance.trim().matches("^\\d{2}/\\d{2}/\\d{4}$") ||
+        email == null || !email.trim().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$") || tel == null || 
+        !tel.trim().matches("^0\\d{9}$") || adresse == null || adresse.trim().equals("")){
             throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
         }
 
@@ -30,6 +30,10 @@ public class Secouriste {
     //================================
     //           GETTERS
     //================================
+    public long getId(){
+        return id;
+    }
+    
     public String getNom() {
         return nom;
     }
@@ -57,28 +61,49 @@ public class Secouriste {
     //================================
     //           SETTERS
     //================================
+    public void setId(long id){
+        this.id = id;
+    }
 
-    public void setNom(String nom) {
+    public void setNom(String nom) throws IllegalArgumentException{
+        if(nom == null || nom.trim().equals("")){
+            throw new IllegalArgumentException();
+        }
         this.nom = nom;
     }
 
     public void setPrenom(String prenom) {
+        if(prenom == null || prenom.trim().equals("")){
+            throw new IllegalArgumentException();
+        }
         this.prenom = prenom;
     }
 
     public void setDateNaissance(String dateNaissance) {
+        if(dateNaissance == null || !dateNaissance.trim().matches("^\\d{2}/\\d{2}/\\d{4}$")){
+            throw new IllegalArgumentException();
+        }
         this.dateNaissance = dateNaissance;
     }
 
     public void setEmail(String email) {
+        if(email == null || !email.trim().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")){
+            throw new IllegalArgumentException();
+        }
         this.email = email;
     }
 
     public void setTel(String tel) {
+        if(tel == null || !tel.trim().matches("^0\\d{9}$")){
+            throw new IllegalArgumentException();
+        }
         this.tel = tel;
     }
 
     public void setAdresse(String adresse) {
+        if(adresse == null || adresse.trim().equals("")){
+            throw new IllegalArgumentException();
+        }
         this.adresse = adresse;
     }
 }
