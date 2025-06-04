@@ -39,13 +39,7 @@ public abstract class User {
     /**
      * Sets the password of the user
      */
-<<<<<<< HEAD
-    public void setPassword(String password);
-
-    
-=======
     public void setPassword(String password){
         this.password = password;
     }
->>>>>>> 02f676ccee1a520e10def6f581d4527402747aa2
 }
