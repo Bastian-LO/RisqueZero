@@ -69,4 +69,9 @@ public class Journee{
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("%02d/%02d/%04d", this.jour, this.mois, this.annee); // Format the date as dd/mm/yyyy
+    }
 }
