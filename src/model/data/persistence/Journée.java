@@ -1,3 +1,5 @@
+package model.data.persistence;
+
 public class Journée{
     private int jour;
     private int mois;

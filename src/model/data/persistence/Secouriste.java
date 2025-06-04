@@ -1,4 +1,5 @@
 package model.data.persistence;
+import java.util.HashSet;
 
 public class Secouriste{
     private long id;
@@ -8,6 +9,7 @@ public class Secouriste{
     private String email;
     private String tel;
     private String adresse;
+    private HashSet<Dispos> disponibilité;
 
     public Secouriste(long id, String nom, String prenom, String dateNaissance, String email, String tel, String adresse) throws IllegalArgumentException{
         // Checks if the parameters are valid
@@ -25,6 +27,7 @@ public class Secouriste{
         this.email = email;
         this.tel = tel;
         this.adresse = adresse;
+        this.journées = new HashSet<>();
     }
     
     //================================
