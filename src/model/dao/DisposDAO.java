@@ -10,10 +10,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * DAO for Dispos
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
 public class DisposDAO extends DAO<Dispos> {
 
+    //=================================
+    //           ATTRIBUTES
+    // ================================
+
+    /** DAO for Secouriste */
     private final SecouristeDAO secouristeDAO = new SecouristeDAO();
 
+    /**
+     * Finds all disposibilities in the database
+     * @return A list of all disponibilities
+     */
     @Override
     public List<Dispos> findAll() {
         List<Dispos> allDispos = new ArrayList<>();
@@ -45,6 +59,11 @@ public class DisposDAO extends DAO<Dispos> {
         return allDispos;
     }
 
+    /**
+     * Finds all disponibilities for a given secouriste
+     * @param secouristeId The ID of the secouriste
+     * @return A set of all disponibilities for the given secouriste
+     */
     public Set<Dispos> findBySecouriste(long secouristeId) {
         Set<Dispos> dispos = new HashSet<>();
         String sql = "SELECT jour, mois, annee, heure_debut, heure_fin FROM dispos WHERE id_sec = ?";
@@ -77,7 +96,11 @@ public class DisposDAO extends DAO<Dispos> {
         return dispos;
     }
 
-
+    /**
+     * Deletes a disponibility from the database
+     * @param dispos The disponibility to delete
+     * @return The number of rows affected by the query
+     */
     @Override
     public int delete(Dispos dispos) {
         String sql = "DELETE FROM dispos WHERE id_sec = ?";
@@ -93,6 +116,11 @@ public class DisposDAO extends DAO<Dispos> {
         }
     }
 
+    /**
+     * Creates a new disponibility in the database
+     * @param dispos The disponibility to create
+     * @return The number of rows affected by the query
+     */
     @Override
     public int create(Dispos dispos) {
         if (dispos.getSecouriste() == null) return 0;
@@ -116,6 +144,11 @@ public class DisposDAO extends DAO<Dispos> {
         }
     }
 
+    /**
+     * Updates a disponibility in the database
+     * @param dispos The disponibility to update
+     * @return The number of rows affected by the query
+     */
     @Override
     public int update(Dispos dispos) {
         String sql = "UPDATE dispos SET heure_debut = ?, heure_fin = ? "
@@ -139,6 +172,11 @@ public class DisposDAO extends DAO<Dispos> {
         }
     }
 
+    /**
+     * Parses a time string into an array of two integers
+     * @param time String of the form "HH:MM"
+     * @return An array of two integers: {hour, minute}
+     */
     private int[] parseTime(String time) {
         String[] parts = time.split(":");
         return new int[]{
@@ -147,6 +185,11 @@ public class DisposDAO extends DAO<Dispos> {
         };
     }
 
+    /**
+     * Formats an array of two integers into a string of the form "HH:MM"
+     * @param time An array of two integers: {hour, minute}
+     * @return A string of the form "HH:MM"
+     */
     private String formatTime(int[] time) {
         return String.format("%02d:%02d", time[0], time[1]);
     }
