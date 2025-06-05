@@ -24,6 +24,10 @@ public class DisposDAO extends DAO<Dispos> {
     /** DAO for Secouriste */
     private final SecouristeDAO secouristeDAO = new SecouristeDAO();
 
+    //=================================
+    //           METHODS
+    // ================================
+
     /**
      * Finds all disposibilities in the database
      * @return A list of all disponibilities
