@@ -64,9 +64,13 @@ public class Secouriste{
     }
 
     public ArrayList<Competence> getCompetences(){
-        return competences;
+        return new ArrayList<>(this.competences);
     }
     
+    public HashSet<Dispos> getDisponibilites(){
+        return new HashSet<>(this.disponibilites);
+    }
+
     //================================
     //           SETTERS
     //================================
