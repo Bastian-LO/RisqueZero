@@ -8,9 +8,9 @@ public class Affectation {
     private HashSet<DPS> idDps;
     private Competence competence;
 
-    public Affectation(HashSet<Secouriste> idSecouristes, HashSet<DPS> idDps, Competence competence) throws IllegalArgumentException{
-        if (idSec == null || idSec.isEmpty() || idSec.contains(null)
-         || idDps == null || idDps.isEmpty() || idDps.contains(null) 
+    public Affectation(HashSet<Secouriste> idSecouristes, HashSet<DPS> idDpsEntrant, Competence competence) throws IllegalArgumentException{
+        if (idSecouristes == null || idSecouristes.isEmpty() || idSecouristes.contains(null)
+         || idDpsEntrant == null || idDpsEntrant.isEmpty() || idDpsEntrant.contains(null)
          || competence == null || competence.getIntitule().isEmpty()){
             throw new IllegalArgumentException("Affectation : paramètres invalides.");
         }

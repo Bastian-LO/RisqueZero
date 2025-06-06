@@ -3,6 +3,7 @@ package model.data.graphe;
 import model.data.persistence.Secouriste;
 import model.data.persistence.Competence;
 import model.data.persistence.DPS;
+import model.dao.CompetenceDAO;
 
 import java.util.*;
 
@@ -140,5 +141,57 @@ public class Graphe {
         }
     }
 
+    /**
+     * This method checks if the graph is a DAG using Depth First Search
+     * It calls the recursive method hasCycle()
+     * It's existence is necessary to ensure proper function in
+     * case of a disconnected graph ( if not, calling the recursive method would have been enough )
+     * @return true if the graph is a DAG, false otherwise
+     */
+    public boolean DAGCheckDFS(){
+        Set<Competence> visited = new HashSet<>();
+        Set<Competence> recursionStack = new HashSet<>();
+        CompetenceDAO DAOcomp = new CompetenceDAO();
+        for (Competence comp : DAOcomp.findAll()) {
+            if (!visited.contains(comp)) {
+                if (hasCycle(comp, visited, recursionStack)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Recursive method used to check if the graph is a DAG
+     * It follows the DFS algorithm, going to the end of the current branch before returning true.
+     * If it encounters a node already in it's stack, it returns false
+     * @param current the current node we're processing
+     * @param visited the nodes we've completely processed
+     * @param recursionStack the nodes in the current DFS path
+     * @return true if the graph is a DAG, false otherwise
+     */
+    private boolean hasCycle(Competence current,
+                             Set<Competence> visited,
+                             Set<Competence> recursionStack) {
+        visited.add(current);
+        recursionStack.add(current);
+
+        for (Competence req : current.getRequis()) {
+            if (!visited.contains(req)) {
+                if (hasCycle(req, visited, recursionStack)) {
+                    return true;
+                }
+            }
+            // If we find a node already in the stack, we have encountered a cycle.
+            else if (recursionStack.contains(req)) {
+                return true;
+            }
+        }
+
+        // Clears the recursion stack as we finish the recursion
+        recursionStack.remove(current);
+        return false;
+    }
 
 }
