@@ -22,7 +22,7 @@ public class Dispos {
     //================================
     //           GETTERS
     //================================
-    public date getDate() {
+    public Journee getDate() {
         return date;
     }
 
