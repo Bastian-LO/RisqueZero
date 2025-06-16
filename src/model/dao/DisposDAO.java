@@ -99,19 +99,18 @@ public class DisposDAO extends DAO<Dispos> {
         return dispos;
     }
 
-    /**
-     * Deletes a disponibility from the database
-     * @param dispos The disponibility to delete
-     * @return The number of rows affected by the query
-     */
     @Override
     public int delete(Dispos dispos) {
-        String sql = "DELETE FROM dispos WHERE id_sec = ?";
+        String sql = "DELETE FROM dispos WHERE id_sec = ? AND date_dispo = ? AND heure_debut = ? AND heure_fin = ?";
         
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setLong(1, dispos.getSecouriste().getId());
+            pstmt.setDate(2, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
+            pstmt.setString(3, formatTime(dispos.getHeureDebut()));
+            pstmt.setString(4, formatTime(dispos.getHeureFin()));
+            
             return pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
