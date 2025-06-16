@@ -80,7 +80,7 @@ public class Graphe {
      * @throws IllegalArgumentException if the list is null
      */
     public void addSecouristes(ArrayList<Secouriste> secouristes) throws IllegalArgumentException {
-        if (secouristes == null) {
+        if (secouristes == null || secouristes.contains(null)) {
             throw new IllegalArgumentException("Secouristes null");
         }
         this.secouristes.addAll(secouristes);
@@ -108,7 +108,7 @@ public class Graphe {
      * @throws IllegalArgumentException if the list is null
      */
     public void addSeveralDPS(ArrayList<DPS> dpss) throws IllegalArgumentException {
-        if (dpss == null) {
+        if (dpss == null || dpss.contains(null)) {
             throw new IllegalArgumentException("DPS null");
         }
         for (DPS dps : dpss) {
@@ -194,4 +194,9 @@ public class Graphe {
         return false;
     }
 
+    public ArrayList<Pair<DPS, Competence>> exhaustif(){
+        ArrayList<Pair<DPS, Competence>> ret = null;
+
+        return ret;
+    }
 }
