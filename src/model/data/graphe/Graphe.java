@@ -1,8 +1,6 @@
 package model.data.graphe;
 
-import model.data.persistence.Secouriste;
-import model.data.persistence.Competence;
-import model.data.persistence.DPS;
+import model.data.persistence.*;
 import model.dao.CompetenceDAO;
 
 import java.util.*;
@@ -80,7 +78,7 @@ public class Graphe {
      * @throws IllegalArgumentException if the list is null
      */
     public void addSecouristes(ArrayList<Secouriste> secouristes) throws IllegalArgumentException {
-        if (secouristes == null) {
+        if (secouristes == null || secouristes.contains(null)) {
             throw new IllegalArgumentException("Secouristes null");
         }
         this.secouristes.addAll(secouristes);
@@ -108,7 +106,7 @@ public class Graphe {
      * @throws IllegalArgumentException if the list is null
      */
     public void addSeveralDPS(ArrayList<DPS> dpss) throws IllegalArgumentException {
-        if (dpss == null) {
+        if (dpss == null || dpss.contains(null)) {
             throw new IllegalArgumentException("DPS null");
         }
         for (DPS dps : dpss) {
@@ -194,4 +192,50 @@ public class Graphe {
         return false;
     }
 
+    public ArrayList<Affectation> exhaustif(){
+        ArrayList<Affectation> ret = new ArrayList<>();
+        HashMap<DPS, Integer> nbCompParDps = this.getNbComp();  // Pour chaque DPS, le nb de compétences requises
+        
+        for(Pair<DPS, Competence> pair : this.DPSCompet){   // On parcourt toutes les paires DPS / Competence
+            ArrayList<Pair<Secouriste, Competence>> listPair = new ArrayList<>();
+            DPS dpsCurr = pair.getKey();    // DPS analysé
+            Competence compCurr = pair.getValue();  // Compétence requise
+            int nbComp = nbCompParDps.get(pair.getKey());   // Nb de compétences requises pour le DPS
+
+            for(int i = 0; i < this.secouristes.size() && nbComp > 0; i++){   // On parcourt tous les secouristes
+                Secouriste secCurr = this.secouristes.get(i);
+                if(secCurr.getCompetencesIntitules().contains(compCurr.getIntitule())){
+                    Pair<Secouriste, Competence> pairCurr = new Pair<Secouriste,Competence>(secCurr, compCurr);
+                    listPair.add(pairCurr);
+                    nbComp--;
+                }
+            }
+
+            Affectation affCurr = new Affectation(listPair, dpsCurr);
+            ret.add(affCurr);
+        }
+
+        return ret;
+    }
+
+    /**
+     * Returns a HashMap with the amount of Competence required per DPS
+     * @return the map
+     */
+    private HashMap<DPS, Integer> getNbComp(){
+        HashMap<DPS, Integer> ret = new HashMap<>();
+
+        for (int i = 0; i < this.DPSCompet.size(); i++){
+            Pair<DPS, Competence> pair = this.DPSCompet.get(i);
+
+            if (!ret.containsKey(pair.getKey())){
+                ret.put(pair.getKey(), 1);
+            } else {
+                int valueCurr = ret.get(pair.getKey()) + 1;
+                ret.replace(pair.getKey(), valueCurr);
+            }
+        }
+
+        return ret;
+    }
 }

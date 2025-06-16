@@ -5,6 +5,7 @@ import model.data.persistence.Journee;
 import model.data.persistence.Secouriste;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +36,7 @@ public class DisposDAO extends DAO<Dispos> {
     @Override
     public List<Dispos> findAll() {
         List<Dispos> allDispos = new ArrayList<>();
-        String sql = "SELECT id_sec, jour, mois, annee, heure_debut, heure_fin FROM dispos";
+        String sql = "SELECT id_sec, date_dispo, heure_debut, heure_fin FROM dispos";
         
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
@@ -43,14 +44,12 @@ public class DisposDAO extends DAO<Dispos> {
             
             while (rs.next()) {
                 Secouriste secouriste = secouristeDAO.findById(rs.getLong("id_sec"));
+                LocalDate localDate = rs.getDate("date_dispo").toLocalDate();
+                Journee journee = new Journee(localDate);
                 if (secouriste != null) {
                     allDispos.add(new Dispos(
                         secouriste,
-                        new Journee(
-                            rs.getInt("jour"),
-                            rs.getInt("mois"),
-                            rs.getInt("annee")
-                        ),
+                        journee,
                         parseTime(rs.getString("heure_debut")),
                         parseTime(rs.getString("heure_fin"))
                         
@@ -100,19 +99,18 @@ public class DisposDAO extends DAO<Dispos> {
         return dispos;
     }
 
-    /**
-     * Deletes a disponibility from the database
-     * @param dispos The disponibility to delete
-     * @return The number of rows affected by the query
-     */
     @Override
     public int delete(Dispos dispos) {
-        String sql = "DELETE FROM dispos WHERE id_sec = ?";
+        String sql = "DELETE FROM dispos WHERE id_sec = ? AND date_dispo = ? AND heure_debut = ? AND heure_fin = ?";
         
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setLong(1, dispos.getSecouriste().getId());
+            pstmt.setDate(2, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
+            pstmt.setString(3, formatTime(dispos.getHeureDebut()));
+            pstmt.setString(4, formatTime(dispos.getHeureFin()));
+            
             return pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -129,17 +127,15 @@ public class DisposDAO extends DAO<Dispos> {
     public int create(Dispos dispos) {
         if (dispos.getSecouriste() == null) return 0;
         
-        String sql = "INSERT INTO dispos (id_sec, jour, mois, annee, heure_debut, heure_fin) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO dispos (id_sec, date_dispo, heure_debut, heure_fin) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setLong(1, dispos.getSecouriste().getId());
-            pstmt.setInt(2, dispos.getDate().getJour());
-            pstmt.setInt(3, dispos.getDate().getMois());
-            pstmt.setInt(4, dispos.getDate().getAnnee());
-            pstmt.setString(5, formatTime(dispos.getHeureDebut()));
-            pstmt.setString(6, formatTime(dispos.getHeureFin()));
+            pstmt.setDate(2, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
+            pstmt.setString(3, formatTime(dispos.getHeureDebut()));
+            pstmt.setString(4, formatTime(dispos.getHeureFin()));
             
             return pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -155,19 +151,22 @@ public class DisposDAO extends DAO<Dispos> {
      */
     @Override
     public int update(Dispos dispos) {
-        String sql = "UPDATE dispos SET heure_debut = ?, heure_fin = ? "
-                   + "WHERE id_sec = ? AND jour = ? AND mois = ? AND annee = ?";
+        String sql = "UPDATE dispos SET heure_debut = ?, heure_fin = ?, date_dispo = ? " +
+                    "WHERE id_sec = ? AND date_dispo = ? AND heure_debut = ? AND heure_fin = ?";
         
         try (Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            long secouristeId = dispos.getSecouriste().getId();
+            // Nouvelles valeurs
             pstmt.setString(1, formatTime(dispos.getHeureDebut()));
             pstmt.setString(2, formatTime(dispos.getHeureFin()));
-            pstmt.setLong(3, secouristeId);
-            pstmt.setInt(4, dispos.getDate().getJour());
-            pstmt.setInt(5, dispos.getDate().getMois());
-            pstmt.setInt(6, dispos.getDate().getAnnee());
+            pstmt.setDate(3, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
+            
+            // Anciennes valeurs pour identification
+            pstmt.setLong(4, dispos.getSecouriste().getId());
+            pstmt.setDate(5, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
+            pstmt.setString(6, formatTime(dispos.getHeureDebut())); // Ancienne heure début
+            pstmt.setString(7, formatTime(dispos.getHeureFin()));    // Ancienne heure fin
             
             return pstmt.executeUpdate();
         } catch (SQLException e) {

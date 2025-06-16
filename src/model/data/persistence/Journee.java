@@ -1,5 +1,7 @@
 package model.data.persistence;
 
+import java.time.LocalDate;
+
 public class Journee{
     private int jour;
     private int mois;
@@ -11,6 +13,14 @@ public class Journee{
         this.jour = jour;
         this.mois = mois;
         this.annee = annee;
+    }
+
+    /**
+     * Constructor for creating a Journee with a LocalDate (used in JourneeDAO)
+     * @param date
+     */
+    public Journee(LocalDate date) {
+        this(date.getDayOfMonth(), date.getMonthValue(), date.getYear());
     }
 
     public int getJour(){
@@ -73,5 +83,10 @@ public class Journee{
     @Override
     public String toString() {
         return String.format("%02d/%02d/%04d", this.jour, this.mois, this.annee); // Format the date as dd/mm/yyyy
+    }
+
+    
+    public LocalDate toLocalDate() {
+        return LocalDate.of(annee, mois, jour);
     }
 }
