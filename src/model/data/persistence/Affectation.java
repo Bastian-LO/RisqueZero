@@ -13,12 +13,6 @@ public class Affectation {
             throw new IllegalArgumentException("Affectation : paramètres invalides.");
         }
 
-        for (Pair<Secouriste, Competence> pair : list){
-            if(pair == null || pair.getKey() == null || pair.getValue() == null || pair.getValue().getIntitule().isEmpty()){
-                throw new IllegalArgumentException("Affectation : paramètres invalides.");
-            }
-        }
-
         this.listSecComp = cloneList(list); // Appel d'une méthode vérifiant le paramètre et renvoyant une nouvelle ArrayList
 
         this.idDps = new DPS(idDpsEntrant.getId(), idDpsEntrant.getHoraireDepart(), idDpsEntrant.getHoraireFin(), 
@@ -59,6 +53,10 @@ public class Affectation {
 
         ArrayList<Pair<Secouriste, Competence>> newList = new ArrayList<>();
         for (Pair<Secouriste, Competence> pair : listOrig) {
+            // Vérification du couple
+            if(pair == null || pair.getKey() == null || pair.getValue() == null || pair.getValue().getIntitule().isEmpty()){
+                throw new IllegalArgumentException("Affectation : paramètres invalides.");
+            }
             // Copie défensive du secouriste de la pair
             Secouriste secOrig = pair.getKey();
             Secouriste cloneSecouriste = new Secouriste(secOrig.getId(), secOrig.getNom(), secOrig.getPrenom(), 

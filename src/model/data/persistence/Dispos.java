@@ -1,4 +1,7 @@
 package model.data.persistence;
+
+import java.time.*;
+
 /**
  * Class representing the disposibilities of a secouriste
  * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
@@ -37,6 +40,28 @@ public class Dispos {
             this.heureDebut = heureDebut.clone();
             this.heureFin = heureFin.clone();
         }
+    }
+
+    public Dispos(Secouriste secouriste, LocalDate date, LocalTime heureDebut, LocalTime heureFin) throws IllegalArgumentException{
+        if (secouriste == null || date == null || heureDebut == null || heureFin == null) {
+            throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
+        }
+
+        this.secouriste = new Secouriste(secouriste.getId(), secouriste.getNom(), secouriste.getPrenom(), 
+                          secouriste.getDateNaissance(), secouriste.getEmail(), secouriste.getTel(), 
+                          secouriste.getAdresse(), secouriste.getCompetences(), secouriste.getDisponibilites());
+        
+        this.date = new Journee(date);
+        int hDebut = heureDebut.getHour();
+        int mDebut = heureDebut.getMinute();
+        int hFin = heureFin.getHour();
+        int mFin = heureFin.getMinute();
+
+        this.heureDebut[0] = hDebut;
+        this.heureDebut[1] = mDebut;
+
+        this.heureFin[0] = hFin;
+        this.heureFin[1] = mFin;
     }
 
     //================================
@@ -137,5 +162,17 @@ public class Dispos {
     @Override
     public String toString() {
         return date.toString() + " - " + heureDebut[0] + ":" + String.format("%02d", heureDebut[1]) + " - " + heureFin[0] + ":" + String.format("%02d", heureFin[1]);
+    }
+
+    public LocalTime toLocalTime(int[] hor){
+        return LocalTime.of(hor[0], hor[1]);
+    }
+
+    public LocalDateTime debutToLocalDateTime(){
+        return LocalDateTime.of(this.date.toLocalDate(), toLocalTime(heureDebut));
+    }
+
+    public LocalDateTime finToLocalDateTime(){
+        return LocalDateTime.of(this.date.toLocalDate(), toLocalTime(heureFin));
     }
 }

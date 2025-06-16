@@ -1,5 +1,7 @@
 package model.data.persistence;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -240,4 +242,16 @@ public class DPS {
         this.sport = new Sport(newSport.getCode(), newSport.getNom());
     }
 
+
+    public LocalTime toLocalTime(int[] hor){
+        return LocalTime.of(hor[0], hor[1]);
+    }
+
+    public LocalDateTime debutToLocalDateTime(){
+        return LocalDateTime.of(this.dateEvt.toLocalDate(), toLocalTime(this.horaire_depart));
+    }
+
+    public LocalDateTime finToLocalDateTime(){
+        return LocalDateTime.of(this.dateEvt.toLocalDate(), toLocalTime(this.horaire_fin));
+    }
 }

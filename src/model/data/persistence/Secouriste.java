@@ -71,6 +71,15 @@ public class Secouriste{
         return new HashSet<>(this.disponibilites);
     }
 
+    public ArrayList<String> getCompetencesIntitules(){
+        ArrayList<String> ret = new ArrayList<>();
+        for (int i = 0; i < this.getCompetences().size(); i++){
+            Competence compCurr = this.getCompetences().get(i);
+            ret.add(compCurr.getIntitule());
+        }
+        return ret;
+    }
+
     //================================
     //           SETTERS
     //================================

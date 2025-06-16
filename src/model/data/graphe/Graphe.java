@@ -1,10 +1,9 @@
 package model.data.graphe;
 
-import model.data.persistence.Secouriste;
-import model.data.persistence.Competence;
-import model.data.persistence.DPS;
+import model.data.persistence.*;
 import model.dao.CompetenceDAO;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import javafx.util.Pair;
@@ -194,8 +193,70 @@ public class Graphe {
         return false;
     }
 
-    public ArrayList<Pair<DPS, Competence>> exhaustif(){
-        ArrayList<Pair<DPS, Competence>> ret = null;
+    public ArrayList<Affectation> exhaustif(){
+        ArrayList<Affectation> ret = new ArrayList<>();
+        HashMap<DPS, Integer> nbCompParDps = this.getNbComp();  // Pour chaque DPS, le nb de compétences requises
+        
+        for(Pair<DPS, Competence> pair : this.DPSCompet){   // On parcourt toutes les paires DPS / Competence
+            ArrayList<Pair<Secouriste, Competence>> listPair = new ArrayList<>();
+            DPS dpsCurr = pair.getKey();    // DPS analysé
+            Competence compCurr = pair.getValue();  // Compétence requise
+            int nbComp = nbCompParDps.get(pair.getKey());   // Nb de compétences requises pour le DPS
+
+            for(int i = 0; i < this.secouristes.size(); i++){   // On parcourt tous les secouristes
+                Secouriste secCurr = this.secouristes.get(i);
+                if(secCurr.getCompetencesIntitules().contains(compCurr.getIntitule())){
+                    Pair<Secouriste, Competence> pairCurr = new Pair<Secouriste,Competence>(secCurr, compCurr);
+                    listPair.add(pairCurr);
+                }
+            }
+
+            Affectation affCurr = new Affectation(listPair, dpsCurr);
+            ret.add(affCurr);
+        }
+
+        return ret;
+    }
+
+    private boolean checkDispos(Secouriste sec, DPS dps){
+        boolean ret = false;
+        for (Dispos dispo : sec.getDisponibilites()){
+            while(!ret){
+                boolean memeJour = dispo.getDate().equals(dps.getDateEvt());
+
+                LocalDateTime debutDispo = dispo.debutToLocalDateTime();
+                LocalDateTime finDispo = dispo.finToLocalDateTime();
+                LocalDateTime debutDPS = dps.debutToLocalDateTime();
+                LocalDateTime finDPS = dps.finToLocalDateTime();
+
+                boolean horairesInclus = !debutDPS.isBefore(debutDispo) && !finDPS.isAfter(finDispo);
+
+                if (memeJour || horairesInclus){
+                    ret = true;
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Returns a HashMap with the amount of Competence required per DPS
+     * @return the map
+     */
+    private HashMap<DPS, Integer> getNbComp(){
+        HashMap<DPS, Integer> ret = new HashMap<>();
+
+        for (int i = 0; i < this.DPSCompet.size(); i++){
+            Pair<DPS, Competence> pair = this.DPSCompet.get(i);
+
+            if (!ret.containsKey(pair.getKey())){
+                ret.put(pair.getKey(), 1);
+            } else {
+                int valueCurr = ret.get(pair.getKey()) + 1;
+                ret.replace(pair.getKey(), valueCurr);
+            }
+        }
 
         return ret;
     }
