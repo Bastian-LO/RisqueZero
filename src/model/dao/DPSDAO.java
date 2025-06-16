@@ -33,7 +33,8 @@ public class DPSDAO extends DAO<DPS> {
     }
 
     public DPS findById(long id) {
-       String sql = "SELECT id, horaire_depart, horaire_fin, date_evt, id_site, id_sport, id_competence_principale FROM dps WHERE id = ?";
+        String sql = "SELECT d.id, d.horaire_depart, d.horaire_fin, d.date_event, "
+                   + "d.id_site, d.id_sport FROM dps d WHERE d.id = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -42,35 +43,53 @@ public class DPSDAO extends DAO<DPS> {
             ResultSet rs = pstmt.executeQuery();
             
             if (rs.next()) {
-                // Construction du DPS
+                // Construction de base
                 int[] heureDepart = parseTime(rs.getString("horaire_depart"));
                 int[] heureFin = parseTime(rs.getString("horaire_fin"));
                 Journee journee = new Journee(rs.getDate("date_event").toLocalDate());
-                
                 Site site = siteDAO.findByCode(rs.getString("id_site"));
                 Sport sport = sportDAO.findByCode(rs.getString("id_sport"));
                 
-                // Récupération de la compétence principale ?
+                // Récupération des compétences
                 ArrayList<Competence> competences = new ArrayList<>();
-                Competence comp = competenceDAO.findByIntitule(rs.getString("id_competence_principale"));
-                if (comp != null) {
-                    competences.add(comp);
+                String compSql = "SELECT competence FROM dps_competence WHERE id_dps = ?";
+                try (PreparedStatement compPstmt = conn.prepareStatement(compSql)) {
+                    compPstmt.setLong(1, id);
+                    ResultSet compRs = compPstmt.executeQuery();
+                    while (compRs.next()) {
+                        Competence comp = competenceDAO.findByIntitule(compRs.getString("competence"));
+                        if (comp != null) competences.add(comp);
+                    }
                 }
                 
-                return new DPS(
-                    id,
-                    heureDepart,
-                    heureFin,
-                    journee,
-                    competences,
-                    site,
-                    sport
-                );
+                return new DPS(id, heureDepart, heureFin, journee, competences, site, sport);
             }
         } catch (SQLException | IllegalArgumentException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private List<Competence> findCompetencesByDPSId(long idDPS) {
+        List<Competence> competences = new ArrayList<>();
+        String sql = "SELECT competence FROM dps_competence WHERE id_dps = ?";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setLong(1, idDPS);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                Competence comp = competenceDAO.findByIntitule(rs.getString("competence"));
+                if (comp != null) {
+                    competences.add(comp);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return competences;
     }
 
     @Override
@@ -96,7 +115,7 @@ public class DPSDAO extends DAO<DPS> {
 
     @Override
     public int update(DPS dps) {
-        String sql = "UPDATE dps SET horaire_depart = ?, horaire_fin = ?, date_event = ?, id_site = ?, id_sport = ?, id_competence_principale = ? WHERE id = ?";
+        String sql = "UPDATE dps SET horaire_depart = ?, horaire_fin = ?, date_event = ?, id_site = ?, id_sport = ? WHERE id = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -106,7 +125,6 @@ public class DPSDAO extends DAO<DPS> {
             pstmt.setDate(3, java.sql.Date.valueOf(dps.getDateEvt().toLocalDate()));
             pstmt.setString(6, dps.getLieu().getCode());
             pstmt.setString(7, dps.getSport().getCode());
-            pstmt.setString(8, dps.getCompetences().get(0).getIntitule());
             pstmt.setLong(9, dps.getId());
             
             return pstmt.executeUpdate();

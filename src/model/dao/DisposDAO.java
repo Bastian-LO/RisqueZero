@@ -69,7 +69,7 @@ public class DisposDAO extends DAO<Dispos> {
      */
     public Set<Dispos> findBySecouriste(long secouristeId) {
         Set<Dispos> dispos = new HashSet<>();
-        String sql = "SELECT jour, mois, annee, heure_debut, heure_fin FROM dispos WHERE id_sec = ?";
+        String sql = "SELECT date_dispo, heure_debut, heure_fin FROM dispos WHERE id_sec = ?";
         
         Secouriste secouriste = secouristeDAO.findById(secouristeId);
         if (secouriste == null) return dispos;
@@ -80,16 +80,12 @@ public class DisposDAO extends DAO<Dispos> {
             pstmt.setLong(1, secouristeId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
+                    LocalDate date = rs.getDate("date_dispo").toLocalDate();
                     dispos.add(new Dispos(
                         secouriste,
-                        new Journee(
-                            rs.getInt("jour"),
-                            rs.getInt("mois"),
-                            rs.getInt("annee")
-                        ),
+                        new Journee(date),
                         parseTime(rs.getString("heure_debut")),
                         parseTime(rs.getString("heure_fin"))
-                        
                     ));
                 }
             }
@@ -98,6 +94,7 @@ public class DisposDAO extends DAO<Dispos> {
         }
         return dispos;
     }
+
 
     @Override
     public int delete(Dispos dispos) {

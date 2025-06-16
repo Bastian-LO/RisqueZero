@@ -10,13 +10,13 @@ import java.sql.*;
 public class MyConnection {
 
     /** URL of the database */
-    private static final String URL = "jdbc:mysql://localhost:3306/mysql"; // Avec le nom de la bdd à la place de "mysql"
+    private static final String URL = "jdbc:mysql://localhost:3306/db_SAE";
 
     /** Login to connect to the database */
-    private static final String LOGIN = "pham";
+    private static final String LOGIN = "admin";
 
     /** Password to connect to the database */
-    private static final String PWD = "mdp_pham";
+    private static final String PWD = "mdp_admin";
 
     private static MyConnection myConnection = null;
 
