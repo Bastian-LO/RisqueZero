@@ -10,10 +10,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javafx.util.Pair;
+
 public class AffectationDAO extends DAO<Affectation> {
 
     private final SecouristeDAO secouristeDAO = new SecouristeDAO();
     private final DPSDAO dpsDAO = new DPSDAO();
+    private final CompetenceDAO competenceDAO = new CompetenceDAO();
 
     @Override
     public List<Affectation> findAll() {
@@ -125,16 +128,20 @@ public class AffectationDAO extends DAO<Affectation> {
             pstmt.setLong(1, idSecouriste);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    HashSet<Secouriste> secouristes = new HashSet<>();
-                    secouristes.add(secouristeDAO.findById(idSecouriste));
+                    ArrayList<Pair<Secouriste, Competence>> secouristes = new ArrayList<Pair<Secouriste, Competence>>();
+                    Secouriste sec = secouristeDAO.findById(idSecouriste);
+
+                    ArrayList<Competence> competencesSecouriste = sec.getCompetences();
+                    for (Competence comp : competencesSecouriste){
+                        secouristes.add(new Pair<Secouriste, Competence>(sec, competenceDAO.findByIntitule(comp.getIntitule()) ));
+                    }
                     
-                    HashSet<DPS> dpsSet = new HashSet<>();
-                    dpsSet.add(dpsDAO.findById(rs.getLong("id_dps")));
+                    
+                    DPS dps = dpsDAO.findById(rs.getLong("id_dps"));
                     
                     result.add(new Affectation(
                         secouristes,
-                        dpsSet,
-                        new Competence(rs.getString("competence"))
+                        dps
                     ));
                 }
             }

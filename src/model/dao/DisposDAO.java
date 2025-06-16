@@ -151,16 +151,22 @@ public class DisposDAO extends DAO<Dispos> {
      */
     @Override
     public int update(Dispos dispos) {
-        String sql = "UPDATE dispos SET heure_debut = ?, heure_fin = ? WHERE id_sec = ? AND date_dispo = ?";
+        String sql = "UPDATE dispos SET heure_debut = ?, heure_fin = ?, date_dispo = ? " +
+                    "WHERE id_sec = ? AND date_dispo = ? AND heure_debut = ? AND heure_fin = ?";
         
         try (Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            long secouristeId = dispos.getSecouriste().getId();
+            // Nouvelles valeurs
             pstmt.setString(1, formatTime(dispos.getHeureDebut()));
             pstmt.setString(2, formatTime(dispos.getHeureFin()));
-            pstmt.setLong(3, secouristeId);
-            pstmt.setDate(4, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
+            pstmt.setDate(3, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
+            
+            // Anciennes valeurs pour identification
+            pstmt.setLong(4, dispos.getSecouriste().getId());
+            pstmt.setDate(5, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
+            pstmt.setString(6, formatTime(dispos.getHeureDebut())); // Ancienne heure début
+            pstmt.setString(7, formatTime(dispos.getHeureFin()));    // Ancienne heure fin
             
             return pstmt.executeUpdate();
         } catch (SQLException e) {
