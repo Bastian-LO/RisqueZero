@@ -22,7 +22,7 @@ public class Affectation {
         this.listSecComp = cloneList(list); // Appel d'une méthode vérifiant le paramètre et renvoyant une nouvelle ArrayList
 
         this.idDps = new DPS(idDpsEntrant.getId(), idDpsEntrant.getHoraireDepart(), idDpsEntrant.getHoraireFin(), 
-                            idDpsEntrant.getProgramme(), idDpsEntrant.getCompetences(), idDpsEntrant.getLieu(), 
+                            idDpsEntrant.getDateEvt(), idDpsEntrant.getCompetences(), idDpsEntrant.getLieu(), 
                             idDpsEntrant.getSport());
     }
 
@@ -39,7 +39,7 @@ public class Affectation {
 
     public DPS getIdDps(){
         return new DPS(this.idDps.getId(), this.idDps.getHoraireDepart(), this.idDps.getHoraireFin(), 
-                            this.idDps.getProgramme(), this.idDps.getCompetences(), this.idDps.getLieu(), 
+                            this.idDps.getDateEvt(), this.idDps.getCompetences(), this.idDps.getLieu(), 
                             this.idDps.getSport());
     }
 
@@ -48,7 +48,7 @@ public class Affectation {
             throw new IllegalArgumentException("setIdDps : paramètre invalide");
         }
         this.idDps = new DPS(newIdDps.getId(), newIdDps.getHoraireDepart(), newIdDps.getHoraireFin(), 
-                            newIdDps.getProgramme(), newIdDps.getCompetences(), newIdDps.getLieu(), 
+                            newIdDps.getDateEvt(), newIdDps.getCompetences(), newIdDps.getLieu(), 
                             newIdDps.getSport());
     }
 
