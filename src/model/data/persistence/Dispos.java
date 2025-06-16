@@ -32,7 +32,7 @@ public class Dispos {
         }else if (heureDebut[0] > heureFin[0] || (heureDebut[0] == heureFin[0] && heureDebut[1] >= heureFin[1])) {
             throw new IllegalArgumentException("L'heure de début doit être avant l'heure de fin");
         }else{
-            this.secouriste = new Secouriste(secouriste.getId(), secouriste.getNom(), secouriste.getPrenom(), secouriste.getDateNaissance(), secouriste.getEmail(), secouriste.getTel(), secouriste.getAdresse(), secouriste.getDisponibilites());
+            this.secouriste = new Secouriste(secouriste.getId(), secouriste.getNom(), secouriste.getPrenom(), secouriste.getDateNaissance(), secouriste.getEmail(), secouriste.getTel(), secouriste.getAdresse(), secouriste.getCompetences(), secouriste.getDisponibilites());
             this.date = new Journee(date.getJour(), date.getMois(), date.getAnnee());
             this.heureDebut = heureDebut.clone();
             this.heureFin = heureFin.clone();
@@ -56,6 +56,7 @@ public class Dispos {
             this.secouriste.getEmail(), 
             this.secouriste.getTel(),
             this.secouriste.getAdresse(),
+            this.secouriste.getCompetences(),
             this.secouriste.getDisponibilites()
         );
     }
