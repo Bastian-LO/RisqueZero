@@ -8,7 +8,16 @@ public class Affectation {
     private HashSet<DPS> idDps;
     private Competence competence;
 
-    
+    public Affectation(HashSet<Secouriste> idSecouristes, HashSet<DPS> idDpsEntrant, Competence competence) throws IllegalArgumentException{
+        if (idSecouristes == null || idSecouristes.isEmpty() || idSecouristes.contains(null)
+         || idDpsEntrant == null || idDpsEntrant.isEmpty() || idDpsEntrant.contains(null)
+         || competence == null || competence.getIntitule().isEmpty()){
+            throw new IllegalArgumentException("Affectation : paramètres invalides.");
+        }
+        this.idSec =  (HashSet<Secouriste>) idSecouristes.clone();
+        this.idDps = (HashSet<DPS>) idDps.clone();
+        this.competence = new Competence(competence.getIntitule(), competence.getRequis());
+    }
     public HashSet<Secouriste> getIdSec(){
         return (HashSet<Secouriste>) idSec.clone();
     }

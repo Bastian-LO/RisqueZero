@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 /**
  * Class representing a competence of a secouriste
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
  */
 public class Competence {
 

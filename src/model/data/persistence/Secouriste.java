@@ -15,10 +15,9 @@ public class Secouriste{
 
     public Secouriste(long id, String nom, String prenom, String dateNaissance, String email, String tel, String adresse, HashSet<Dispos> disponibilite) throws IllegalArgumentException{
         // Checks if the parameters are valid
-        if(id < 1 || nom == null || nom.trim().equals("") || nom == null || nom.trim().equals("") || 
-        prenom == null || prenom.trim().equals("") || dateNaissance == null || !dateNaissance.trim().matches("^\\d{2}/\\d{2}/\\d{4}$") ||
+        if(id < 1 || nom == null || nom.trim().equals("") || prenom == null || prenom.trim().isEmpty() || dateNaissance == null || !dateNaissance.trim().matches("^\\d{2}/\\d{2}/\\d{4}$") ||
         email == null || !email.trim().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$") || tel == null || 
-        !tel.trim().matches("^0\\d{9}$") || adresse == null || adresse.trim().equals("") || disponibilite == null || disponibilite.isEmpty()){
+        !tel.trim().matches("^0\\d{9}$") || adresse == null || adresse.trim().isEmpty() || disponibilite == null || disponibilite.isEmpty()){
             throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
         }
 
@@ -64,9 +63,13 @@ public class Secouriste{
     }
 
     public ArrayList<Competence> getCompetences(){
-        return competences;
+        return new ArrayList<>(this.competences);
     }
     
+    public HashSet<Dispos> getDisponibilites(){
+        return new HashSet<>(this.disponibilites);
+    }
+
     //================================
     //           SETTERS
     //================================
