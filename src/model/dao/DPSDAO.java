@@ -33,7 +33,7 @@ public class DPSDAO extends DAO<DPS> {
     }
 
     public DPS findById(long id) {
-        String sql = "SELECT * FROM dps WHERE id = ?";
+       String sql = "SELECT id, horaire_depart, horaire_fin, date_evt, id_site, id_sport, id_competence_principale FROM dps WHERE id = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -89,9 +89,9 @@ public class DPSDAO extends DAO<DPS> {
             pstmt.setLong(1, dps.getId());
             pstmt.setString(2, formatTime(dps.getHoraireDepart()));
             pstmt.setString(3, formatTime(dps.getHoraireFin()));
-            pstmt.setInt(4, dps.getProgramme().getJour());
-            pstmt.setInt(5, dps.getProgramme().getMois());
-            pstmt.setInt(6, dps.getProgramme().getAnnee());
+            pstmt.setInt(4, dps.getDateEvt().getJour());
+            pstmt.setInt(5, dps.getDateEvt().getMois());
+            pstmt.setInt(6, dps.getDateEvt().getAnnee());
             pstmt.setString(7, dps.getLieu().getCode());
             pstmt.setString(8, dps.getSport().getCode());
             
@@ -116,9 +116,9 @@ public class DPSDAO extends DAO<DPS> {
             
             pstmt.setString(1, formatTime(dps.getHoraireDepart()));
             pstmt.setString(2, formatTime(dps.getHoraireFin()));
-            pstmt.setInt(3, dps.getProgramme().getJour());
-            pstmt.setInt(4, dps.getProgramme().getMois());
-            pstmt.setInt(5, dps.getProgramme().getAnnee());
+            pstmt.setInt(3, dps.getDateEvt().getJour());
+            pstmt.setInt(4, dps.getDateEvt().getMois());
+            pstmt.setInt(5, dps.getDateEvt().getAnnee());
             pstmt.setString(6, dps.getLieu().getCode());
             pstmt.setString(7, dps.getSport().getCode());
             pstmt.setString(8, dps.getCompetences().get(0).getIntitule());
