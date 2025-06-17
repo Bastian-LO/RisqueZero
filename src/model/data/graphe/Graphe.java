@@ -2,8 +2,7 @@ package model.data.graphe;
 
 import model.data.persistence.*;
 import model.dao.CompetenceDAO;
-
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.*;
 
 import javafx.util.Pair;
@@ -193,25 +192,44 @@ public class Graphe {
         return false;
     }
 
-    public ArrayList<Affectation> exhaustif(){
+    public ArrayList<Affectation> exhaustif(ArrayList<Secouriste> listeSec) {
         ArrayList<Affectation> ret = new ArrayList<>();
-        HashMap<DPS, Integer> nbCompParDps = this.getNbComp();  // Pour chaque DPS, le nb de compétences requises
-        
-        for(Pair<DPS, Competence> pair : this.DPSCompet){   // On parcourt toutes les paires DPS / Competence
-            ArrayList<Pair<Secouriste, Competence>> listPair = new ArrayList<>();
+        ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> tripleMonstreAffec = new ArrayList<>();
+        for (Pair<DPS, Competence> pair : this.DPSCompet) {   // On parcourt toutes les paires DPS / Competence
             DPS dpsCurr = pair.getKey();    // DPS analysé
             Competence compCurr = pair.getValue();  // Compétence requise
-            int nbComp = nbCompParDps.get(pair.getKey());   // Nb de compétences requises pour le DPS
 
-            for(int i = 0; i < this.secouristes.size(); i++){   // On parcourt tous les secouristes
-                Secouriste secCurr = this.secouristes.get(i);
-                if(secCurr.getCompetencesIntitules().contains(compCurr.getIntitule())){
-                    Pair<Secouriste, Competence> pairCurr = new Pair<Secouriste,Competence>(secCurr, compCurr);
-                    listPair.add(pairCurr);
+            boolean finnishFlag;
+            do {
+                finnishFlag = true;
+                for (int i = 0; i < listeSec.size(); i++) {   // On parcourt tous les secouristes
+                    Secouriste secCurr = listeSec.get(i);
+                    if (secCurr.getCompetencesIntitules().contains(compCurr.getIntitule())
+                            && checkDispos(secCurr, dpsCurr)) {
+                        tripleMonstreAffec.add(new Pair<>(new Pair<>(dpsCurr, compCurr), secCurr));
+                        // enlever la dispo
+                        if (finnishFlag) {
+                            finnishFlag = false;
+                        }
+                    }
+                }
+            } while (!finnishFlag);
+        }
+        LinkedHashSet<DPS> listDPS = new LinkedHashSet<>();
+        for (Pair<DPS, Competence> p : this.DPSCompet) {
+            listDPS.add(p.getKey());
+        }
+        for (DPS dps : listDPS) {
+            ArrayList<Pair<Secouriste, Competence>> listePairs = new ArrayList<>();
+            for (int i = 0; i < tripleMonstreAffec.size(); i++) {
+                Pair<Pair<DPS, Competence>, Secouriste> monstreCurr = tripleMonstreAffec.get(i);
+                if (monstreCurr.getKey().getKey().equals(dps)) {
+                    Pair<Secouriste, Competence> p = new Pair<>(monstreCurr.getValue(), monstreCurr.getKey().getValue());
+                    tripleMonstreAffec.remove(monstreCurr);
+                    listePairs.add(p);
                 }
             }
-
-            Affectation affCurr = new Affectation(listPair, dpsCurr);
+            Affectation affCurr = new Affectation(listePairs, dps);
             ret.add(affCurr);
         }
 
@@ -240,14 +258,16 @@ public class Graphe {
         return ret;
     }
 
+
     /**
      * Returns a HashMap with the amount of Competence required per DPS
+     *
      * @return the map
      */
     private HashMap<DPS, Integer> getNbComp(){
         HashMap<DPS, Integer> ret = new HashMap<>();
 
-        for (int i = 0; i < this.DPSCompet.size(); i++){
+        for (int i = 0; i < this.DPSCompet.size(); i++) {
             Pair<DPS, Competence> pair = this.DPSCompet.get(i);
 
             if (!ret.containsKey(pair.getKey())){
