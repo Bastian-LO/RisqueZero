@@ -3,6 +3,7 @@ package model.data.graphe;
 import model.data.persistence.*;
 import model.dao.CompetenceDAO;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import javafx.util.Pair;
@@ -202,17 +203,38 @@ public class Graphe {
             Competence compCurr = pair.getValue();  // Compétence requise
             int nbComp = nbCompParDps.get(pair.getKey());   // Nb de compétences requises pour le DPS
 
-            for(int i = 0; i < this.secouristes.size() && nbComp > 0; i++){   // On parcourt tous les secouristes
+            for(int i = 0; i < this.secouristes.size(); i++){   // On parcourt tous les secouristes
                 Secouriste secCurr = this.secouristes.get(i);
                 if(secCurr.getCompetencesIntitules().contains(compCurr.getIntitule())){
                     Pair<Secouriste, Competence> pairCurr = new Pair<Secouriste,Competence>(secCurr, compCurr);
                     listPair.add(pairCurr);
-                    nbComp--;
                 }
             }
 
             Affectation affCurr = new Affectation(listPair, dpsCurr);
             ret.add(affCurr);
+        }
+
+        return ret;
+    }
+
+    private boolean checkDispos(Secouriste sec, DPS dps){
+        boolean ret = false;
+        for (Dispos dispo : sec.getDisponibilites()){
+            while(!ret){
+                boolean memeJour = dispo.getDate().equals(dps.getDateEvt());
+
+                LocalDateTime debutDispo = dispo.debutToLocalDateTime();
+                LocalDateTime finDispo = dispo.finToLocalDateTime();
+                LocalDateTime debutDPS = dps.debutToLocalDateTime();
+                LocalDateTime finDPS = dps.finToLocalDateTime();
+
+                boolean horairesInclus = !debutDPS.isBefore(debutDispo) && !finDPS.isAfter(finDispo);
+
+                if (memeJour || horairesInclus){
+                    ret = true;
+                }
+            }
         }
 
         return ret;

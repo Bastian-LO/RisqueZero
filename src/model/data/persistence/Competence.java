@@ -13,7 +13,7 @@ public class Competence {
     // ================================
 
     /** Name of the competence */
-    private String intitule;
+    private final String intitule;
 
     /** Requisites of the competence (other competences), size should be <= 9 (only 9 competences) */
     private HashSet<Competence> requis;
@@ -75,17 +75,6 @@ public class Competence {
     //           SETTERS
     // ================================
 
-    /** 
-     * Sets the name of the competence
-     * @param intitule name of the competence
-     * @throws IllegalArgumentException if the name is invalid (null or empty)
-     */
-    public void setIntitule(String intitule) throws IllegalArgumentException {
-        if (intitule == null || intitule.trim().equals("")){
-            throw new IllegalArgumentException("Compétence.setIntitule : paramètre invalide.");
-        }
-        this.intitule = intitule;
-    }
 
     /** 
      * Sets the requisites of the competence
