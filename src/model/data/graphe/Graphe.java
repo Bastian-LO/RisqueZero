@@ -13,7 +13,7 @@ import javafx.util.Pair;
  * For affectation. It contains methods to add Secouristes and DPS, and to create the matrix,
  * as well as implementation of the necessary affectation algorithms.
  *
- * @author Emile Thevenin, Killian Avril, Bastian Leouedec, Elwan Yvin, Enrick Mananjean
+ * @author Emile Thevenin, Killian Avril, Bastian Le Ouedec, Elwan Yvin, Enrick Mananjean
  */
 public class Graphe {
 
