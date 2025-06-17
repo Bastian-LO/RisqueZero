@@ -6,53 +6,66 @@ import model.data.persistence.DPS;
 import model.data.persistence.Secouriste;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import javafx.util.Pair;
 
+/**
+ * DAO for Affectation
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
 public class AffectationDAO extends DAO<Affectation> {
+    //===============================
+    //          ATTRIBUTES
+    //===============================
 
+    /** instance of SecouristeDAO used to retrieve secouristes */
     private final SecouristeDAO secouristeDAO = new SecouristeDAO();
+    
+    /** instance of DPSDAO used to retrieve DPS */
     private final DPSDAO dpsDAO = new DPSDAO();
+
+    /** instance of CompetenceDAO used to retrieve competences */
     private final CompetenceDAO competenceDAO = new CompetenceDAO();
 
+    /**
+     * Retrieves all Affectation records from the database.
+     * 
+     * @return a list of all Affectation objects, or an empty list if no records are found.
+     * In case of a database access error, the error is printed and the method returns an empty list.
+     */
     @Override
-    public List<Affectation> findAll() {
-        Map<Long, Affectation> affectationMap = new HashMap<>();
+    public ArrayList<Affectation> findAll() {
+        ArrayList<Affectation> affectations = new ArrayList<>();
         String sql = "SELECT a.id_sec, a.id_dps, a.competence FROM affectation a";
         
         try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
             
             while (rs.next()) {
                 long dpsId = rs.getLong("id_dps");
-                Affectation affectation = affectationMap.get(dpsId);
+                DPS dps = dpsDAO.findById(dpsId);
                 
-                if (affectation == null) {
-                    DPS dps = dpsDAO.findById(dpsId);
-                    if (dps == null) continue;
+                if (dps != null) {
+                    ArrayList<Pair<Secouriste, Competence>> listSecComp = new ArrayList<>();
                     
-                    affectation = new Affectation(new ArrayList<>(), dps);
-                    affectationMap.put(dpsId, affectation);
+                    Secouriste sec = secouristeDAO.findById(rs.getLong("id_sec"));
+                    Competence comp = new Competence(rs.getString("competence"));
+                    listSecComp.add(new Pair<>(sec, comp));
+                    
+                    Affectation affectation = new Affectation(listSecComp, dps);
+                    affectations.add(affectation);
                 }
-                
-                Secouriste sec = secouristeDAO.findById(rs.getLong("id_sec"));
-                Competence comp = new Competence(rs.getString("competence"));
-                affectation.getList().add(new Pair<>(sec, comp));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<>(affectationMap.values());
+        return affectations;
     }
 
     /**
-     * Create a new affectation
+     * Creates a new affectation in the database
+     * @return the number of affectations created, or 0 if an error occurs
      */
     @Override
     public int create(Affectation affectation) {
@@ -79,6 +92,7 @@ public class AffectationDAO extends DAO<Affectation> {
 
     /**
      * Updates an affectation
+     * @return the number of affectations updated or 0 if an error occurs
      */
     @Override
     public int update(Affectation affectation) {
@@ -89,7 +103,8 @@ public class AffectationDAO extends DAO<Affectation> {
     }
 
     /**
-     * Delete an affectation
+     * Deletes an affectation 
+     * @return the number of affectations deleted or 0 if an error occurs
      */
     @Override
     public int delete(Affectation affectation) {
@@ -115,7 +130,9 @@ public class AffectationDAO extends DAO<Affectation> {
     }
 
     /**
-     * 
+     * Retrieves all affectations for a given secouriste
+     * @param idSecouriste the id of the secouriste
+     * @return a list of affectations, or an empty list if no affectations are found
      */
     public List<Affectation> findBySecouriste(long idSecouriste) {
         List<Affectation> result = new ArrayList<>();
@@ -160,6 +177,11 @@ public class AffectationDAO extends DAO<Affectation> {
         return result;
     }
     
+    /**
+     * Retrieves all affectations for a given DPS
+     * @param idDPS the id of the DPS
+     * @return a list of affectations, or an empty list if no affectations are found
+     */
     public List<Affectation> findByDPS(long idDPS) {
         List<Affectation> result = new ArrayList<>();
         String sql = "SELECT DISTINCT id_sec FROM affectation WHERE id_dps = ?";
