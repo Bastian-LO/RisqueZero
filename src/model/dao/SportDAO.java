@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class SportDAO extends DAO<Sport> {
 
+    /**
+     * Returns all the sports in the database
+     * @return a list of all the sports
+     */
     @Override
     public List<Sport> findAll() {
         List<Sport> sports = new ArrayList<>();
@@ -32,6 +36,11 @@ public class SportDAO extends DAO<Sport> {
         return sports;
     }
 
+    /**
+     * Returns the sport with the given code
+     * @param code the code of the sport
+     * @return the sport
+     */
     public Sport findByCode(String code) {
         String sql = "SELECT nom FROM sport WHERE code = ?";
         
@@ -50,6 +59,11 @@ public class SportDAO extends DAO<Sport> {
         return null;
     }
 
+    /**
+     * Updates the sport with the given code
+     * @param element the sport
+     * @return the number of rows affected
+     */
     @Override
     public int update(Sport element) {
         String sql = "UPDATE sport SET nom = ? WHERE code = ?";
@@ -66,6 +80,11 @@ public class SportDAO extends DAO<Sport> {
         }
     }
 
+    /**
+     * Deletes the sport with the given code
+     * @param element the sport
+     * @return the number of rows affected
+     */
     @Override
     public int delete(Sport element) {
         String sql = "DELETE FROM sport WHERE code = ?";
@@ -81,6 +100,11 @@ public class SportDAO extends DAO<Sport> {
         }
     }
 
+    /**
+     * Creates a new sport in the database
+     * @param element the sport
+     * @return the number of rows affected
+     */
     @Override
     public int create(Sport element) {
         String sql = "INSERT INTO sport (code, nom) VALUES (?, ?)";
