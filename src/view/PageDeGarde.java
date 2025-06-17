@@ -13,9 +13,11 @@ public class PageDeGarde extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("PageDeGarde.fxml"));
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root);
         primaryStage.setTitle("Risque Zéro");
         primaryStage.setScene(scene);
+        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(800);
         primaryStage.show();
     }
 

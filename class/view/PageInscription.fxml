@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <children>
+            <Label alignment="CENTER" layoutX="81.0" layoutY="18.0" text="Inscription" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="125.0" layoutY="60.0" text="Bienvenue" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <VBox layoutX="19.0" layoutY="103.0" prefHeight="100.0" prefWidth="253.0" AnchorPane.leftAnchor="75.0">
+               <children>
+                  <Label text="Nom :">
+                     <font>
+                        <Font size="12.0" />
+                     </font></Label>
+                  <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="0.0" promptText="ex : Pascal" style="-fx-border-width: 00;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Prénom :">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="0.0" promptText="ex : Pierre" style="-fx-border-width: 00;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Adresse-mail :">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="0.0" promptText="ex : pierrepascal@exemple.com" style="-fx-border-width: 00;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Date de naissance :">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="0.0" promptText="jj/mm/aaaa" style="-fx-border-width: 00;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Téléphone :">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="0.0" promptText="06 ** ** ** **" style="-fx-border-width: 00;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Nationalité :">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <ComboBox editable="true" minHeight="-Infinity" prefHeight="33.0" prefWidth="190.0" visibleRowCount="5" />
+               </children>
+            </VBox>
+            <Button layoutX="23.0" layoutY="338.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="136.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Button" textFill="WHITE" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="23.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #f0f1ff;" />
+   </children>
+</GridPane>
