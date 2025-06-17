@@ -192,7 +192,47 @@ public class Graphe {
         return false;
     }
 
-    public ArrayList<Affectation> exhaustif(ArrayList<Secouriste> listeSec) {
+    public ArrayList<Affectation> startExhaustif() {
+        ArrayList<Affectation> bestSolution = new ArrayList<>();
+        ArrayList<Secouriste> cloneSecouristes = new ArrayList<>();
+        for ( Secouriste sec : this.secouristes) {
+            Secouriste cloneSecouriste = new Secouriste(sec.getId(), sec.getNom(), sec.getPrenom(),
+                    sec.getDateNaissance(), sec.getEmail(), sec.getTel(),
+                    sec.getAdresse(), sec.getCompetences(), sec.getDisponibilites());
+            secouristes.add(cloneSecouriste);
+        }
+        permuteSecouristes(cloneSecouristes, 0, bestSolution);
+        return bestSolution;
+    }
+
+    // Méthode récursive simple pour les permutations
+    private void permuteSecouristes(ArrayList<Secouriste> secouristes, int index, ArrayList<Affectation> bestSolution) {
+        // Condition d'arrêt : quand on a parcouru toute la liste
+        if (index == secouristes.size() - 1) {
+            // On applique exhaustif() sur la permutation actuelle
+            ArrayList<Affectation> current = exhaustif(new ArrayList<>(secouristes));
+
+            // On compare avec la meilleure solution actuelle
+            if (aIsBetterThanB(current,bestSolution)) { // Critère simple : max d'affectations
+                bestSolution.clear();
+                bestSolution.addAll(current);
+            }
+            return;
+        }
+        // Échanges récursifs pour générer les permutations
+        for (int i = index; i < secouristes.size(); i++) {
+            // Échange les éléments
+            Collections.swap(secouristes, index, i);
+
+            // Appel récursif
+            permuteSecouristes(secouristes, index + 1, bestSolution);
+
+            // On remet dans l'ordre original (backtracking)
+            Collections.swap(secouristes, index, i);
+        }
+    }
+
+    private ArrayList<Affectation> exhaustif(ArrayList<Secouriste> listeSec) {
         ArrayList<Affectation> ret = new ArrayList<>();
         ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> tripleMonstreAffec = new ArrayList<>();
         for (Pair<DPS, Competence> pair : this.DPSCompet) {   // On parcourt toutes les paires DPS / Competence
@@ -256,6 +296,19 @@ public class Graphe {
         }
 
         return ret;
+    }
+
+    private boolean aIsBetterThanB(ArrayList<Affectation> current, ArrayList<Affectation> bestSolution){
+        int nbBestSolution = 0 ;
+        int nbCurrent = 0;
+        for ( Affectation affectation : bestSolution) {
+            nbBestSolution += affectation.getList().size();
+        }
+        for ( Affectation affectation : current){
+            nbCurrent += affectation.getList().size();
+        }
+
+        return nbCurrent>nbBestSolution;
     }
 
 
