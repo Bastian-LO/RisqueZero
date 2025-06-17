@@ -34,8 +34,8 @@ public class AffectationDAO extends DAO<Affectation> {
      * In case of a database access error, the error is printed and the method returns an empty list.
      */
     @Override
-    public ArrayList<Affectation> findAll() {
-        ArrayList<Affectation> affectations = new ArrayList<>();
+    public List<Affectation> findAll() {
+        List<Affectation> affectations = new ArrayList<>();
         String sql = "SELECT a.id_sec, a.id_dps, a.competence FROM affectation a";
         
         try (Connection conn = getConnection();
@@ -47,14 +47,24 @@ public class AffectationDAO extends DAO<Affectation> {
                 DPS dps = dpsDAO.findById(dpsId);
                 
                 if (dps != null) {
-                    ArrayList<Pair<Secouriste, Competence>> listSecComp = new ArrayList<>();
+                        
+                    Affectation existing = null;
+                    for (Affectation aff : affectations) {
+                        if (aff.getIdDps().getId() == dpsId) {
+                            existing = aff;
+                            break;
+                        }
+                    }
                     
+                    if (existing == null) {
+                        existing = new Affectation(new ArrayList<>(), dps);
+                        affectations.add(existing);
+                    }
+                    
+                    // Ajouter la paire secouriste/compétence
                     Secouriste sec = secouristeDAO.findById(rs.getLong("id_sec"));
                     Competence comp = new Competence(rs.getString("competence"));
-                    listSecComp.add(new Pair<>(sec, comp));
-                    
-                    Affectation affectation = new Affectation(listSecComp, dps);
-                    affectations.add(affectation);
+                    existing.getList().add(new Pair<>(sec, comp));
                 }
             }
         } catch (SQLException e) {
