@@ -2,6 +2,8 @@ package model.data.graphe;
 
 import model.data.persistence.*;
 import model.dao.CompetenceDAO;
+
+import java.rmi.UnexpectedException;
 import java.time.*;
 import java.util.*;
 
@@ -236,25 +238,50 @@ public class Graphe {
         return ret;
     }
 
-    private boolean checkDispos(Secouriste sec, DPS dps){
+    /**
+     * Checks if a secourist is available for a DPS and if so, changes their availibility in accordance
+     * @param sec the secourist
+     * @param dps the dps
+     * @return true if the secourist is available
+     * @throws UnexpectedException thrown if somehow somethings goes out of bounds
+     */
+    private boolean checkDispos(Secouriste sec, DPS dps) throws UnexpectedException{
         boolean ret = false;
-        for (Dispos dispo : sec.getDisponibilites()){
-            while(!ret){
-                boolean memeJour = dispo.getDate().equals(dps.getDateEvt());
+        for (Dispos dispo : sec.getDisponibilites()){   // On parcourt toutes les disponibilités du secouriste
+            if(!ret){
+                boolean memeJour = dispo.getDate().equals(dps.getDateEvt());    // Vérifie que les journées correspondent
 
-                LocalDateTime debutDispo = dispo.debutToLocalDateTime();
-                LocalDateTime finDispo = dispo.finToLocalDateTime();
-                LocalDateTime debutDPS = dps.debutToLocalDateTime();
-                LocalDateTime finDPS = dps.finToLocalDateTime();
+                LocalTime debutDispo = dispo.toLocalTime(dispo.getHeureDebut());    // L'heure de début de la disponibilité en LocalTime
+                LocalTime finDispo = dispo.toLocalTime(dispo.getHeureFin());    // L'heure de fin de la dispo en LocalTime
+                LocalTime debutDPS = dps.toLocalTime(dps.getHoraireDepart());   // L'heure de début du DPS en LocalTime
+                LocalTime finDPS = dps.toLocalTime(dps.getHoraireFin());        // L'heure de fin du DPS en LocalTime
 
-                boolean horairesInclus = !debutDPS.isBefore(debutDispo) && !finDPS.isAfter(finDispo);
+                boolean horairesInclus = !debutDPS.isBefore(debutDispo) && !finDPS.isAfter(finDispo);   // Vérifie que l'horaire du DPS est inclus dans les dispos du secouriste
 
-                if (memeJour || horairesInclus){
-                    ret = true;
+                if (memeJour && horairesInclus){    // Si le jour et l'horaire correspond, donc qu'une dispo est trouvée...
+                    ret = true;                     // On sort de la boucle après avoir mis à jour les disponibilités du secouriste
+                    Duration diffHoraireDebut = Duration.between(debutDispo, debutDPS); // Ecart entre le début du DPS et le début des dispos (0 possible)
+                    Duration diffHoraireFin = Duration.between(finDispo, finDPS);     // Ecart entre le fin du DPS et le fin des dispos (0 possible)
+                    sec.getDisponibilites().remove(dispo);  // Une disponibilité étant trouvée, on la supprime des dispos du secouriste
+
+                    if(debutDispo.isAfter(debutDPS) || finDispo.isBefore(finDPS)){       // S'il y a une erreur à la sélection de la dispo, on lance une exception
+                        throw new UnexpectedException("checkDispos : erreur inattendue");
+                    }
+
+                    if(diffHoraireDebut.getSeconds() >= 3600){                              // Si le temps précédant le DPS est supérieur à 1h...
+                        LocalTime firstNewHoraireFin = finDispo.minus(diffHoraireDebut);
+                        Dispos firstNewDispo = new Dispos(sec, dispo.getDate().toLocalDate(), debutDispo, firstNewHoraireFin);
+                        sec.getDisponibilites().add(firstNewDispo);                         // On rajoute la disponibilité précédant le DPS
+                    }
+
+                    if (diffHoraireFin.getSeconds() >= 3600){                               // Si le temps suivant le DPS est supérieur à 1h...
+                        LocalTime secondNewHoraireDebut = finDispo.minus(diffHoraireFin);
+                        Dispos secondNewDispo = new Dispos(sec, dispo.getDate().toLocalDate(), secondNewHoraireDebut, finDispo);
+                        sec.getDisponibilites().add(secondNewDispo);                        // On rajoute la disponibilité suivant le DPS
+                    } 
                 }
             }
         }
-
         return ret;
     }
 
