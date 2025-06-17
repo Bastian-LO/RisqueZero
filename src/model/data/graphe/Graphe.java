@@ -218,7 +218,7 @@ public class Graphe {
                 bestSolution.addAll(current);
             }
             return;
-        }===^)p-
+        }
         // Échanges récursifs pour générer les permutations
         for (int i = index; i < secouristes.size(); i++) {
             // Échange les éléments
