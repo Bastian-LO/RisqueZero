@@ -2,8 +2,7 @@ package model.data.graphe;
 
 import model.data.persistence.*;
 import model.dao.CompetenceDAO;
-
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.*;
 
 import javafx.util.Pair;
@@ -13,7 +12,7 @@ import javafx.util.Pair;
  * For affectation. It contains methods to add Secouristes and DPS, and to create the matrix,
  * as well as implementation of the necessary affectation algorithms.
  *
- * @author Emile Thevenin, Killian Avril, Bastian Leouedec, Elwan Yvin, Enrick Mananjean
+ * @author Emile Thevenin, Killian Avril, Bastian Le Ouedec, Elwan Yvin, Enrick Mananjean
  */
 public class Graphe {
 
@@ -193,25 +192,84 @@ public class Graphe {
         return false;
     }
 
-    public ArrayList<Affectation> exhaustif(){
+    public ArrayList<Affectation> startExhaustif() {
+        ArrayList<Affectation> bestSolution = new ArrayList<>();
+        ArrayList<Secouriste> cloneSecouristes = new ArrayList<>();
+        for ( Secouriste sec : this.secouristes) {
+            Secouriste cloneSecouriste = new Secouriste(sec.getId(), sec.getNom(), sec.getPrenom(),
+                    sec.getDateNaissance(), sec.getEmail(), sec.getTel(),
+                    sec.getAdresse(), sec.getCompetences(), sec.getDisponibilites());
+            secouristes.add(cloneSecouriste);
+        }
+        permuteSecouristes(cloneSecouristes, 0, bestSolution);
+        return bestSolution;
+    }
+
+    // Méthode récursive simple pour les permutations
+    private void permuteSecouristes(ArrayList<Secouriste> secouristes, int index, ArrayList<Affectation> bestSolution) {
+        // Condition d'arrêt : quand on a parcouru toute la liste
+        if (index == secouristes.size() - 1) {
+            // On applique exhaustif() sur la permutation actuelle
+            ArrayList<Affectation> current = exhaustif(new ArrayList<>(secouristes));
+
+            // On compare avec la meilleure solution actuelle
+            if (aIsBetterThanB(current,bestSolution)) { // Critère simple : max d'affectations
+                bestSolution.clear();
+                bestSolution.addAll(current);
+            }
+            return;
+        }
+        // Échanges récursifs pour générer les permutations
+        for (int i = index; i < secouristes.size(); i++) {
+            // Échange les éléments
+            Collections.swap(secouristes, index, i);
+
+            // Appel récursif
+            permuteSecouristes(secouristes, index + 1, bestSolution);
+
+            // On remet dans l'ordre original (backtracking)
+            Collections.swap(secouristes, index, i);
+        }
+    }
+
+    private ArrayList<Affectation> exhaustif(ArrayList<Secouriste> listeSec) {
         ArrayList<Affectation> ret = new ArrayList<>();
-        HashMap<DPS, Integer> nbCompParDps = this.getNbComp();  // Pour chaque DPS, le nb de compétences requises
-        
-        for(Pair<DPS, Competence> pair : this.DPSCompet){   // On parcourt toutes les paires DPS / Competence
-            ArrayList<Pair<Secouriste, Competence>> listPair = new ArrayList<>();
+        ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> tripleMonstreAffec = new ArrayList<>();
+        for (Pair<DPS, Competence> pair : this.DPSCompet) {   // On parcourt toutes les paires DPS / Competence
             DPS dpsCurr = pair.getKey();    // DPS analysé
             Competence compCurr = pair.getValue();  // Compétence requise
-            int nbComp = nbCompParDps.get(pair.getKey());   // Nb de compétences requises pour le DPS
 
-            for(int i = 0; i < this.secouristes.size(); i++){   // On parcourt tous les secouristes
-                Secouriste secCurr = this.secouristes.get(i);
-                if(secCurr.getCompetencesIntitules().contains(compCurr.getIntitule())){
-                    Pair<Secouriste, Competence> pairCurr = new Pair<Secouriste,Competence>(secCurr, compCurr);
-                    listPair.add(pairCurr);
+            boolean finnishFlag;
+            do {
+                finnishFlag = true;
+                for (int i = 0; i < listeSec.size(); i++) {   // On parcourt tous les secouristes
+                    Secouriste secCurr = listeSec.get(i);
+                    if (secCurr.getCompetencesIntitules().contains(compCurr.getIntitule())
+                            && checkDispos(secCurr, dpsCurr)) {
+                        tripleMonstreAffec.add(new Pair<>(new Pair<>(dpsCurr, compCurr), secCurr));
+                        // enlever la dispo
+                        if (finnishFlag) {
+                            finnishFlag = false;
+                        }
+                    }
+                }
+            } while (!finnishFlag);
+        }
+        LinkedHashSet<DPS> listDPS = new LinkedHashSet<>();
+        for (Pair<DPS, Competence> p : this.DPSCompet) {
+            listDPS.add(p.getKey());
+        }
+        for (DPS dps : listDPS) {
+            ArrayList<Pair<Secouriste, Competence>> listePairs = new ArrayList<>();
+            for (int i = 0; i < tripleMonstreAffec.size(); i++) {
+                Pair<Pair<DPS, Competence>, Secouriste> monstreCurr = tripleMonstreAffec.get(i);
+                if (monstreCurr.getKey().getKey().equals(dps)) {
+                    Pair<Secouriste, Competence> p = new Pair<>(monstreCurr.getValue(), monstreCurr.getKey().getValue());
+                    tripleMonstreAffec.remove(monstreCurr);
+                    listePairs.add(p);
                 }
             }
-
-            Affectation affCurr = new Affectation(listPair, dpsCurr);
+            Affectation affCurr = new Affectation(listePairs, dps);
             ret.add(affCurr);
         }
 
@@ -240,14 +298,29 @@ public class Graphe {
         return ret;
     }
 
+    private boolean aIsBetterThanB(ArrayList<Affectation> current, ArrayList<Affectation> bestSolution){
+        int nbBestSolution = 0 ;
+        int nbCurrent = 0;
+        for ( Affectation affectation : bestSolution) {
+            nbBestSolution += affectation.getList().size();
+        }
+        for ( Affectation affectation : current){
+            nbCurrent += affectation.getList().size();
+        }
+
+        return nbCurrent>nbBestSolution;
+    }
+
+
     /**
      * Returns a HashMap with the amount of Competence required per DPS
+     *
      * @return the map
      */
     private HashMap<DPS, Integer> getNbComp(){
         HashMap<DPS, Integer> ret = new HashMap<>();
 
-        for (int i = 0; i < this.DPSCompet.size(); i++){
+        for (int i = 0; i < this.DPSCompet.size(); i++) {
             Pair<DPS, Competence> pair = this.DPSCompet.get(i);
 
             if (!ret.containsKey(pair.getKey())){
