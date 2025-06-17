@@ -1,44 +1,74 @@
 package model.data.persistence;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import javafx.util.Pair;
 
 public class Affectation {
 
-    private HashSet<Secouriste> idSec;
-    private HashSet<DPS> idDps;
-    private Competence competence;
+    private ArrayList<Pair<Secouriste, Competence>> listSecComp;
+    private DPS idDps;
 
-    
-    public HashSet<Secouriste> getIdSec(){
-        return (HashSet<Secouriste>) idSec.clone();
-    }
-
-    public void setIdSec(HashSet<Secouriste> newIdSec){
-        if(newIdSec == null || newIdSec.isEmpty() || newIdSec.contains(null)){
-            throw new IllegalArgumentException("setIdSec : paramètre invalide");
+    public Affectation(ArrayList<Pair<Secouriste, Competence>> list, DPS idDpsEntrant) throws IllegalArgumentException{
+        if (list == null || list.isEmpty() || list.contains(null) || idDpsEntrant == null){
+            throw new IllegalArgumentException("Affectation : paramètres invalides.");
         }
-        this.idSec = newIdSec;
+
+        this.listSecComp = cloneList(list); // Appel d'une méthode vérifiant le paramètre et renvoyant une nouvelle ArrayList
+
+        this.idDps = new DPS(idDpsEntrant.getId(), idDpsEntrant.getHoraireDepart(), idDpsEntrant.getHoraireFin(), 
+                            idDpsEntrant.getDateEvt(), idDpsEntrant.getCompetences(), idDpsEntrant.getLieu(), 
+                            idDpsEntrant.getSport());
     }
 
-    public Competence getCompetence(){
-        return new Competence(this.competence.getIntitule(), this.competence.getRequis());
+
+    public ArrayList<Pair<Secouriste, Competence>> getList(){
+        ArrayList<Pair<Secouriste, Competence>> newList = cloneList(this.listSecComp);
+
+        return newList;
     }
 
-    public void setCompetence(Competence newCompetence){
-        if(newCompetence == null || newCompetence.getIntitule().trim().equals("")){
-            throw new IllegalArgumentException("setCompetence : paramètre invalide");
-        }
-        this.competence = newCompetence;
+    public void setList(ArrayList<Pair<Secouriste, Competence>> newList){
+        this.listSecComp = cloneList(newList);
     }
 
-    public HashSet<DPS> getIdDps(){
-        return (HashSet<DPS>) idDps.clone();
+    public DPS getIdDps(){
+        return new DPS(this.idDps.getId(), this.idDps.getHoraireDepart(), this.idDps.getHoraireFin(), 
+                            this.idDps.getDateEvt(), this.idDps.getCompetences(), this.idDps.getLieu(), 
+                            this.idDps.getSport());
     }
 
-    public void setIdDps(HashSet<DPS> newIdDps){
-        if(newIdDps == null || newIdDps.isEmpty() || newIdDps.contains(null)){
+    public void setIdDps(DPS newIdDps){
+        if(newIdDps == null){
             throw new IllegalArgumentException("setIdDps : paramètre invalide");
         }
-        this.idDps = newIdDps;
+        this.idDps = new DPS(newIdDps.getId(), newIdDps.getHoraireDepart(), newIdDps.getHoraireFin(), 
+                            newIdDps.getDateEvt(), newIdDps.getCompetences(), newIdDps.getLieu(), 
+                            newIdDps.getSport());
+    }
+
+    private ArrayList<Pair<Secouriste, Competence>> cloneList(ArrayList<Pair<Secouriste, Competence>> listOrig) throws IllegalArgumentException{
+        if (listOrig == null || listOrig.isEmpty() || listOrig.contains(null)){
+            throw new IllegalArgumentException("Affectation : paramètres invalides.");
+        }
+
+        ArrayList<Pair<Secouriste, Competence>> newList = new ArrayList<>();
+        for (Pair<Secouriste, Competence> pair : listOrig) {
+            // Vérification du couple
+            if(pair == null || pair.getKey() == null || pair.getValue() == null || pair.getValue().getIntitule().isEmpty()){
+                throw new IllegalArgumentException("Affectation : paramètres invalides.");
+            }
+            // Copie défensive du secouriste de la pair
+            Secouriste secOrig = pair.getKey();
+            Secouriste cloneSecouriste = new Secouriste(secOrig.getId(), secOrig.getNom(), secOrig.getPrenom(), 
+                                                        secOrig.getDateNaissance(), secOrig.getEmail(), secOrig.getTel(), 
+                                                        secOrig.getAdresse(), secOrig.getCompetences(), secOrig.getDisponibilites());
+            // Copie défensive de la compétence de la pair
+            Competence compOrig = pair.getValue();
+            Competence cloneCompetence = new Competence(compOrig.getIntitule(), compOrig.getRequis());
+            // Ajout de la pair à la liste 
+            this.listSecComp.add(new Pair<>(cloneSecouriste, cloneCompetence));
+        }
+
+        return newList;
     }
 }

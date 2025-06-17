@@ -1,6 +1,8 @@
 // SecouristeDAO.java
 package model.dao;
 
+import model.data.persistence.Competence;
+import model.data.persistence.Dispos;
 import model.data.persistence.Secouriste;
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,6 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 
 public class SecouristeDAO extends DAO<Secouriste> {
+
+    private final CompetenceDAO competenceDAO = new CompetenceDAO();
+    private final DisposDAO disposDAO = new DisposDAO();
 
     @Override
     public List<Secouriste> findAll() {
@@ -19,15 +24,22 @@ public class SecouristeDAO extends DAO<Secouriste> {
              ResultSet rs = stmt.executeQuery(sql)) {
             
             while (rs.next()) {
+                long id = rs.getLong("id");
+                // Charger les compétences séparément
+                ArrayList<Competence> competences = findCompetencesBySecouristeId(id);
+                // Charger les disponibilités séparément
+                HashSet<Dispos> disponibilites = new HashSet<>(disposDAO.findBySecouriste(id));
+                
                 secouristes.add(new Secouriste(
-                    rs.getLong("id"),
+                    id,
                     rs.getString("nom"),
                     rs.getString("prenom"),
                     rs.getString("date_naissance"),
                     rs.getString("email"),
                     rs.getString("tel"),
                     rs.getString("adresse"),
-                    new HashSet<>() // Disponibilités chargées séparément
+                    competences,
+                    disponibilites
                 ));
             }
         } catch (SQLException | IllegalArgumentException e) {
@@ -37,7 +49,8 @@ public class SecouristeDAO extends DAO<Secouriste> {
     }
 
     public Secouriste findById(long id) {
-        String sql = "SELECT nom, prenom, date_naissance, email, tel, adresse FROM secouriste WHERE id = ?";
+        String sql = "SELECT nom, prenom, date_naissance, email, tel, adresse "
+                   + "FROM secouriste WHERE id = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -45,6 +58,17 @@ public class SecouristeDAO extends DAO<Secouriste> {
             pstmt.setLong(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
+                    // Récupérer les compétences
+                    ArrayList<Competence> competences = new ArrayList<>();
+                    String compSql = "SELECT competence FROM secouriste_competence WHERE id_sec = ?";
+                    try (PreparedStatement compStmt = conn.prepareStatement(compSql)) {
+                        compStmt.setLong(1, id);
+                        ResultSet compRs = compStmt.executeQuery();
+                        while (compRs.next()) {
+                            competences.add(new Competence(compRs.getString("competence")));
+                        }
+                    }
+                    
                     return new Secouriste(
                         id,
                         rs.getString("nom"),
@@ -53,7 +77,8 @@ public class SecouristeDAO extends DAO<Secouriste> {
                         rs.getString("email"),
                         rs.getString("tel"),
                         rs.getString("adresse"),
-                        new HashSet<>() // Disponibilités chargées séparément
+                        competences,
+                        new HashSet<>() // Remplacé par DisposDAO
                     );
                 }
             }
@@ -61,6 +86,28 @@ public class SecouristeDAO extends DAO<Secouriste> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private ArrayList<Competence> findCompetencesBySecouristeId(long idSecouriste) {
+        ArrayList<Competence> competences = new ArrayList<>();
+        String sql = "SELECT competence FROM secouriste_competence WHERE id_sec = ?";
+        
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setLong(1, idSecouriste);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                Competence comp = competenceDAO.findByIntitule(rs.getString("competence"));
+                if (comp != null) {
+                    competences.add(comp);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return competences;
     }
 
     @Override

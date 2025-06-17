@@ -1,5 +1,7 @@
 package model.data.persistence;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -30,7 +32,7 @@ public class DPS {
     /**
      * The day of the event
      */
-    private Journee programme;
+    private Journee dateEvt;
 
     /**
      * The list of competences required
@@ -57,14 +59,14 @@ public class DPS {
      * @param id1 the id
      * @param horaire_depart1 the beginning hour
      * @param horaire_fin1 the ending hour
-     * @param programme1 the day
+     * @param dateEvt1 the day
      * @param competences1 the list of required skills
      * @param lieu1 the place
      * @param sport1 the sport
      * @throws IllegalArgumentException true if a parameter is invalid
      */
-    public DPS(long id1, int[] horaire_depart1, int[] horaire_fin1, Journee programme1, ArrayList<Competence> competences1, Site lieu1, Sport sport1) throws IllegalArgumentException{
-        if (id1 < 0 || horaire_depart1 == null || horaire_fin1 == null || programme1 == null || competences1 == null || 
+    public DPS(long id1, int[] horaire_depart1, int[] horaire_fin1, Journee dateEvt1, ArrayList<Competence> competences1, Site lieu1, Sport sport1) throws IllegalArgumentException{
+        if (id1 < 0 || horaire_depart1 == null || horaire_fin1 == null || dateEvt1 == null || competences1 == null || 
         lieu1 == null || sport1 == null){
             throw new IllegalArgumentException("Constructeur DPS : paramètres invalides");
         }
@@ -78,7 +80,7 @@ public class DPS {
         this.id = id1;
         this.horaire_depart = horaire_depart1.clone();
         this.horaire_fin = horaire_fin1.clone();
-        this.programme = new Journee(programme1.getJour(), programme1.getMois(), programme1.getAnnee());
+        this.dateEvt = new Journee(dateEvt1.getJour(), dateEvt1.getMois(), dateEvt1.getAnnee());
         this.competences = (ArrayList<Competence>) competences1.clone();
         this.lieu = new Site(lieu1.getCode(), lieu1.getNom(), lieu1.getLongitude(), lieu1.getLatitude());
         this.sport = new Sport(sport1.getCode(), sport1.getNom());
@@ -117,8 +119,8 @@ public class DPS {
      * Getter for the day
      * @return the day
      */
-    public Journee getProgramme(){
-        return new Journee(this.programme.getJour(), this.programme.getMois(), this.programme.getAnnee());
+    public Journee getDateEvt(){
+        return new Journee(this.dateEvt.getJour(), this.dateEvt.getMois(), this.dateEvt.getAnnee());
     }
 
     /**
@@ -190,14 +192,14 @@ public class DPS {
 
     /**
      * Setter for the day
-     * @param newProgramme the new day
+     * @param newdateEvt the new day
      * @throws IllegalArgumentException true if the parameter is invalid
      */
-    public void setProgramme(Journee newProgramme) throws IllegalArgumentException{
-        if(newProgramme == null){
-            throw new IllegalArgumentException("setProgramme : paramètre invalide");
+    public void setdateEvt(Journee newdateEvt) throws IllegalArgumentException{
+        if(newdateEvt == null){
+            throw new IllegalArgumentException("setdateEvt : paramètre invalide");
         }
-        this.programme = newProgramme;
+        this.dateEvt = newdateEvt;
     }
 
     /**
@@ -238,5 +240,18 @@ public class DPS {
             throw new IllegalArgumentException("setSport : paramètre invalide");
         }
         this.sport = new Sport(newSport.getCode(), newSport.getNom());
+    }
+
+
+    public LocalTime toLocalTime(int[] hor){
+        return LocalTime.of(hor[0], hor[1]);
+    }
+
+    public LocalDateTime debutToLocalDateTime(){
+        return LocalDateTime.of(this.dateEvt.toLocalDate(), toLocalTime(this.horaire_depart));
+    }
+
+    public LocalDateTime finToLocalDateTime(){
+        return LocalDateTime.of(this.dateEvt.toLocalDate(), toLocalTime(this.horaire_fin));
     }
 }
