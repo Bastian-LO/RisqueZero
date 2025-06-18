@@ -32,25 +32,25 @@
             <Font name="System Bold" size="58.0" />
          </font>
       </Label>
-      <TableView layoutX="82.0" layoutY="144.0" prefHeight="508.0" prefWidth="916.0" AnchorPane.leftAnchor="82.0" AnchorPane.rightAnchor="82.0">
+      <TableView fx:id="IDTableauPlanning" layoutX="82.0" layoutY="144.0" prefHeight="508.0" prefWidth="916.0" AnchorPane.leftAnchor="82.0" AnchorPane.rightAnchor="82.0">
          <columns>
-            <TableColumn prefWidth="131.0" text="Lundi" />
-            <TableColumn prefWidth="131.0" text="Mardi" />
-            <TableColumn prefWidth="131.0" text="Mercredi" />
-            <TableColumn prefWidth="131.0" text="Jeudi" />
-            <TableColumn prefWidth="131.0" text="Vendredi" />
-            <TableColumn prefWidth="131.0" text="Samedi" />
-            <TableColumn prefWidth="131.0" text="Dimanche" />
+            <TableColumn fx:id="ColonneLundi" prefWidth="131.0" text="Lundi" />
+            <TableColumn fx:id="ColonneMardi" prefWidth="131.0" text="Mardi" />
+            <TableColumn fx:id="ColonneMercredi" prefWidth="131.0" text="Mercredi" />
+            <TableColumn fx:id="ColonneJeudi" prefWidth="131.0" text="Jeudi" />
+            <TableColumn fx:id="ColonneVendredi" prefWidth="131.0" text="Vendredi" />
+            <TableColumn fx:id="ColonneSamedi" prefWidth="131.0" text="Samedi" />
+            <TableColumn fx:id="ColonneDimanche" prefWidth="131.0" text="Dimanche" />
          </columns>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </TableView>
-      <Hyperlink layoutX="316.0" layoutY="666.0" text="&lt; Semaine précédente" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="80.0">
+      <Hyperlink fx:id="IDPagePrecedente" layoutX="316.0" layoutY="666.0" text="&lt; Semaine précédente" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="80.0">
          <font>
             <Font name="System Bold" size="19.0" />
          </font></Hyperlink>
-      <Hyperlink layoutX="566.0" layoutY="672.0" text="Semaine suivante &gt;" AnchorPane.bottomAnchor="34.0" AnchorPane.rightAnchor="82.0">
+      <Hyperlink fx:id="IDPageSuivante" layoutX="566.0" layoutY="672.0" text="Semaine suivante &gt;" AnchorPane.bottomAnchor="34.0" AnchorPane.rightAnchor="82.0">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
