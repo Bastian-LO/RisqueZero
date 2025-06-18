@@ -12,10 +12,14 @@ public class PageDeGarde extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("PageDeConnexion.fxml"));
-        Scene scene = new Scene(root, 1920, 1080);
+        Parent root = FXMLLoader.load(getClass().getResource("page de connexion.fxml"));
+        Scene scene = new Scene(root);
         primaryStage.setTitle("Risque Zéro");
         primaryStage.setScene(scene);
+        root.setScaleX(0.7);
+        root.setScaleY(0.7);
+        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(800);
         primaryStage.show();
     }
 
