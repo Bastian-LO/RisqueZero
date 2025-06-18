@@ -13,7 +13,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
-import model.data.users.User;
 import model.data.users.UserSecouriste;
 
 import java.io.IOException;
@@ -43,7 +42,7 @@ public class PageInscriptionController {
     @FXML
     private Button suivantButton;
     @FXML
-    private PasswordField confirmationTextField;
+    private PasswordField confirmPasswordField;
 
     @FXML
     private VBox infoContainer;
@@ -59,11 +58,11 @@ public class PageInscriptionController {
         String password = passwordPasswordField.getText();
         String adresse = adresseTextField.getText();
         if (nom.isEmpty() || prenom.isEmpty() || mail.isEmpty() || dateNaissance.isEmpty() || telephone.isEmpty()
-                || password.isEmpty() || adresse.isEmpty() || confirmationTextField.getText().isEmpty()) {
+                || password.isEmpty() || adresse.isEmpty() || confirmPasswordField.getText().isEmpty()) {
             showAlert("Erreur", "Veuillez remplir tous les champs.");
             return;
         }
-        if (!password.equals(confirmationTextField.getText())) {
+        if (!password.equals(confirmPasswordField.getText())) {
             showAlert("Erreur", "Les mots de passe ne correspondent pas.");
             return;
         }
