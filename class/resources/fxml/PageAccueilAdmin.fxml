@@ -15,20 +15,20 @@
       <HBox layoutX="15.0" layoutY="16.0" prefHeight="68.0" prefWidth="200.0" />
       <VBox layoutX="553.0" layoutY="103.0" prefHeight="550.0" prefWidth="468.0" spacing="40.0" AnchorPane.bottomAnchor="67.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="103.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="255.0" prefWidth="468.0" spacing="30.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" VBox.vgrow="ALWAYS">
+            <VBox fx:id="SecouristesContainer" alignment="CENTER" prefHeight="255.0" prefWidth="468.0" spacing="30.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" VBox.vgrow="ALWAYS">
                <children>
                   <Label text="Secouristes">
                      <font>
                         <Font name="System Bold" size="50.0" />
                      </font>
                   </Label>
-                  <Button fx:id="secouristesButtons" mnemonicParsing="false" prefHeight="74.0" prefWidth="342.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Gérer les Secouristes" textFill="WHITE">
+                  <Button fx:id="secouristesButton" mnemonicParsing="false" prefHeight="74.0" prefWidth="342.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Gérer les Secouristes" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font></Button>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="255.0" prefWidth="468.0" spacing="20.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" VBox.vgrow="ALWAYS">
+            <VBox fx:id="profilContainer" alignment="CENTER" prefHeight="255.0" prefWidth="468.0" spacing="20.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" VBox.vgrow="ALWAYS">
                <children>
                   <Label alignment="CENTER" text="Profil">
                      <font>
@@ -42,12 +42,12 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="27.0" text="Nom &amp; Prénom : Ton_Nom_et_Prenom" wrapText="true">
+                        <Label fx:id="nomPrenomLabel" prefHeight="27.0" text="Nom &amp; Prénom : Ton_Nom_et_Prenom" wrapText="true">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="nomPrenomLabel" text="Adresse-mail : ton_mail" wrapText="true">
+                        <Label fx:id="mailLabel" text="Adresse-mail : ton_mail" wrapText="true">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -73,7 +73,7 @@
          </children>
       </VBox>
       <Accordion layoutX="100.0" layoutY="250.0" />
-      <VBox alignment="TOP_CENTER" layoutX="122.0" layoutY="110.0" prefHeight="200.0" prefWidth="100.0" spacing="30.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="570.0" AnchorPane.topAnchor="103.0">
+      <VBox fx:id="dpsContainer" alignment="TOP_CENTER" layoutX="122.0" layoutY="110.0" prefHeight="200.0" prefWidth="100.0" spacing="30.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="570.0" AnchorPane.topAnchor="103.0">
          <children>
             <Label alignment="TOP_CENTER" text="DPS">
                <font>

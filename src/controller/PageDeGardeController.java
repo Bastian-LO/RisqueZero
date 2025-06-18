@@ -1,4 +1,5 @@
 package controller;
+
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -20,40 +21,46 @@ public class PageDeGardeController {
 
     // Méthode déclenchée quand on clique sur le bouton (nommée "goToSecondWindow" dans On Action)
     @FXML
-    public void test(ActionEvent event) {
+    public void inscriptionPage(ActionEvent event) {
         try {
-            if (event.getSource() == inscriptionButton) {
-                // Chargement de la deuxième interface depuis second.fxml
-                Parent inscriptionRoot = FXMLLoader.load(getClass().getResource("../../class/view/PageInscription.fxml"));
+            // Chargement de la deuxième interface depuis second.fxml
+            Parent inscriptionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageInscription.fxml"));
 
-                // Création de la nouvelle scène
-                Scene inscriptionScene = new Scene(inscriptionRoot);
+            // Création de la nouvelle scène
+            Scene inscriptionScene = new Scene(inscriptionRoot);
 
-                // Récupération de la fenêtre actuelle
-                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            // Récupération de la fenêtre actuelle
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-                // Changement de la scène
-                currentStage.setScene(inscriptionScene);
-                currentStage.setTitle("Inscription");
-                currentStage.show();
-            }
-            if (event.getSource() == connexionButton) {
-                // Chargement de la deuxième interface depuis second.fxml
-                Parent connexionRoot = FXMLLoader.load(getClass().getResource("../../class/view/PageConnexion.fxml"));
+            // Changement de la scène
+            currentStage.setScene(inscriptionScene);
+            currentStage.setTitle("Inscription");
+            currentStage.show();
 
-                // Création de la nouvelle scène
-                Scene connexionScene = new Scene(connexionRoot);
-
-                // Récupération de la fenêtre actuelle
-                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-                // Changement de la scène
-                currentStage.setScene(connexionScene);
-                currentStage.setTitle("Connexion");
-                currentStage.show();
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public void connexionPage(ActionEvent event) {
+        try {
+            // Chargement de la deuxième interface depuis second.fxml
+            Parent connexionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
+
+            // Création de la nouvelle scène
+            Scene connexionScene = new Scene(connexionRoot);
+
+            // Récupération de la fenêtre actuelle
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Changement de la scène
+            currentStage.setScene(connexionScene);
+            currentStage.setTitle("Connexion");
+            currentStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
