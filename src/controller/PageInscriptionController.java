@@ -71,8 +71,9 @@ public class PageInscriptionController {
         UserSecouriste user;
         try {
             user = new UserSecouriste(mail, password);
-        } catch (SQLIntegrityConstraintViolationException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
         Secouriste secouriste = new Secouriste(user.getId(), nom, prenom, dateNaissance, mail, telephone, adresse, new ArrayList<>(), new HashSet<>());
         user.setIdSecouriste(user.getId());
