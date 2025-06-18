@@ -9,8 +9,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO for User, and its subclasses
+ */
 public class UserDAO extends DAO<User> {
 
+    /**
+     * Get all users from database
+     * @return List of users
+     */
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -31,6 +38,11 @@ public class UserDAO extends DAO<User> {
         return users;
     }
 
+    /**
+     * Get user by id
+     * @param id id of the user
+     * @return user
+     */
     public User findById(int id) {
         String sql = "SELECT * FROM utilisateur "
                    + "WHERE id = ?";
@@ -50,6 +62,11 @@ public class UserDAO extends DAO<User> {
         return null;
     }
 
+    /**
+     * Get user by login
+     * @param login login of the user
+     * @return user
+     */
     public User findByLogin(String login) {
         String sql = "SELECT * "
                    + "FROM utilisateur "
