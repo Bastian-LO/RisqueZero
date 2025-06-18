@@ -195,14 +195,23 @@ public class Graphe {
 
     public ArrayList<Affectation> startExhaustif() {
         ArrayList<Affectation> bestSolution = new ArrayList<>();
-        ArrayList<Secouriste> cloneSecouristes = new ArrayList<>();
-        for ( Secouriste sec : this.secouristes) {
-            Secouriste cloneSecouriste = new Secouriste(sec.getId(), sec.getNom(), sec.getPrenom(),
-                    sec.getDateNaissance(), sec.getEmail(), sec.getTel(),
-                    sec.getAdresse(), sec.getCompetences(), sec.getDisponibilites());
-            secouristes.add(cloneSecouriste);
+        ArrayList<Secouriste> secouristesClones = new ArrayList<>();
+
+        // Clonage profond des secouristes ET de leurs disponibilités
+        for (Secouriste sec : this.secouristes) {
+            Secouriste clone = new Secouriste(sec.getId(), sec.getNom(), sec.getPrenom(), sec.getDateNaissance(),
+                    sec.getEmail(), sec.getTel(), sec.getAdresse(),
+                    sec.getCompetences(), sec.getDisponibilites());
+
+            // Clonage des disponibilités
+            List<Dispos> disposClones = new ArrayList<>();
+            for (Dispos d : sec.getDisponibilites()) {
+                clone.addDispos(new Dispos(clone,d.getDate(), d.getHeureDebut(), d.getHeureFin()));
+            }// À implémenter si absent
+
+            secouristesClones.add(clone);
         }
-        permuteSecouristes(cloneSecouristes, 0, bestSolution);
+        permuteSecouristes(secouristesClones, 0, bestSolution);
         return bestSolution;
     }
 

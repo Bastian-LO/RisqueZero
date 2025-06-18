@@ -178,7 +178,7 @@ public class Secouriste{
             Duration diffHFinMax = Duration.ofSeconds(0L);
 
 
-            // Récupération de la disponibilité la plus étandue
+            // Récupération de la disponibilité la plus étendue
             Dispos dispoDebutInclus = null;
             for(int i = 0; i < disposDebutInclus.size(); i++){
                 Dispos dispoCurr = disposDebutInclus.get(i);
