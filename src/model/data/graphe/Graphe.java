@@ -236,20 +236,6 @@ public class Graphe {
         }
     }
 
-<<<<<<< HEAD
-    /**
-     * Exhaustive algorithm finding the best configuration of secourists for a DPS and affecting them to it
-     * @param listeSec the list of secourists
-     * @return the list of affectations
-     */
-    private ArrayList<Affectation> exhaustif(ArrayList<Secouriste> listeSec) {
-        if (listeSec == null || listeSec.isEmpty()){
-            throw new IllegalArgumentException("exhaustif : liste invalide");
-        }
-
-        ArrayList<Affectation> ret = new ArrayList<>();
-        ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> tripleMonstreAffec = new ArrayList<>();
-=======
     private ArrayList<Secouriste> deepCloneSecouristes(ArrayList<Secouriste> secouristes) {
         ArrayList<Secouriste> clones = new ArrayList<>();
         for (Secouriste sec : secouristes) {
@@ -266,7 +252,6 @@ public class Graphe {
         }
         return clones;
     }
->>>>>>> b4f2cdffd02651a62d83c19cd4cbb5104cb09d1b
 
     private ArrayList<Affectation> affectationExhaustive(ArrayList<Secouriste> secouristes) {
         // Structure pour stocker les affectations par DPS
@@ -320,13 +305,6 @@ public class Graphe {
                     return true;
                 }
             }
-<<<<<<< HEAD
-
-            tripleMonstreAffec = restant;
-            Affectation affCurr = new Affectation(listePairs, dps);
-            ret.add(affCurr);   
-=======
->>>>>>> b4f2cdffd02651a62d83c19cd4cbb5104cb09d1b
         }
         return false;
     }
