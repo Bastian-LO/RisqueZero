@@ -3,7 +3,7 @@ package controller;
 import model.data.persistence.Secouriste;
 import model.data.users.UserSecouriste;
 
-public class PagePlanningController {
+public class PageProfilSecouristeController {
     private UserSecouriste user;
     private Secouriste secouriste;
 

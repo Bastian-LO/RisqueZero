@@ -6,9 +6,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageAccueilAdminController">
    <children>
-      <Button fx:id="deconnexionButton" layoutX="874.0" layoutY="15.0" mnemonicParsing="false" prefHeight="51.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion" textFill="WHITE" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <Button fx:id="deconnexionButton" layoutX="874.0" layoutY="15.0" mnemonicParsing="false" onAction="#deconnexionPage" prefHeight="51.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion" textFill="WHITE" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <font>
             <Font size="30.0" />
          </font></Button>
@@ -22,7 +22,7 @@
                         <Font name="System Bold" size="50.0" />
                      </font>
                   </Label>
-                  <Button fx:id="secouristesButton" mnemonicParsing="false" prefHeight="74.0" prefWidth="342.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Gérer les Secouristes" textFill="WHITE">
+                  <Button fx:id="secouristesButton" mnemonicParsing="false" onAction="#secouristePage" prefHeight="74.0" prefWidth="342.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Gérer les Secouristes" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font></Button>
@@ -80,7 +80,7 @@
                   <Font name="System Bold" size="50.0" />
                </font>
             </Label>
-            <Button fx:id="DPSButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="77.0" prefWidth="380.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir les DPS" textFill="WHITE">
+            <Button fx:id="DPSButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#dpsPage" prefHeight="77.0" prefWidth="380.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir les DPS" textFill="WHITE">
                <font>
                   <Font size="38.0" />
                </font>

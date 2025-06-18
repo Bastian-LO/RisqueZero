@@ -69,20 +69,6 @@ public class PageConnexionController {
         }
     }
 
-    // Méthode appelée lors du clic sur le lien d'inscription
-    @FXML
-    private void handleInscription(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageInscription.fxml"));
-            Stage stage = (Stage) LienInscription.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     // Méthode utilitaire pour afficher des alertes
     private void showAlert(String title, String message) {
@@ -91,5 +77,18 @@ public class PageConnexionController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    // Méthode appelée lors du clic sur le lien d'inscription
+    @FXML
+    public void LienInscriptionHandle(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageInscription.fxml"));
+            Stage stage = (Stage) LienInscription.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

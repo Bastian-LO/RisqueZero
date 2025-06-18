@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #f1f0ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageModifDPSController">
+   <children>
+      <Button fx:id="BouttonAccueil" layoutX="919.0" layoutY="29.0" mnemonicParsing="false" onAction="#BouttonAccueilHandle" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font size="31.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <ImageView fitHeight="71.0" fitWidth="68.0" layoutX="25.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Fonctionnalités_principales__1_-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="112.0" layoutY="35.0" text="Risque zéro">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="305.0" layoutY="48.0" text="Modifier un dispositif" textFill="#004aad">
+         <font>
+            <Font name="System Bold" size="54.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="Calendrier" layoutX="66.0" layoutY="433.0" onAction="#CalendrierHandle" />
+      <Button fx:id="BouttonAffecter" layoutX="792.0" layoutY="433.0" mnemonicParsing="false" onAction="#BouttonAffecterHandle" prefHeight="74.0" prefWidth="232.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Affecter des &#10; secouristes" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="BouttonEnregistrer" layoutX="792.0" layoutY="526.0" mnemonicParsing="false" onAction="#BouttonEnregistrerHandle" prefHeight="74.0" prefWidth="232.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Enregistrer les&#10; modifications" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="BouttonSupprimer" layoutX="792.0" layoutY="623.0" mnemonicParsing="false" onAction="#BouttonSupprimerHandle" prefHeight="74.0" prefWidth="232.0" style="-fx-background-color: #ff3131; -fx-background-radius: 50;" text="Supprimer le&#10;   dispositif" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Button>
+      <AnchorPane layoutX="33.0" layoutY="187.0" prefHeight="165.0" prefWidth="311.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <children>
+            <ComboBox fx:id="ComboBoxSport" layoutX="26.0" layoutY="83.0" onAction="#ComboBoxSportHandle" prefHeight="39.0" prefWidth="259.0" promptText="Ski alpin" style="-fx-background-radius: 50;" />
+            <Label layoutX="23.0" layoutY="24.0" text="Sport :">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="385.0" layoutY="187.0" prefHeight="165.0" prefWidth="311.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <children>
+            <ComboBox fx:id="ComboBoxSite" layoutX="26.0" layoutY="83.0" onAction="#ComboBoxSiteHandle" prefHeight="39.0" prefWidth="259.0" promptText="Mont-Blanc, Vannes" style="-fx-background-radius: 50;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ComboBox>
+            <Label layoutX="26.0" layoutY="28.0" text="Site :">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="754.0" layoutY="187.0" prefHeight="200.0" prefWidth="270.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <children>
+            <Label layoutX="8.0" layoutY="11.0" text="Compétences :">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="ComboBoxCompétences" layoutX="24.0" layoutY="157.0" onAction="#ComboBoxCompétencesHandle" prefHeight="29.0" prefWidth="222.0" promptText="Compétences" style="-fx-background-radius: 50;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ComboBox>
+            <ListView fx:id="ListeDeCompétences" layoutX="24.0" layoutY="50.0" prefHeight="92.0" prefWidth="222.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ListView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="385.0" layoutY="400.0" prefHeight="297.0" prefWidth="311.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Date sélectionnée :">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Label fx:id="LabelQuiAfficheHeureMinute" layoutX="25.0" layoutY="74.0" text="-" />
+            <Label layoutX="24.0" layoutY="113.0" text="Heure de début :">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="24.0" layoutY="195.0" text="Heure de fin : ">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" layoutX="25.0" layoutY="158.0">
+               <children>
+                  <TextField prefHeight="31.0" prefWidth="77.0" promptText="Heure" />
+                  <TextField prefWidth="77.0" promptText="minute" />
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="25.0" layoutY="236.0">
+               <children>
+                  <TextField prefHeight="31.0" prefWidth="77.0" promptText="Heure" />
+                  <TextField prefWidth="77.0" promptText="minute" />
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

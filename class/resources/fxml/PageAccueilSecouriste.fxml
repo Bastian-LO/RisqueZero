@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageAccueilSecouristeController">
    <children>
-      <Button layoutX="833.0" layoutY="23.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion " textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="18.0">
+      <Button fx:id="deconnexionButton" layoutX="833.0" layoutY="23.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" onAction="#deconnexionPage" text="Déconnexion " textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="18.0">
          <font>
             <Font name="System Bold" size="28.0" />
          </font>
@@ -19,7 +19,7 @@
       </Button>
       <Pane layoutX="607.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="77.0">
          <children>
-            <Button fx:id="VoirProfilBoutton" layoutX="60.0" layoutY="136.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir le profil" textFill="WHITE">
+            <Button fx:id="VoirProfilBoutton" layoutX="60.0" layoutY="136.0" onAction="#handleVoirProfil" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir le profil" textFill="WHITE">
                <font>
                   <Font size="44.0" />
                </font>
@@ -36,16 +36,16 @@
                <children>
                   <VBox fx:id="ContenaireCompétenceLabel1" spacing="3.5">
                      <children>
-                        <Label fx:id="Compétence1" text="-" />
-                        <Label fx:id="Compétence2" text="-" />
-                        <Label fx:id="Compétence3" text="-" />
+                        <Label fx:id="Competence1" text="-" />
+                        <Label fx:id="Competence2" text="-" />
+                        <Label fx:id="Competence3" text="-" />
                      </children>
                   </VBox>
                   <VBox fx:id="ContenaireCompetenceLabel2" spacing="3.5">
                      <children>
-                        <Label fx:id="Compétence4" text="-" />
-                        <Label fx:id="Compétence5" text="-" />
-                        <Label fx:id="Compétence6" text="-" />
+                        <Label fx:id="Competence4" text="-" />
+                        <Label fx:id="Competence5" text="-" />
+                        <Label fx:id="Competence6" text="-" />
                      </children>
                   </VBox>
                </children>
@@ -81,7 +81,7 @@
          </children></Pane>
       <Pane layoutX="77.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="77.0">
          <children>
-            <Button layoutX="25.0" layoutY="136.0" mnemonicParsing="false" style="-fx-background-radius: 50; -fx-background-color: #004aad;" text="Voir le planning" textFill="WHITE">
+            <Button fx:id="planningBoutton" onAction="#handleVoirPlanning" layoutX="25.0" layoutY="136.0" mnemonicParsing="false" style="-fx-background-radius: 50; -fx-background-color: #004aad;" text="Voir le planning" textFill="WHITE">
                <font>
                   <Font size="44.0" />
                </font>

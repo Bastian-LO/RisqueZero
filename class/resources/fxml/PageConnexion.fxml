@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PageConnexionController">
+<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageConnexionController">
    <children>
       <Label fx:id="RisqueZero" layoutX="439.0" layoutY="53.0" text="Risque zéro">
          <font>
@@ -32,7 +32,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Hyperlink fx:id="LienInscription" layoutX="130.0" layoutY="423.0" text="S'inscrire" />
+            <Hyperlink fx:id="LienInscription" onAction="#LienInscriptionHandle" layoutX="130.0" layoutY="423.0" text="S'inscrire" />
             <Label fx:id="PasDeCompte" layoutX="44.0" layoutY="402.0" text="Vous n’avez pas encore de compte ?" />
             <Label fx:id="Identifiant" layoutX="59.0" layoutY="171.0" text="Identifiant : " />
             <TextField fx:id="IDZoneEcrit" layoutX="59.0" layoutY="192.0" prefHeight="31.0" prefWidth="215.0" promptText="Identifiant" style="-fx-background-radius: 50;">
@@ -46,7 +46,7 @@
                </cursor>
             </PasswordField>
             <Label fx:id="MotDePasse" layoutX="59.0" layoutY="255.0" text="Mot de passe" />
-            <Button fx:id="SeConnecterBoutton" layoutX="95.0" layoutY="351.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
+            <Button fx:id="SeConnecterBoutton" layoutX="95.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleConnexion" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
                <font>
                   <Font size="19.0" />
                </font>
