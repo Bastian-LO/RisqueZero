@@ -27,7 +27,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="connexionButton" alignment="CENTER" mnemonicParsing="false" onAction="#inscriptionPage" prefHeight="50.0" prefWidth="210.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Connexion" textFill="WHITE">
+            <Button fx:id="connexionButton" alignment="CENTER" mnemonicParsing="false" onAction="#connexionPage" prefHeight="50.0" prefWidth="210.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Connexion" textFill="WHITE">
                <font>
                   <Font size="23.0" />
                </font>
