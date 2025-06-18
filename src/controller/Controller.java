@@ -11,7 +11,12 @@ import model.*;
 import view.*;
 
 
-public class Controller {   
+public class Controller {
 
+    private final View view;
+
+    public Controller (View view) {
+        this.view = view;
+    }
 
 }
