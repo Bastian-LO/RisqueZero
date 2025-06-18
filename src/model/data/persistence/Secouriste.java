@@ -77,8 +77,8 @@ public class Secouriste{
      */
     public Secouriste(long id, String nom, String prenom, String dateNaissance, String email, String tel, String adresse, ArrayList<Competence> comp, HashSet<Dispos> disponibilite) throws IllegalArgumentException{
         // Checks if the parameters are valid
-        if (id < 1) {
-            throw new IllegalArgumentException("L'ID doit être un nombre positif (valeur reçue: " + id + ")");
+        if (id < 0) {
+            throw new IllegalArgumentException("L'ID doit être supérieur ou égal à 0 (valeur reçue: " + id + ")");
         }
 
         if (nom == null || nom.trim().isEmpty()) {
