@@ -24,7 +24,7 @@ public class PageDeGardeController {
         try {
             if (event.getSource() == inscriptionButton) {
                 // Chargement de la deuxième interface depuis second.fxml
-                Parent inscriptionRoot = FXMLLoader.load(getClass().getResource("../../class/view/PageInscription.fxml"));
+                Parent inscriptionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageInscription.fxml"));
 
                 // Création de la nouvelle scène
                 Scene inscriptionScene = new Scene(inscriptionRoot);
@@ -39,7 +39,7 @@ public class PageDeGardeController {
             }
             if (event.getSource() == connexionButton) {
                 // Chargement de la deuxième interface depuis second.fxml
-                Parent connexionRoot = FXMLLoader.load(getClass().getResource("../../class/view/PageConnexion.fxml"));
+                Parent connexionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
 
                 // Création de la nouvelle scène
                 Scene connexionScene = new Scene(connexionRoot);
