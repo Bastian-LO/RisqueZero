@@ -32,100 +32,7 @@
             <Font name="System Bold" size="54.0" />
          </font>
       </Label>
-      <Pane layoutX="49.0" layoutY="187.0" prefHeight="165.0" prefWidth="311.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
-         <children>
-            <Label layoutX="24.0" layoutY="14.0" text="Sport :">
-               <font>
-                  <Font size="27.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="ComboBoxSport" layoutX="27.0" layoutY="83.0" onAction="#ComboBoxSportHandle" prefHeight="39.0" prefWidth="259.0" promptText="Ski alpin" style="-fx-background-radius: 50;" />
-         </children>
-      </Pane>
-      <Pane layoutX="385.0" layoutY="187.0" prefHeight="165.0" prefWidth="311.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
-         <children>
-            <Label layoutX="23.0" layoutY="14.0" text="Site :">
-               <font>
-                  <Font size="27.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="ComboBoxSite" layoutX="23.0" layoutY="83.0" onAction="#ComboBoxSiteHandle" prefHeight="39.0" prefWidth="259.0" promptText="Mont-Blanc, Vannes" style="-fx-background-radius: 50;">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ComboBox>
-         </children>
-      </Pane>
-      <Pane layoutX="736.0" layoutY="187.0" prefHeight="200.0" prefWidth="270.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
-         <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Compétences :">
-               <font>
-                  <Font size="27.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="ComboBoxCompétences" layoutX="27.0" layoutY="155.0" onAction="#ComboBoxCompétencesHandle" prefHeight="29.0" prefWidth="222.0" promptText="Compétences" style="-fx-background-radius: 50;">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ComboBox>
-            <ListView fx:id="ListeDeCompétences" layoutX="27.0" layoutY="53.0" prefHeight="92.0" prefWidth="222.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ListView>
-         </children>
-      </Pane>
-      <Pane layoutX="406.0" layoutY="400.0" prefHeight="297.0" prefWidth="311.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
-         <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Date sélectionnée :">
-               <font>
-                  <Font size="27.0" />
-               </font>
-            </Label>
-            <Label fx:id="LabelQuiAfficheHeureMinute" layoutX="24.0" layoutY="77.0" text="-" />
-            <Label layoutX="24.0" layoutY="132.0" text="Heure de début :">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </Label>
-            <TextField fx:id="CaseHeureDébut" layoutX="24.0" layoutY="171.0" prefHeight="29.0" prefWidth="93.0" promptText="Heure">
-               <cursor>
-                  <Cursor fx:constant="TEXT" />
-               </cursor>
-            </TextField>
-            <TextField fx:id="CaseMinuteDébut" layoutX="156.0" layoutY="171.0" prefHeight="21.0" prefWidth="93.0" promptText="Minute">
-               <cursor>
-                  <Cursor fx:constant="TEXT" />
-               </cursor>
-            </TextField>
-            <Label layoutX="134.0" layoutY="169.0" text=":">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Label layoutX="24.0" layoutY="204.0" text="Heure de fin : ">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </Label>
-            <TextField fx:id="CaseHeureFin" layoutX="24.0" layoutY="238.0" prefHeight="29.0" prefWidth="93.0" promptText="Heure">
-               <cursor>
-                  <Cursor fx:constant="TEXT" />
-               </cursor>
-            </TextField>
-            <TextField fx:id="CaseMinuteFin" layoutX="156.0" layoutY="238.0" prefHeight="21.0" prefWidth="93.0" promptText="Minute">
-               <cursor>
-                  <Cursor fx:constant="TEXT" />
-               </cursor>
-            </TextField>
-            <Label layoutX="136.0" layoutY="234.0" text=":">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <DatePicker fx:id="Calendrier" layoutX="59.0" layoutY="417.0" onAction="#CalendrierHandle" />
+      <DatePicker fx:id="Calendrier" layoutX="66.0" layoutY="433.0" onAction="#CalendrierHandle" />
       <Button fx:id="BouttonAffecter" layoutX="792.0" layoutY="433.0" mnemonicParsing="false" onAction="#BouttonAffecterHandle" prefHeight="74.0" prefWidth="232.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Affecter des &#10; secouristes" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -150,5 +57,98 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
+      <AnchorPane layoutX="33.0" layoutY="187.0" prefHeight="165.0" prefWidth="311.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <children>
+            <ComboBox fx:id="ComboBoxSport" layoutX="26.0" layoutY="83.0" onAction="#ComboBoxSportHandle" prefHeight="39.0" prefWidth="259.0" promptText="Ski alpin" style="-fx-background-radius: 50;" />
+            <Label layoutX="23.0" layoutY="24.0" text="Sport :">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="385.0" layoutY="187.0" prefHeight="165.0" prefWidth="311.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <children>
+            <ComboBox fx:id="ComboBoxSite" layoutX="26.0" layoutY="83.0" onAction="#ComboBoxSiteHandle" prefHeight="39.0" prefWidth="259.0" promptText="Mont-Blanc, Vannes" style="-fx-background-radius: 50;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ComboBox>
+            <Label layoutX="26.0" layoutY="28.0" text="Site :">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="754.0" layoutY="187.0" prefHeight="200.0" prefWidth="270.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <children>
+            <Label layoutX="8.0" layoutY="11.0" text="Compétences :">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="ComboBoxCompétences" layoutX="24.0" layoutY="157.0" onAction="#ComboBoxCompétencesHandle" prefHeight="29.0" prefWidth="222.0" promptText="Compétences" style="-fx-background-radius: 50;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ComboBox>
+            <ListView fx:id="ListeDeCompétences" layoutX="24.0" layoutY="50.0" prefHeight="92.0" prefWidth="222.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ListView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="385.0" layoutY="400.0" prefHeight="297.0" prefWidth="311.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Date sélectionnée :">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Label fx:id="LabelQuiAfficheHeureMinute" layoutX="25.0" layoutY="74.0" text="-" />
+            <Label layoutX="24.0" layoutY="113.0" text="Heure de début :">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <TextField fx:id="CaseHeureDébut" layoutX="25.0" layoutY="149.0" prefHeight="29.0" prefWidth="93.0" promptText="Heure">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+            <Label layoutX="133.0" layoutY="147.0" text=":">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="CaseMinuteDébut" layoutX="156.0" layoutY="149.0" prefHeight="21.0" prefWidth="93.0" promptText="Minute">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+            <Label layoutX="24.0" layoutY="195.0" text="Heure de fin : ">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <TextField fx:id="CaseHeureFin" layoutX="25.0" layoutY="229.0" prefHeight="29.0" prefWidth="93.0" promptText="Heure">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+            <TextField fx:id="CaseMinuteFin" layoutX="156.0" layoutY="229.0" prefHeight="21.0" prefWidth="93.0" promptText="Minute">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+            <Label layoutX="134.0" layoutY="227.0" text=":">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
