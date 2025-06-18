@@ -10,14 +10,18 @@ import java.sql.*;
 public class MyConnection {
 
     /** URL of the database */
-    private static final String URL = "jdbc:mysql://10.1.1.1:3306/db_SAE";
+    private static final String URL = "jdbc:mysql://localhost:3306/db_SAE";
 
     /** Login to connect to the database */
-    private static final String LOGIN = "admin";
+    private static final String LOGIN = "adminClient";
 
     /** Password to connect to the database */
-    private static final String PWD = "mdp_admin";
+    private static final String PWD = "mdp_adminClient";
 
+    /** Connection to the database */
+    private Connection conn = null;
+
+    /** Unique instance of the class */
     private static MyConnection myConnection = null;
 
     /** 
@@ -30,22 +34,22 @@ public class MyConnection {
     /**
      * Method to get the connection to the database
      */
-    public Connection getConnection(){
-        Connection connection = null;
-        try{
-            if (myConnection == null || connection.isClosed()){
-                try{
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                } catch (ClassNotFoundException e){
-                    e.printStackTrace();
-                }
-                connection = DriverManager.getConnection(URL, LOGIN, PWD);
-            }
-        }catch (SQLException f){
-            f.printStackTrace();
+    public Connection getConnection() throws SQLException {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace ();
         }
-    
-        return connection;
+        
+        if (conn == null || conn.isClosed()) {
+            try {
+                conn = DriverManager.getConnection(URL, LOGIN, PWD);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return conn;
     }
 
     /**

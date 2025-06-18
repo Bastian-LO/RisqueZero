@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -24,6 +25,8 @@ public class PageAccueilSecouristeController {
 
     @FXML
     public Button planningBoutton;
+    public Button deconnexionButton;
+
     @FXML
     private Button VoirProfilBoutton;
 
@@ -226,9 +229,9 @@ public class PageAccueilSecouristeController {
 
     // Gère le clic sur le bouton "Voir le profil"
     @FXML
-    private void handleVoirProfil(ActionEvent event) {
+    public void handleVoirProfil(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageProfilSecouriste.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageProfilSecouristes.fxml"));
             Parent root = loader.load();
 
             // Passer les données utilisateur au contrôleur de la page de profil
@@ -244,9 +247,9 @@ public class PageAccueilSecouristeController {
 
     // Gère le clic sur le bouton "Voir le planning"
     @FXML
-    private void handleVoirPlanning(ActionEvent event) {
+    public void handleVoirPlanning(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PagePlanningSecouriste.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PagePlanning.fxml"));
             Parent root = loader.load();
 
             // Passer les données utilisateur au contrôleur de la page de planning
@@ -262,4 +265,19 @@ public class PageAccueilSecouristeController {
     }
 
 
+    public void deconnexionPage(ActionEvent actionEvent) {
+        try {
+            // Chargement de la deuxième interface depuis second.fxml
+            Parent connexionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
+
+            // Création de la nouvelle scène
+            Scene connexionScene = new Scene(connexionRoot);            // Récupération de la fenêtre actuelle
+            Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Stage stage = (Stage) VoirProfilBoutton.getScene().getWindow();
+            stage.setScene(new Scene(connexionRoot));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
