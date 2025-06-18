@@ -4,9 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
 import model.data.users.User;
 import model.data.users.UserSecouriste;
@@ -17,6 +20,8 @@ import java.util.HashSet;
 
 public class PageInscriptionController {
 
+    @FXML
+    public Hyperlink connexionHyperlink;
     @FXML
     private TextField nomTextField;
     @FXML
@@ -56,6 +61,7 @@ public class PageInscriptionController {
         UserSecouriste user = new UserSecouriste(mail, password);
         Secouriste secouriste = new Secouriste(user.getId(), nom, prenom, dateNaissance, mail, telephone, adresse, new ArrayList<>(), new HashSet<>());
         user.setIdSecouriste(user.getId());
+        user.setSecouriste(secouriste);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilSecouristes.fxml"));
         try {
             Parent root = loader.load();
@@ -63,8 +69,10 @@ public class PageInscriptionController {
             e.printStackTrace();
         }
         PageAccueilSecouristeController controller = loader.getController();
-        controller.setUser(user); // Assuming you have a setUser method in your PageAccueilSecouristeController
+        controller.setUser(user);
+        // Assuming you have a setUser method in your PageAccueilSecouristeController
     }
+
 
     // Méthode utilitaire pour afficher des alertes
     private void showAlert(String title, String message) {
@@ -73,6 +81,17 @@ public class PageInscriptionController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void connexionHandle(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
+            Stage stage = (Stage) connexionHyperlink.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
