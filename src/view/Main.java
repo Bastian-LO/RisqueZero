@@ -6,13 +6,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
 
 
-public class PageDeGarde extends Application {
+public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("PageAccueilAdmin.fxml"));
+        MyConnection mc = MyConnection.getMyConnection();
+        Connection c = mc.getConnection();
+        Parent root = FXMLLoader.load(getClass().getResource("PageDeGarde.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Risque Zéro");
         primaryStage.setScene(scene);
