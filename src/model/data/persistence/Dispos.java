@@ -1,6 +1,7 @@
 package model.data.persistence;
 
 import java.time.*;
+import java.util.Objects;
 
 /**
  * Class representing the disposibilities of a secouriste
@@ -154,6 +155,29 @@ public class Dispos {
     //=================================
     //           METHODS
     // ================================
+
+    @Override
+    public boolean equals(Object obj){
+        boolean ret = false;
+
+        if (this == obj){
+            ret = true;
+        } else if (obj instanceof Dispos){
+            Dispos autre = (Dispos) obj;
+            if(this.getSecouriste().equals(autre.getSecouriste()) && this.getDate().equals(autre.getDate()) && 
+            this.getHeureDebut().equals(autre.getHeureDebut()) && this.getHeureFin().equals(autre.getHeureFin())){
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public int hashCode(){
+        int ret;
+        ret = Objects.hash(getSecouriste(), getDate(), getHeureDebut(), getHeureFin());
+        return ret;
+    }
 
     /**
      * Returns a string representation of the disponibility
