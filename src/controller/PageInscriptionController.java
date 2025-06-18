@@ -9,6 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
 import model.data.users.User;
@@ -35,11 +37,18 @@ public class PageInscriptionController {
     @FXML
     private TextField adresseTextField;
     @FXML
-    private TextField passwordTextField;
+    private PasswordField passwordPasswordField;
     @FXML
     private Button inscriptionButton;
     @FXML
-    private TextField confirmationTextField;
+    private Button suivantButton;
+    @FXML
+    private PasswordField confirmationTextField;
+
+    @FXML
+    private VBox infoContainer;
+    @FXML
+    private VBox passwordContainer;
 
     public void inscriptionHandle(ActionEvent actionEvent) {
         String nom = nomTextField.getText();
@@ -47,7 +56,7 @@ public class PageInscriptionController {
         String mail = mailTextField.getText();
         String dateNaissance = dateNaissanceTextField.getText();
         String telephone = telephoneTextField.getText();
-        String password = passwordTextField.getText();
+        String password = passwordPasswordField.getText();
         String adresse = adresseTextField.getText();
         if (nom.isEmpty() || prenom.isEmpty() || mail.isEmpty() || dateNaissance.isEmpty() || telephone.isEmpty()
                 || password.isEmpty() || adresse.isEmpty() || confirmationTextField.getText().isEmpty()) {
@@ -92,6 +101,35 @@ public class PageInscriptionController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Navigation entre étapes
+    @FXML
+    public void goToInformation() {
+        infoContainer.setVisible(true);
+        infoContainer.setManaged(true);
+
+        passwordContainer.setVisible(false);
+        passwordContainer.setManaged(false);
+
+        inscriptionButton.setVisible(false);
+        inscriptionButton.setManaged(false);
+        suivantButton.setVisible(true);
+        suivantButton.setManaged(true);
+    }
+
+    @FXML
+    public void goToPassword() {
+        infoContainer.setVisible(false);
+        infoContainer.setManaged(false);
+
+        passwordContainer.setVisible(true);
+        passwordContainer.setManaged(true);
+
+        inscriptionButton.setVisible(true);
+        inscriptionButton.setManaged(true);
+        suivantButton.setVisible(false);
+        suivantButton.setManaged(false);
     }
 }
 
