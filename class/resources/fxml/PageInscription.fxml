@@ -134,11 +134,11 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <VBox alignment="TOP_RIGHT" layoutX="221.0" layoutY="537.0" prefHeight="39.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="23.0">
+            <VBox alignment="TOP_RIGHT" layoutX="221.0" layoutY="537.0" prefHeight="39.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="15.0">
                <children>
                   <Label text="Vous avez déjà votre compte?">
                      <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                   <Hyperlink fx:id="connexionHyperlink" onAction="#connexionHandle" text="Se connecter !">
