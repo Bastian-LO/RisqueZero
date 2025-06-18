@@ -155,7 +155,7 @@
                         <Font size="12.0" />
                      </font>
                   </Label>
-                  <PasswordField prefHeight="18.0" prefWidth="253.0" promptText="Nouveau mot de passe">
+                  <PasswordField fx:id="passwordTextField" prefHeight="18.0" prefWidth="253.0" promptText="Nouveau mot de passe">
                      <font>
                         <Font size="14.0" />
                      </font>
