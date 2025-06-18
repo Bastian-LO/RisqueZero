@@ -13,9 +13,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
+import model.data.service.UserMngt;
 import model.data.users.UserSecouriste;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -66,7 +68,12 @@ public class PageInscriptionController {
             showAlert("Erreur", "Les mots de passe ne correspondent pas.");
             return;
         }
-        UserSecouriste user = new UserSecouriste(mail, password);
+        UserSecouriste user;
+        try {
+            user = new UserSecouriste(mail, password);
+        } catch (SQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
         Secouriste secouriste = new Secouriste(user.getId(), nom, prenom, dateNaissance, mail, telephone, adresse, new ArrayList<>(), new HashSet<>());
         user.setIdSecouriste(user.getId());
         user.setSecouriste(secouriste);
