@@ -2,8 +2,15 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import model.data.persistence.Secouriste;
+import model.data.users.User;
+import model.data.users.UserSecouriste;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class PageInscriptionController {
 
@@ -18,6 +25,10 @@ public class PageInscriptionController {
     @FXML
     private TextField telephoneTextField;
     @FXML
+    private TextField adresseTextField;
+    @FXML
+    private TextField passwordTextField;
+    @FXML
     private Button inscriptionButton;
 
     public void inscriptionHandle(ActionEvent actionEvent) {
@@ -26,5 +37,24 @@ public class PageInscriptionController {
         String mail = mailTextField.getText();
         String dateNaissance = dateNaissanceTextField.getText();
         String telephone = telephoneTextField.getText();
+        String password = passwordTextField.getText();
+        String adresse = adresseTextField.getText();
+        if (nom.isEmpty() || prenom.isEmpty() || mail.isEmpty() || dateNaissance.isEmpty() || telephone.isEmpty() || password.isEmpty() || adresse.isEmpty()) {
+            showAlert("Erreur", "Veuillez remplir tous les champs.");
+            return;
+        }
+        UserSecouriste user = new UserSecouriste(mail, password);
+        Secouriste secouriste = new Secouriste(user.getId(), nom, prenom, dateNaissance, mail, telephone, adresse, new ArrayList<>(), new HashSet<>());
+        user.setIdSecouriste(user.getId());
+    }
+
+    // Méthode utilitaire pour afficher des alertes
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
+
