@@ -13,10 +13,10 @@ public class MyConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/db_SAE";
 
     /** Login to connect to the database */
-    private static final String LOGIN = "admin";
+    private static final String LOGIN = "adminClient";
 
     /** Password to connect to the database */
-    private static final String PWD = "mdp_admin";
+    private static final String PWD = "mdp_adminClient";
 
     /** Connection to the database */
     private Connection conn = null;
