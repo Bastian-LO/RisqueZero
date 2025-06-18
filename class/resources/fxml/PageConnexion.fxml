@@ -46,7 +46,7 @@
                </cursor>
             </PasswordField>
             <Label fx:id="MotDePasse" layoutX="59.0" layoutY="255.0" text="Mot de passe" />
-            <Button fx:id="SeConnecterBoutton" layoutX="95.0" layoutY="351.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
+            <Button fx:id="SeConnecterBoutton" layoutX="95.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleConnexion" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
                <font>
                   <Font size="19.0" />
                </font>
