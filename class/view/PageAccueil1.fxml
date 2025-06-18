@@ -6,7 +6,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button layoutX="833.0" layoutY="23.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion " textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="18.0">
@@ -14,7 +13,24 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Button>
-      <Pane layoutX="607.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-color: #000000; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="77.0" />
+      <Pane layoutX="607.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-color: #000000; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="77.0">
+         <children>
+            <Button layoutX="60.0" layoutY="136.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir le profil" textFill="WHITE">
+               <font>
+                  <Font size="44.0" />
+               </font>
+            </Button>
+            <Label layoutX="147.0" layoutY="42.0" text="Profil">
+               <font>
+                  <Font name="System Bold" size="48.0" />
+               </font>
+            </Label>
+            <Label layoutX="78.0" layoutY="242.0" text="Compétences :&#10;&#9;- PSC1&#10;&#9;- Machin&#10;&#10;Disponibilités :&#10;&#9;- 8/02 – 9h30 - 17h&#10;&#9;- 9/02 – 10h - 14h">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children></Pane>
       <Pane layoutX="77.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-color: #000000; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="77.0">
          <children>
             <Button layoutX="25.0" layoutY="136.0" mnemonicParsing="false" style="-fx-background-radius: 50; -fx-background-color: #004aad;" text="Voir le planning" textFill="WHITE">
@@ -27,7 +43,10 @@
                   <Font name="System Bold" size="48.0" />
                </font>
             </Label>
-            <Label layoutX="178.0" layoutY="320.0" text="Prochain événement :&#10;&#10;     - ID : 39650&#10;     - Match de foot  &#10;     - Stade Rennais&#10;     - Vendredi 6 février&#10;     - 3000 spectateurs attendus" />
+            <Label layoutX="52.0" layoutY="251.0" text="Prochain événement :&#10;&#10;     - ID : 39650&#10;     - Match de foot  &#10;     - Stade Rennais&#10;     - Vendredi 6 février&#10;     - 3000 spectateurs attendus">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
          </children>
       </Pane>
       <Label layoutX="389.0" layoutY="48.0" text="Accueil" textFill="#004aad">
