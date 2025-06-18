@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="deconnexionButton" layoutX="874.0" layoutY="15.0" mnemonicParsing="false" prefHeight="51.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion" textFill="WHITE" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <font>
+            <Font size="30.0" />
+         </font></Button>
+      <HBox layoutX="15.0" layoutY="16.0" prefHeight="68.0" prefWidth="200.0" />
+      <VBox layoutX="553.0" layoutY="103.0" prefHeight="550.0" prefWidth="468.0" spacing="40.0" AnchorPane.bottomAnchor="67.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="103.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="255.0" prefWidth="468.0" spacing="30.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label text="Secouristes">
+                     <font>
+                        <Font name="System Bold" size="50.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="secouristesButtons" mnemonicParsing="false" prefHeight="74.0" prefWidth="342.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Gérer les Secouristes" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Button>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="255.0" prefWidth="468.0" spacing="20.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER" text="Profil">
+                     <font>
+                        <Font name="System Bold" size="50.0" />
+                     </font>
+                  </Label>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label fx:id="idProfilLabel" text="ID : identifiantProfil" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="27.0" text="Nom &amp; Prénom : Ton_Nom_et_Prenom" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="nomPrenomLabel" text="Adresse-mail : ton_mail" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="phoneLabel" text="Téléphone : ton_num">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="40.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="20.0" left="10.0" right="10.0" top="5.0" />
+               </padding>
+            </VBox>
+         </children>
+      </VBox>
+      <Accordion layoutX="100.0" layoutY="250.0" />
+      <VBox alignment="TOP_CENTER" layoutX="122.0" layoutY="110.0" prefHeight="200.0" prefWidth="100.0" spacing="30.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="570.0" AnchorPane.topAnchor="103.0">
+         <children>
+            <Label alignment="TOP_CENTER" text="DPS">
+               <font>
+                  <Font name="System Bold" size="50.0" />
+               </font>
+            </Label>
+            <Button fx:id="DPSButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="77.0" prefWidth="380.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir les DPS" textFill="WHITE">
+               <font>
+                  <Font size="38.0" />
+               </font>
+            </Button>
+            <VBox prefHeight="232.0" prefWidth="450.0">
+               <children>
+                  <Label text="Prochain dispositif :">
+                     <font>
+                        <Font name="System Bold" size="27.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="idEvenementLabel" text="- ID de l'événement: " />
+                  <Label fx:id="sportLabel" text="- Sport : Biathlon" />
+                  <Label fx:id="siteLabel" text="- Site : Stade Rennais" />
+                  <Label fx:id="dateLabel" text="- Date : 6 février - 14h - 16h" />
+                  <Label fx:id="nbSpectateursLabel" text="- 3000 spectateurs attendus" />
+               </children>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </VBox>
+         </children>
+         <padding>
+            <Insets top="50.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

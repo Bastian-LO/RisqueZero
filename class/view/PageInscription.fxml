@@ -121,16 +121,16 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <VBox alignment="TOP_RIGHT" layoutX="221.0" layoutY="537.0" prefHeight="39.0" prefWidth="150.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="23.0">
+            <VBox alignment="TOP_RIGHT" layoutX="221.0" layoutY="537.0" prefHeight="39.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="23.0">
                <children>
                   <Label text="Vous avez déjà votre compte?">
                      <font>
-                        <Font name="System Bold" size="10.0" />
+                        <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
                   <Label text="Se connecter !" textFill="#0cc0df">
                      <font>
-                        <Font size="10.0" />
+                        <Font size="14.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -152,16 +152,10 @@
             <Insets top="16.0" />
          </padding>
          <center>
-            <ImageView pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <ImageView fitHeight="150.0" fitWidth="204.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@../../../../../../Pictures/Logo%20IUTVannes%20sans%20fond%20blanc.png" />
+                  <Image url="@images/Risque_zéro_-_logo-removebg.png" />
                </image>
-               <BorderPane.margin>
-                  <Insets bottom="50.0" />
-               </BorderPane.margin>
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
             </ImageView>
          </center>
       </BorderPane>

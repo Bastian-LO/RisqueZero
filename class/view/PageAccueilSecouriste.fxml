@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageAccueilSecouristeController">
+   <children>
+      <Button layoutX="833.0" layoutY="23.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion " textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="18.0">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Pane layoutX="607.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="77.0">
+         <children>
+            <Button layoutX="60.0" layoutY="136.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir le profil" textFill="WHITE">
+               <font>
+                  <Font size="44.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label layoutX="147.0" layoutY="42.0" text="Profil">
+               <font>
+                  <Font name="System Bold" size="48.0" />
+               </font>
+            </Label>
+            <HBox layoutX="74.0" layoutY="266.0" spacing="150.0">
+               <children>
+                  <VBox spacing="3.5">
+                     <children>
+                        <Label text="-" />
+                        <Label text="-" />
+                        <Label text="-" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.5">
+                     <children>
+                        <Label text="-" />
+                        <Label text="-" />
+                        <Label text="-" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label layoutX="74.0" layoutY="238.0" text="Compétences :">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <HBox layoutX="74.0" layoutY="376.0" spacing="150.0">
+               <children>
+                  <VBox spacing="3.5">
+                     <children>
+                        <Label text="-" />
+                        <Label text="-" />
+                        <Label text="-" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.5">
+                     <children>
+                        <Label text="-" />
+                        <Label text="-" />
+                        <Label text="-" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label layoutX="74.0" layoutY="345.0" text="Disponibilités :">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children></Pane>
+      <Pane layoutX="77.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="77.0">
+         <children>
+            <Button layoutX="25.0" layoutY="136.0" mnemonicParsing="false" style="-fx-background-radius: 50; -fx-background-color: #004aad;" text="Voir le planning" textFill="WHITE">
+               <font>
+                  <Font size="44.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label layoutX="113.0" layoutY="44.0" text="Planning">
+               <font>
+                  <Font name="System Bold" size="48.0" />
+               </font>
+            </Label>
+            <VBox layoutX="47.0" layoutY="250.0" spacing="20.0">
+               <children>
+                  <Label text="- ID :" />
+                  <Label text="- " />
+                  <Label text="- " />
+                  <Label text="- " />
+                  <Label text="- " />
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <Label layoutX="389.0" layoutY="48.0" text="Accueil" textFill="#004aad">
+         <font>
+            <Font name="System Bold" size="83.0" />
+         </font>
+      </Label>
+      <Label layoutX="106.0" layoutY="24.0" text="Risque zéro">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="95.0" fitWidth="75.0" layoutX="14.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Fonctionnalités_principales__1_-removebg-preview.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
