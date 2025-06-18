@@ -55,7 +55,7 @@ public class Secouriste{
     /**
      * The secourist's competences
      */
-    private ArrayList<Competence> competences;
+    private ArrayList<Competence> competences = new ArrayList<>();
 
 
     //=================================
@@ -79,9 +79,14 @@ public class Secouriste{
         // Checks if the parameters are valid
         if(id < 1 || nom == null || nom.trim().equals("") || prenom == null || prenom.trim().isEmpty() || dateNaissance == null || !dateNaissance.trim().matches("^\\d{2}/\\d{2}/\\d{4}$") ||
         email == null || !email.trim().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$") || tel == null || 
-        !tel.trim().matches("^0\\d{9}$") || adresse == null || adresse.trim().isEmpty() || comp == null || 
-        comp.isEmpty() || comp.contains(null) || disponibilite == null || disponibilite.isEmpty()){
+        !tel.trim().matches("^0\\d{9}$") || adresse == null || adresse.trim().isEmpty()){
             throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
+        }
+        if(comp == null || comp.isEmpty() || comp.contains(null)){
+            throw new IllegalArgumentException("La liste de Competence ne peut pas être null ou vides");
+        }
+        if(disponibilite == null){
+            throw new IllegalArgumentException("L'ensemble de Dispos ne peut pas être null ou vides");
         }
 
         this.id = id;
@@ -92,6 +97,7 @@ public class Secouriste{
         this.tel = tel;
         this.adresse = adresse;
         this.disponibilites = disponibilite;
+        this.competences = comp;
     }
     
 
@@ -168,7 +174,7 @@ public class Secouriste{
      * @return the set of disponibilities
      */
     public HashSet<Dispos> getDisponibilites(){
-        return new HashSet<>(this.disponibilites);
+        return new HashSet<Dispos>(this.disponibilites);
     }
 
     /**
@@ -264,6 +270,21 @@ public class Secouriste{
         this.adresse = adresse;
     }
 
+    /**
+     * Setter for the set of disponibility
+     * @param newDispos
+     */
+    public void setDisponibilites(HashSet<Dispos> newDispos){
+        if (newDispos == null || newDispos.isEmpty() || newDispos.contains(null)){
+            throw new IllegalArgumentException("setDisponibilites : paramètre invalide");
+        }
+
+        this.disponibilites.clear();
+        for(Dispos dispo : newDispos){
+            this.disponibilites.add(dispo);
+        }
+    }
+
 
     //=================================
     //           METHODS
@@ -278,44 +299,51 @@ public class Secouriste{
         if (newDispo == null || !newDispo.getSecouriste().equals(this)) {
             throw new IllegalArgumentException("addDispos : paramètre invalide");
         }
+        
+        HashSet<Dispos> newDispos = this.getDisponibilites();
+        
+        if(newDispos.isEmpty()){   // Si la liste de dispos est vide, on ajoute directement
+            newDispos.add(newDispo);
+            this.setDisponibilites(newDispos);
+        } else {
+            LocalTime newStart = newDispo.toLocalTime(newDispo.getHeureDebut());
+            LocalTime newEnd = newDispo.toLocalTime(newDispo.getHeureFin());
+            LocalDate date = newDispo.getDate().toLocalDate();
 
-        LocalTime newStart = newDispo.toLocalTime(newDispo.getHeureDebut());
-        LocalTime newEnd = newDispo.toLocalTime(newDispo.getHeureFin());
-        LocalDate date = newDispo.getDate().toLocalDate();
+            Dispos mergedDispo = new Dispos(this, date, newStart, newEnd);
+            ArrayList<Dispos> toRemove = new ArrayList<Dispos>();
+            boolean identicalExists = false;
 
-        Dispos mergedDispo = new Dispos(this, date, newStart, newEnd);
-        ArrayList<Dispos> toRemove = new ArrayList<Dispos>();
-        boolean identicalExists = false;
+            HashSet<Dispos> disponibilites = this.getDisponibilites();
 
-        HashSet<Dispos> disponibilites = this.getDisponibilites();
+            for (Dispos dispo : disponibilites) {
+                LocalDate dispoDate = dispo.getDate().toLocalDate();
+                if (dispoDate.equals(date)) {
+                    LocalTime dispoStart = dispo.toLocalTime(dispo.getHeureDebut());
+                    LocalTime dispoEnd = dispo.toLocalTime(dispo.getHeureFin());
 
-        for (Dispos dispo : disponibilites) {
-            LocalDate dispoDate = dispo.getDate().toLocalDate();
-            if (dispoDate.equals(date)) {
-                LocalTime dispoStart = dispo.toLocalTime(dispo.getHeureDebut());
-                LocalTime dispoEnd = dispo.toLocalTime(dispo.getHeureFin());
+                    boolean overlaps = !(newEnd.isBefore(dispoStart) || newStart.isAfter(dispoEnd));
+                    if (overlaps) {
+                        LocalTime mergedStart = newStart.isBefore(dispoStart) ? newStart : dispoStart;
+                        LocalTime mergedEnd = newEnd.isAfter(dispoEnd) ? newEnd : dispoEnd;
+                        mergedDispo = new Dispos(this, date, mergedStart, mergedEnd);
+                        toRemove.add(dispo);
+                    }
 
-                boolean overlaps = !(newEnd.isBefore(dispoStart) || newStart.isAfter(dispoEnd));
-                if (overlaps) {
-                    LocalTime mergedStart = newStart.isBefore(dispoStart) ? newStart : dispoStart;
-                    LocalTime mergedEnd = newEnd.isAfter(dispoEnd) ? newEnd : dispoEnd;
-                    mergedDispo = new Dispos(this, date, mergedStart, mergedEnd);
-                    toRemove.add(dispo);
-                }
-
-                boolean isIdentical = newStart.equals(dispoStart) && newEnd.equals(dispoEnd);
-                if (isIdentical) {
-                    identicalExists = true;
+                    boolean isIdentical = newStart.equals(dispoStart) && newEnd.equals(dispoEnd);
+                    if (isIdentical) {
+                        identicalExists = true;
+                    }
                 }
             }
-        }
 
-        for (Dispos d : toRemove) {
-            disponibilites.remove(d);
-        }
+            for (Dispos d : toRemove) {
+                disponibilites.remove(d);
+            }
 
-        if (!identicalExists) {
-            disponibilites.add(mergedDispo);
+            if (!identicalExists) {
+                disponibilites.add(mergedDispo);
+            }
         }
     }
 
@@ -331,10 +359,7 @@ public class Secouriste{
             ret = true;
         } else if (obj instanceof Secouriste){
             Secouriste autre = (Secouriste) obj;
-            if(this.getId() == autre.getId() && this.getPrenom().equals(autre.getPrenom()) && this.getNom().equals(autre.getNom()) &&
-            this.getDateNaissance().equals(autre.getDateNaissance()) && this.getAdresse().equals(autre.getAdresse()) && 
-            this.getEmail().equals(autre.getEmail()) && this.getTel().equals(autre.getTel()) && 
-            this.getDisponibilites().equals(autre.getDisponibilites()) && this.getCompetences().equals(autre.getCompetences())){
+            if(this.getId() == autre.getId()){
                 ret = true;
             }
         }

@@ -271,6 +271,10 @@ public class Graphe {
      * @return the list of affectations
      */
     private ArrayList<Affectation> exhaustif(ArrayList<Secouriste> listeSec) {
+        if (listeSec == null || listeSec.isEmpty()){
+            throw new IllegalArgumentException("exhaustif : liste invalide");
+        }
+
         ArrayList<Affectation> ret = new ArrayList<>();
         ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> tripleMonstreAffec = new ArrayList<>();
 
@@ -312,7 +316,7 @@ public class Graphe {
 
             tripleMonstreAffec = restant;
             Affectation affCurr = new Affectation(listePairs, dps);
-            ret.add(affCurr);
+            ret.add(affCurr);   
         }
 
         return ret;
@@ -331,7 +335,7 @@ public class Graphe {
 
         for (Dispos dispo : sec.getDisponibilites()){   // On parcourt toutes les disponibilités du secouriste
             if(!ret){
-                boolean memeJour = dispo.getDate().equals(dps.getDateEvt());    // Vérifie que les journées correspondent
+                boolean memeJour = dispo.getDate().toLocalDate().equals(dps.getDateEvt().toLocalDate());    // Vérifie que les journées correspondent
 
                 LocalTime debutDispo = dispo.toLocalTime(dispo.getHeureDebut());    // L'heure de début de la disponibilité en LocalTime
                 LocalTime finDispo = dispo.toLocalTime(dispo.getHeureFin());        // L'heure de fin de la dispo en LocalTime
@@ -339,6 +343,9 @@ public class Graphe {
                 LocalTime finDPS = dps.toLocalTime(dps.getHoraireFin());            // L'heure de fin du DPS en LocalTime
 
                 boolean horairesInclus = !debutDPS.isBefore(debutDispo) && !finDPS.isAfter(finDispo);   // Vérifie que l'horaire du DPS est inclus dans les dispos du secouriste
+
+                System.out.println("Jour commun : " + memeJour);
+                System.out.println("Horaire inclus ? " + horairesInclus);
 
                 if (memeJour && horairesInclus){    // Si le jour et l'horaire correspond, donc qu'une dispo est trouvée...
                     ret = true;                     // On sort de la boucle après avoir mis à jour les disponibilités du secouriste
@@ -367,7 +374,7 @@ public class Graphe {
         for (Dispos d : newDispos) {
             sec.getDisponibilites().add(d);
         }
-        
+
         return ret;
     }
 
