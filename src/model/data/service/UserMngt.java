@@ -38,4 +38,8 @@ public class UserMngt{
         }
     }
 
+    public User findUser(String login) {
+        return userDAO.findByLogin(login);
+    }
+
 }
