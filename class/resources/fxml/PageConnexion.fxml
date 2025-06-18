@@ -52,7 +52,7 @@
                <font>
                   <Font size="22.0" />
                </font></Label>
-            <Button fx:id="SeConnecterBoutton" layoutX="128.0" layoutY="446.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
+            <Button fx:id="SeConnecterBoutton" layoutX="128.0" layoutY="446.0" onAction="#handleConnexion" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
                <font>
                   <Font size="30.0" />
                </font>
