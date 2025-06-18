@@ -4,68 +4,64 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Interfaces which represents a user of the application
- * 
- * @author Emile Thevenin
+ * Classe de base représentant un utilisateur de l'application
  */
 public abstract class User {
+    private int id;
     private String login;
     private String password;
+    private boolean isAdmin;
+
+    public User(int id, String login, String password, boolean isAdmin) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
+
+    /**
+     * Default constructor
+     */
+    public User() {}
 
     //================================
     //           GETTERS
     //================================
 
-    /**
-     * Returns the login of the user
-     */
-    public String getLogin(){
+    public int getId() {
+        return id;
+    }
+
+    public String getLogin() {
         return login;
     }
 
-    /**
-     * Returns the password of the user
-     */
-    public String getPassword(){
+    public String getPassword() {
         return password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
     //================================
     //           SETTERS
     //================================
 
-    /**
-     * Sets the login of the user
-     */
-    public void setLogin(String login){
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setLogin(String login) {
         this.login = login;
     }
 
-    /**
-     * Sets the password of the user
-     */
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    //================================
-    //           METHODS
-    //================================
-
-    public static String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(password.getBytes());
-            // Convertir en hexadécimal :
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
-}   
+
+}
