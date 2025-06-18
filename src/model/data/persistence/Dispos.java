@@ -45,7 +45,7 @@ public class Dispos {
         }else if (heureDebut[0] > heureFin[0] || (heureDebut[0] == heureFin[0] && heureDebut[1] >= heureFin[1])) {
             throw new IllegalArgumentException("L'heure de début doit être avant l'heure de fin");
         }else{
-            this.secouriste = new Secouriste(secouriste.getId(), secouriste.getNom(), secouriste.getPrenom(), secouriste.getDateNaissance(), secouriste.getEmail(), secouriste.getTel(), secouriste.getAdresse(), secouriste.getCompetences(), secouriste.getDisponibilites());
+            this.secouriste = secouriste;
             this.date = new Journee(date.getJour(), date.getMois(), date.getAnnee());
             this.heureDebut = heureDebut.clone();
             this.heureFin = heureFin.clone();
@@ -65,9 +65,7 @@ public class Dispos {
             throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
         }
 
-        this.secouriste = new Secouriste(secouriste.getId(), secouriste.getNom(), secouriste.getPrenom(), 
-                          secouriste.getDateNaissance(), secouriste.getEmail(), secouriste.getTel(), 
-                          secouriste.getAdresse(), secouriste.getCompetences(), secouriste.getDisponibilites());
+        this.secouriste = secouriste;
         
         this.date = new Journee(date);
         int hDebut = heureDebut.getHour();
@@ -75,9 +73,11 @@ public class Dispos {
         int hFin = heureFin.getHour();
         int mFin = heureFin.getMinute();
 
+        this.heureDebut = new int[2];
         this.heureDebut[0] = hDebut;
         this.heureDebut[1] = mDebut;
 
+        this.heureFin = new int[2];
         this.heureFin[0] = hFin;
         this.heureFin[1] = mFin;
     }
@@ -92,17 +92,7 @@ public class Dispos {
      * @return The secouriste
      */
     public Secouriste getSecouriste() {
-        return new Secouriste(
-            this.secouriste.getId(), 
-            this.secouriste.getNom(), 
-            this.secouriste.getPrenom(), 
-            this.secouriste.getDateNaissance(), 
-            this.secouriste.getEmail(), 
-            this.secouriste.getTel(),
-            this.secouriste.getAdresse(),
-            this.secouriste.getCompetences(),
-            this.secouriste.getDisponibilites()
-        );
+        return this.secouriste;
     }
 
     /**
@@ -203,7 +193,7 @@ public class Dispos {
     @Override
     public int hashCode(){
         int ret;
-        ret = Objects.hash(getSecouriste(), getDate(), getHeureDebut(), getHeureFin());
+        ret = Objects.hash(getDate(), getHeureDebut(), getHeureFin());
         return ret;
     }
 
@@ -222,7 +212,8 @@ public class Dispos {
      * @return the LocalTime object
      */
     public LocalTime toLocalTime(int[] hor){
-        return LocalTime.of(hor[0], hor[1]);
+        LocalTime time = LocalTime.of(hor[0], hor[1]);
+        return time;
     }
 
     /**

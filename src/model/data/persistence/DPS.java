@@ -247,6 +247,13 @@ public class DPS {
     //           METHODS
     // ================================
 
+    @Override
+    public String toString(){
+        String ret = getSport().toString() + " a " + getLieu().toString() + " le " + getDateEvt().toString();
+
+        return ret;
+    }
+
     /**
      * Turns an hour into a Local Time object
      * @param hor the hour

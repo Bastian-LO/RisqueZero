@@ -35,8 +35,17 @@ public class Affectation {
      * @throws IllegalArgumentException if a parameter is invalid
      */
     public Affectation(ArrayList<Pair<Secouriste, Competence>> list, DPS idDpsEntrant) throws IllegalArgumentException{
-        if (list == null || list.isEmpty() || list.contains(null) || idDpsEntrant == null){
+        if (list == null){
             throw new IllegalArgumentException("Affectation : paramètres invalides.");
+        }
+        if (list.isEmpty()){
+            throw new IllegalArgumentException("Affectation : liste vide.");
+        }
+        if (list.contains(null)){
+            throw new IllegalArgumentException("Affectation : liste contient du vide.");
+        }
+        if (idDpsEntrant == null){
+            throw new IllegalArgumentException("Affectation : DPS null.");
         }
 
         this.listSecComp = cloneList(list); // Appel d'une méthode vérifiant le paramètre et renvoyant une nouvelle ArrayList
@@ -117,7 +126,7 @@ public class Affectation {
         for (Pair<Secouriste, Competence> pair : listOrig) {
             // Vérification du couple
             if(pair == null || pair.getKey() == null || pair.getValue() == null || pair.getValue().getIntitule().isEmpty()){
-                throw new IllegalArgumentException("Affectation : paramètres invalides.");
+                throw new IllegalArgumentException("Affectation - cloneList : paramètres invalides.");
             }
             // Copie défensive du secouriste de la pair
             Secouriste secOrig = pair.getKey();
@@ -128,7 +137,7 @@ public class Affectation {
             Competence compOrig = pair.getValue();
             Competence cloneCompetence = new Competence(compOrig.getIntitule(), compOrig.getRequis());
             // Ajout de la pair à la liste 
-            this.listSecComp.add(new Pair<>(cloneSecouriste, cloneCompetence));
+            newList.add(new Pair<>(cloneSecouriste, cloneCompetence));
         }
 
         return newList;

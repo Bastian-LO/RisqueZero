@@ -173,12 +173,7 @@ public class UserDAO extends DAO<User> {
         if (isAdmin) {
             return new UserAdmin(id, login, password);
         } else {
-            int idSecouriste = rs.getInt("id_secouriste");
-            // Si id_secouriste est 0 (valeur par défaut pour int) alors on considère que c'est null
-            if (rs.wasNull()) {
-                idSecouriste = -1;
-            }
-            return new UserSecouriste(id, login, password, idSecouriste);
+            return new UserSecouriste(id, login, password);
         }
     }
 }
