@@ -243,14 +243,31 @@ public class DPS {
     }
 
 
+    //=================================
+    //           METHODS
+    // ================================
+
+    /**
+     * Turns an hour into a Local Time object
+     * @param hor the hour
+     * @return the LocalTime object
+     */
     public LocalTime toLocalTime(int[] hor){
         return LocalTime.of(hor[0], hor[1]);
     }
 
+    /**
+     * Turns the start hour into a LocalDateTime
+     * @return the LocalDateTime object
+     */
     public LocalDateTime debutToLocalDateTime(){
         return LocalDateTime.of(this.dateEvt.toLocalDate(), toLocalTime(this.horaire_depart));
     }
 
+    /**
+     * Turns the end hour into a LocalDateTime
+     * @return the LocalDateTime object
+     */
     public LocalDateTime finToLocalDateTime(){
         return LocalDateTime.of(this.dateEvt.toLocalDate(), toLocalTime(this.horaire_fin));
     }

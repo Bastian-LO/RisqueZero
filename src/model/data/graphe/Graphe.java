@@ -17,6 +17,10 @@ import javafx.util.Pair;
  */
 public class Graphe {
 
+    //=================================
+    //           ATTRIBUTES
+    // ================================
+
     /**
      * ArrayList representing the DPS associated with each of their competences
      */
@@ -36,6 +40,11 @@ public class Graphe {
      * Number of peaks in the graph
      */
     int nbSommets;
+
+
+    //=================================
+    //           CONSTRUCTORS
+    // ================================
 
     /**
      * Constructor for the Graphe Class. It requires non-null ArrayLists of Secouristes and DPS.
@@ -58,6 +67,11 @@ public class Graphe {
         }
         this.initMatriceAdjacence();
     }
+
+    
+    //=================================
+    //           METHODS
+    // ================================
 
     /**
      * Method used to add a single secouriste to the graph
@@ -193,6 +207,10 @@ public class Graphe {
         return false;
     }
 
+    /**
+     * Method returning the best configuration of secourists for the DPS
+     * @return the best configuration of secourists for the DPS
+     */
     public ArrayList<Affectation> startExhaustif() {
         ArrayList<Affectation> bestSolution = new ArrayList<>();
         ArrayList<Secouriste> cloneSecouristes = new ArrayList<>();
@@ -206,7 +224,12 @@ public class Graphe {
         return bestSolution;
     }
 
-    // Méthode récursive simple pour les permutations
+    /**
+     * Recursive method swapping secourists
+     * @param secouristes the list of secourists
+     * @param index the index
+     * @param bestSolution the current configuration of secourists for the DPS
+     */
     private void permuteSecouristes(ArrayList<Secouriste> secouristes, int index, ArrayList<Affectation> bestSolution) {
         // Condition d'arrêt : quand on a parcouru toute la liste
         if (index == secouristes.size() - 1) {
@@ -233,6 +256,11 @@ public class Graphe {
         }
     }
 
+    /**
+     * Exhaustive algorithm finding the best configuration of secourists for a DPS and affecting them to it
+     * @param listeSec the list of secourists
+     * @return the list of affectations
+     */
     private ArrayList<Affectation> exhaustif(ArrayList<Secouriste> listeSec) {
         ArrayList<Affectation> ret = new ArrayList<>();
         ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> tripleMonstreAffec = new ArrayList<>();
@@ -319,6 +347,12 @@ public class Graphe {
         return ret;
     }
 
+    /**
+     * Checks if the current affectation list is more optimal than the registered best solution
+     * @param current the affectation list we want to check
+     * @param bestSolution the best registered affectation list
+     * @return true if it's more optimal
+     */
     private boolean aIsBetterThanB(ArrayList<Affectation> current, ArrayList<Affectation> bestSolution){
         int nbBestSolution = 0 ;
         int nbCurrent = 0;
@@ -335,8 +369,7 @@ public class Graphe {
 
     /**
      * Returns a HashMap with the amount of Competence required per DPS
-     *
-     * @return the map
+     * @return a map with the amount of competences for each DPS
      */
     private HashMap<DPS, Integer> getNbComp(){
         HashMap<DPS, Integer> ret = new HashMap<>();
