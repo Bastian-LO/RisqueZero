@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  * Class representing the disposibilities of a secouriste
- * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ * @author Bastian LE OUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
  */
 public class Dispos {
 
@@ -25,10 +25,19 @@ public class Dispos {
     /** The end time of the disponibility */
     private int[] heureFin;
 
+
     //=================================
     //           CONSTRUCTORS
     // ================================
 
+    /**
+     * Constructor using Journee and int arrays for the time
+     * @param secouriste the secourist
+     * @param date the day
+     * @param heureDebut the start time
+     * @param heureFin the end time
+     * @throws IllegalArgumentException if a parameter is invalid
+     */
     public Dispos(Secouriste secouriste, Journee date, int[] heureDebut, int[] heureFin) throws IllegalArgumentException {
         // Checks if the parameters are valid
         if (secouriste == null || date == null || heureDebut == null || heureFin == null || heureDebut[0] < 0 || heureDebut[1] < 0 || heureFin[0] < 0 || heureFin[1] < 0 || heureDebut[0] > 23 || heureDebut[1] > 59 || heureFin[0] > 23 || heureFin[1] > 59 ) {
@@ -43,6 +52,14 @@ public class Dispos {
         }
     }
 
+    /**
+     * Constructor using LocalDate and LocalTime
+     * @param secouriste the secourist
+     * @param date the day
+     * @param heureDebut the start time
+     * @param heureFin the end time
+     * @throws IllegalArgumentException if a parameter is invalid
+     */
     public Dispos(Secouriste secouriste, LocalDate date, LocalTime heureDebut, LocalTime heureFin) throws IllegalArgumentException{
         if (secouriste == null || date == null || heureDebut == null || heureFin == null) {
             throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
@@ -64,6 +81,7 @@ public class Dispos {
         this.heureFin[0] = hFin;
         this.heureFin[1] = mFin;
     }
+
 
     //================================
     //           GETTERS
@@ -111,6 +129,7 @@ public class Dispos {
         return heureFin.clone();
     }
 
+
     //=================================
     //           SETTERS
     // ================================
@@ -152,10 +171,15 @@ public class Dispos {
         this.heureFin = heureFin.clone();
     }
 
+
     //=================================
     //           METHODS
     // ================================
-
+    
+    /**
+     * Checks if the disponibility is equal to another
+     * @return true if it is
+     */
     @Override
     public boolean equals(Object obj){
         boolean ret = false;
@@ -172,6 +196,10 @@ public class Dispos {
         return ret;
     }
 
+    /**
+     * Returns the hashcode of the disponibility
+     * @return the hashcode
+     */
     @Override
     public int hashCode(){
         int ret;
@@ -188,14 +216,27 @@ public class Dispos {
         return date.toString() + " - " + heureDebut[0] + ":" + String.format("%02d", heureDebut[1]) + " - " + heureFin[0] + ":" + String.format("%02d", heureFin[1]);
     }
 
+    /**
+     * Turns an hour into a LocalTime object
+     * @param hor the hour in an int array format
+     * @return the LocalTime object
+     */
     public LocalTime toLocalTime(int[] hor){
         return LocalTime.of(hor[0], hor[1]);
     }
 
+    /**
+     * Turns the start hour into a LocalDateTime object
+     * @return the LocalDateTime object
+     */
     public LocalDateTime debutToLocalDateTime(){
         return LocalDateTime.of(this.date.toLocalDate(), toLocalTime(heureDebut));
     }
 
+    /**
+     * Turns the end hour into a LocalDateTime object
+     * @return the LocalDateTime object
+     */
     public LocalDateTime finToLocalDateTime(){
         return LocalDateTime.of(this.date.toLocalDate(), toLocalTime(heureFin));
     }

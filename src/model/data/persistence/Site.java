@@ -5,6 +5,10 @@ package model.data.persistence;
  */
 public class Site {
 
+    //================================
+    //           ATTRIBUTES
+    //================================
+
     /**
      * The code of the place
      */
@@ -25,6 +29,11 @@ public class Site {
      */
     private float latitude;
 
+
+    //=================================
+    //           CONSTRUCTORS
+    // ================================
+
     /**
      * Constructor
      * @param code The code of the place
@@ -44,6 +53,11 @@ public class Site {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
+
+    //================================
+    //           GETTERS
+    //================================
 
     /**
      * Getter for the code
@@ -76,6 +90,11 @@ public class Site {
     public float getLatitude(){
         return this.latitude;
     }
+
+
+    //================================
+    //           SETTERS
+    //================================
 
     /**
      * Setter for the code
@@ -123,5 +142,19 @@ public class Site {
         }
 
         this.latitude = newLatitude;
+    }
+
+
+    //=================================
+    //           METHODS
+    // ================================
+
+    /**
+     * Returns the name of the location
+     * @return the name of the location
+     */
+    @Override
+    public String toString(){
+        return nom;
     }
 }

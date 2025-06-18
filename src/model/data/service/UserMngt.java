@@ -1,13 +1,10 @@
 package model.data.service;
 
 import model.data.users.User;
-import model.data.users.UserAdmin;
-import model.data.users.UserSecouriste;
+
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import model.dao.UserDAO;
 public class UserMngt{
@@ -39,6 +36,10 @@ public class UserMngt{
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public User findUser(String login) {
+        return userDAO.findByLogin(login);
     }
 
 }

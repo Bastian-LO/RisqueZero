@@ -16,6 +16,7 @@ public class Sport {
     /** Name of the sport */
     private String nom;
 
+
     //====================================
     //            CONSTRUCTORS
     //====================================
@@ -36,6 +37,7 @@ public class Sport {
         this.nom = nom;
     }
 
+
     //====================================
     //              GETTERS
     //====================================
@@ -55,6 +57,7 @@ public class Sport {
     public String getNom(){
         return this.nom;
     }
+
 
     //====================================
     //              SETTERS
@@ -84,5 +87,19 @@ public class Sport {
             throw new IllegalArgumentException("Paramètre invalide");
         }
         this.nom = newNom;
+    }
+
+
+    //=================================
+    //           METHODS
+    // ================================
+
+    /**
+     * Returns the sport's name
+     * @return the sport's name
+     */
+    @Override
+    public String toString(){
+        return nom;
     }
 }
