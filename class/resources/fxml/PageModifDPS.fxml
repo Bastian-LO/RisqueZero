@@ -113,41 +113,29 @@
                   <Font size="23.0" />
                </font>
             </Label>
-            <TextField fx:id="CaseHeureDébut" layoutX="25.0" layoutY="149.0" prefHeight="29.0" prefWidth="93.0" promptText="Heure">
-               <cursor>
-                  <Cursor fx:constant="TEXT" />
-               </cursor>
-            </TextField>
-            <Label layoutX="133.0" layoutY="147.0" text=":">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <TextField fx:id="CaseMinuteDébut" layoutX="156.0" layoutY="149.0" prefHeight="21.0" prefWidth="93.0" promptText="Minute">
-               <cursor>
-                  <Cursor fx:constant="TEXT" />
-               </cursor>
-            </TextField>
             <Label layoutX="24.0" layoutY="195.0" text="Heure de fin : ">
                <font>
                   <Font size="23.0" />
                </font>
             </Label>
-            <TextField fx:id="CaseHeureFin" layoutX="25.0" layoutY="229.0" prefHeight="29.0" prefWidth="93.0" promptText="Heure">
+            <HBox alignment="CENTER" layoutX="25.0" layoutY="158.0">
+               <children>
+                  <TextField prefHeight="31.0" prefWidth="77.0" promptText="Heure" />
+                  <TextField prefWidth="77.0" promptText="minute" />
+               </children>
                <cursor>
-                  <Cursor fx:constant="TEXT" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
-            </TextField>
-            <TextField fx:id="CaseMinuteFin" layoutX="156.0" layoutY="229.0" prefHeight="21.0" prefWidth="93.0" promptText="Minute">
+            </HBox>
+            <HBox alignment="CENTER" layoutX="25.0" layoutY="236.0">
+               <children>
+                  <TextField prefHeight="31.0" prefWidth="77.0" promptText="Heure" />
+                  <TextField prefWidth="77.0" promptText="minute" />
+               </children>
                <cursor>
-                  <Cursor fx:constant="TEXT" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
-            </TextField>
-            <Label layoutX="134.0" layoutY="227.0" text=":">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
+            </HBox>
          </children>
       </AnchorPane>
    </children>
