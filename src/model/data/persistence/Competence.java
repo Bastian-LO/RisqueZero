@@ -18,6 +18,7 @@ public class Competence {
     /** Requisites of the competence (other competences), size should be <= 9 (only 9 competences) */
     private HashSet<Competence> requis;
 
+
     //=================================
     //           CONSTRUCTORS
     // ================================
@@ -51,6 +52,7 @@ public class Competence {
         this.requis = (HashSet<Competence>) requis.clone();
     }
 
+
     //=================================
     //           GETTERS
     // ================================
@@ -71,10 +73,10 @@ public class Competence {
         return (HashSet<Competence>) requis.clone();
     }
 
+
     //=================================
     //           SETTERS
     // ================================
-
 
     /** 
      * Sets the requisites of the competence
@@ -86,5 +88,18 @@ public class Competence {
             throw new IllegalArgumentException("Compétence.setRequis : paramètre invalide.");
         }
         this.requis = (HashSet<Competence>) requis.clone();
+    }
+
+    
+    //=================================
+    //           METHODS
+    // ================================
+
+    /**
+     * Returns the name of the competence
+     * @return the name of the competence
+     */
+    public String toString(){
+        return intitule;
     }
 }

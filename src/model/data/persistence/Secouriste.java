@@ -2,22 +2,79 @@ package model.data.persistence;
 import java.time.*;
 import java.util.*;
 
+/**
+ * Class defining a secourist with its personal information, its disponibility and its skills
+ * @author Killian Avril, Bastian Le Ouedec, Enrick Mananjean, Emile Thevenin, Elwan Yvin
+ */
 public class Secouriste{
 
     //================================
     //           ATTRIBUTES
     //================================
     
+    /**
+     * The ID of the secourist
+     */
     private long id;
+
+    /**
+     * The name of the secourist
+     */
     private String nom;
+
+    /**
+     * The first name of the secourist
+     */
     private String prenom;
+
+    /**
+     * The birth date of the secourist
+     */
     private String dateNaissance;
+
+    /**
+     * The email of the secourist
+     */
     private String email;
+
+    /**
+     * The phone number of the secourist
+     */
     private String tel;
+
+    /**
+     * The address of the secourist
+     */
     private String adresse;
+
+    /**
+     * The secourist's disponibilities
+     */
     private HashSet<Dispos> disponibilites;
+
+    /**
+     * The secourist's competences
+     */
     private ArrayList<Competence> competences;
 
+
+    //=================================
+    //           CONSTRUCTORS
+    // ================================
+
+    /**
+     * Constructor
+     * @param id the ID
+     * @param nom the name
+     * @param prenom the first name
+     * @param dateNaissance the birth date
+     * @param email the email
+     * @param tel the phone number
+     * @param adresse the address
+     * @param comp the list of competence
+     * @param disponibilite the set of disponibilities
+     * @throws IllegalArgumentException if a parameter is invalid
+     */
     public Secouriste(long id, String nom, String prenom, String dateNaissance, String email, String tel, String adresse, ArrayList<Competence> comp, HashSet<Dispos> disponibilite) throws IllegalArgumentException{
         // Checks if the parameters are valid
         if(id < 1 || nom == null || nom.trim().equals("") || prenom == null || prenom.trim().isEmpty() || dateNaissance == null || !dateNaissance.trim().matches("^\\d{2}/\\d{2}/\\d{4}$") ||
@@ -37,45 +94,87 @@ public class Secouriste{
         this.disponibilites = disponibilite;
     }
     
+
     //================================
     //           GETTERS
     //================================
+
+    /**
+     * Returns the ID
+     * @return the ID
+     */
     public long getId(){
         return id;
     }
     
+    /**
+     * Returns the last name
+     * @return the last name
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     * Returns the first name
+     * @return the first name
+     */
     public String getPrenom() {
         return prenom;
     }
 
+    /**
+     * Returns the birth date
+     * @return the birth date
+     */
     public String getDateNaissance() {
         return dateNaissance;
     }
 
+    /**
+     * Returns the email
+     * @return the email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Returns the phone number
+     * @return the phone number
+     */
     public String getTel() {
         return tel;
     }
 
+    /**
+     * Returns the address
+     * @return the address
+     */
     public String getAdresse() {
         return adresse;
     }
 
+    /**
+     * Returns the list of competences
+     * @return the list of competences
+     */
     public ArrayList<Competence> getCompetences(){
         return new ArrayList<>(this.competences);
     }
     
+    /**
+     * Returns the set of disponibilities
+     * @return the set of disponibilities
+     */
     public HashSet<Dispos> getDisponibilites(){
         return new HashSet<>(this.disponibilites);
     }
 
+    /**
+     * Returns the list of competences's names
+     * @return the list of names
+     */
     public ArrayList<String> getCompetencesIntitules(){
         ArrayList<String> ret = new ArrayList<>();
         for (int i = 0; i < this.getCompetences().size(); i++){
@@ -85,13 +184,24 @@ public class Secouriste{
         return ret;
     }
 
+
     //================================
     //           SETTERS
     //================================
+
+    /**
+     * Setter for the id
+     * @param id the new ID
+     */
     public void setId(long id){
         this.id = id;
     }
 
+    /**
+     * Setter for the name
+     * @param nom the new name
+     * @throws IllegalArgumentException if the name is invalid
+     */
     public void setNom(String nom) throws IllegalArgumentException{
         if(nom == null || nom.trim().equals("")){
             throw new IllegalArgumentException();
@@ -99,6 +209,10 @@ public class Secouriste{
         this.nom = nom;
     }
 
+    /**
+     * Setter for the first name
+     * @param prenom the new first name
+     */
     public void setPrenom(String prenom) {
         if(prenom == null || prenom.trim().equals("")){
             throw new IllegalArgumentException();
@@ -106,6 +220,10 @@ public class Secouriste{
         this.prenom = prenom;
     }
 
+    /**
+     * Setter for the birth date
+     * @param dateNaissance the new birth date
+     */
     public void setDateNaissance(String dateNaissance) {
         if(dateNaissance == null || !dateNaissance.trim().matches("^\\d{2}/\\d{2}/\\d{4}$")){
             throw new IllegalArgumentException();
@@ -113,6 +231,10 @@ public class Secouriste{
         this.dateNaissance = dateNaissance;
     }
 
+    /**
+     * Setter for the email
+     * @param email the new email
+     */
     public void setEmail(String email) {
         if(email == null || !email.trim().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")){
             throw new IllegalArgumentException();
@@ -120,6 +242,10 @@ public class Secouriste{
         this.email = email;
     }
 
+    /**
+     * Setter for the phone number
+     * @param tel the new phone number
+     */
     public void setTel(String tel) {
         if(tel == null || !tel.trim().matches("^0\\d{9}$")){
             throw new IllegalArgumentException();
@@ -127,6 +253,10 @@ public class Secouriste{
         this.tel = tel;
     }
 
+    /**
+     * Setter for the address
+     * @param adresse the new address
+     */
     public void setAdresse(String adresse) {
         if(adresse == null || adresse.trim().equals("")){
             throw new IllegalArgumentException();
@@ -134,98 +264,65 @@ public class Secouriste{
         this.adresse = adresse;
     }
 
-    public void addDispos(Dispos newDispo){
-        // pré-condition
-        if (newDispo == null || !newDispo.getSecouriste().equals(this)){
+
+    //=================================
+    //           METHODS
+    // ================================
+
+    /**
+     * Method adding a disponibility to a secourist and merging them if they overlap
+     * @param newDispo the new disponibility
+     */
+    public void addDispos(Dispos newDispo) {
+        // Pré-condition
+        if (newDispo == null || !newDispo.getSecouriste().equals(this)) {
             throw new IllegalArgumentException("addDispos : paramètre invalide");
         }
 
-        HashSet<Dispos> currDispos = this.getDisponibilites();  // Copie des dispos
+        LocalTime newStart = newDispo.toLocalTime(newDispo.getHeureDebut());
+        LocalTime newEnd = newDispo.toLocalTime(newDispo.getHeureFin());
+        LocalDate date = newDispo.getDate().toLocalDate();
 
-        boolean existeDeja = false;
-        boolean debutInclus = false;
-        boolean finInclus = false;
+        Dispos mergedDispo = new Dispos(this, date, newStart, newEnd);
+        ArrayList<Dispos> toRemove = new ArrayList<Dispos>();
+        boolean identicalExists = false;
 
-        LocalTime debutNewDispo = newDispo.toLocalTime(newDispo.getHeureDebut());
-        LocalTime finNewDispo = newDispo.toLocalTime(newDispo.getHeureFin());
+        HashSet<Dispos> disponibilites = this.getDisponibilites();
 
-        ArrayList<Dispos> disposDebutInclus = new ArrayList<>();
-        ArrayList<Dispos> disposFinInclus = new ArrayList<>();
+        for (Dispos dispo : disponibilites) {
+            LocalDate dispoDate = dispo.getDate().toLocalDate();
+            if (dispoDate.equals(date)) {
+                LocalTime dispoStart = dispo.toLocalTime(dispo.getHeureDebut());
+                LocalTime dispoEnd = dispo.toLocalTime(dispo.getHeureFin());
 
-        for(Dispos dispo : currDispos){
-            if (!existeDeja){
-                LocalTime debutDispo = dispo.toLocalTime(dispo.getHeureDebut());
-                LocalTime finDispo = dispo.toLocalTime(dispo.getHeureFin());
+                boolean overlaps = !(newEnd.isBefore(dispoStart) || newStart.isAfter(dispoEnd));
+                if (overlaps) {
+                    LocalTime mergedStart = newStart.isBefore(dispoStart) ? newStart : dispoStart;
+                    LocalTime mergedEnd = newEnd.isAfter(dispoEnd) ? newEnd : dispoEnd;
+                    mergedDispo = new Dispos(this, date, mergedStart, mergedEnd);
+                    toRemove.add(dispo);
+                }
 
-                debutInclus = debutNewDispo.isAfter(debutDispo) && debutNewDispo.isBefore(finDispo);
-                finInclus = finNewDispo.isAfter(debutDispo) && finNewDispo.isBefore(finDispo);
-                boolean memeJour = dispo.getDate().equals(newDispo.getDate());
-
-                if(debutInclus && finInclus && memeJour){
-                    existeDeja = true;
-                } else if (debutInclus && !finInclus && memeJour){
-                    disposDebutInclus.add(dispo);
-                } else if (!debutInclus && finInclus && memeJour){
-                    disposFinInclus.add(dispo);
+                boolean isIdentical = newStart.equals(dispoStart) && newEnd.equals(dispoEnd);
+                if (isIdentical) {
+                    identicalExists = true;
                 }
             }
         }
 
-        if(!existeDeja && disposDebutInclus.isEmpty() && disposFinInclus.isEmpty()){
-            this.getDisponibilites().add(newDispo);
-        } else if (!existeDeja){
-            Duration diffHDebutMax = Duration.ofSeconds(0L);
-            Duration diffHFinMax = Duration.ofSeconds(0L);
+        for (Dispos d : toRemove) {
+            disponibilites.remove(d);
+        }
 
-
-            // Récupération de la disponibilité la plus étendue
-            Dispos dispoDebutInclus = null;
-            for(int i = 0; i < disposDebutInclus.size(); i++){
-                Dispos dispoCurr = disposDebutInclus.get(i);
-                LocalTime finDispo = dispoCurr.toLocalTime(dispoCurr.getHeureFin());
-
-                Duration diffHoraireFin = Duration.between(finNewDispo, finDispo);
-                if(diffHoraireFin.getSeconds() > diffHFinMax.getSeconds()){
-                    diffHFinMax = diffHoraireFin;
-                    dispoDebutInclus = new Dispos(dispoCurr.getSecouriste(), dispoCurr.getDate(), dispoCurr.getHeureDebut(), dispoCurr.getHeureFin());
-                }
-            }
-
-            Dispos dispoFinInclus = null;
-            for(int i = 0; i < disposFinInclus.size(); i++){
-                Dispos dispoCurr = disposFinInclus.get(i);
-                LocalTime debutDispo = dispoCurr.toLocalTime(dispoCurr.getHeureDebut());
-
-                Duration diffHoraireDebut = Duration.between(debutDispo, debutNewDispo);
-                if(diffHoraireDebut.getSeconds() > diffHDebutMax.getSeconds()){
-                    diffHDebutMax = diffHoraireDebut;
-                    dispoFinInclus = new Dispos(dispoCurr.getSecouriste(), dispoCurr.getDate(), dispoCurr.getHeureDebut(), dispoCurr.getHeureFin());
-                }
-            }
-
-            if(dispoFinInclus != null && dispoDebutInclus != null){
-                LocalTime debutDispo = dispoFinInclus.toLocalTime(dispoFinInclus.getHeureDebut());
-                LocalTime finDispo = dispoDebutInclus.toLocalTime(dispoDebutInclus.getHeureFin());
-
-                debutInclus = debutNewDispo.isAfter(debutDispo) && debutNewDispo.isBefore(finDispo);
-                finInclus = finNewDispo.isAfter(debutDispo) && finNewDispo.isBefore(finDispo);
-            } else {
-                debutInclus = false;
-                finInclus = false;
-            }
-
-            if(debutInclus && !finInclus && dispoDebutInclus != null){
-                Dispos dispoFinale = new Dispos(this, newDispo.getDate().toLocalDate(), dispoDebutInclus.toLocalTime(dispoDebutInclus.getHeureDebut()), finNewDispo);
-                this.getDisponibilites().remove(dispoDebutInclus);
-                this.getDisponibilites().add(dispoFinale);
-            } else if (!debutInclus && finInclus && dispoFinInclus != null){
-                Dispos dispoFinale = new Dispos(this, newDispo.getDate().toLocalDate(), debutNewDispo, dispoFinInclus.toLocalTime(dispoFinInclus.getHeureFin()));
-                this.getDisponibilites().remove(dispoFinInclus);
-                this.getDisponibilites().add(dispoFinale);
-            }
+        if (!identicalExists) {
+            disponibilites.add(mergedDispo);
         }
     }
 
+    /**
+     * Checks if the current secourist is equal to the object in parameter
+     * @return true if they are the same secourist
+     */
     @Override
     public boolean equals(Object obj){
         boolean ret = false;
@@ -244,6 +341,10 @@ public class Secouriste{
         return ret;
     }
 
+    /**
+     * Returns the hashcode of the secourist
+     * @return the hashcode
+     */
     @Override
     public int hashCode(){
         int ret;
