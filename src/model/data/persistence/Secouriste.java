@@ -82,11 +82,11 @@ public class Secouriste{
         !tel.trim().matches("^0\\d{9}$") || adresse == null || adresse.trim().isEmpty()){
             throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
         }
-        if(comp == null || comp.isEmpty() || comp.contains(null)){
-            throw new IllegalArgumentException("La liste de Competence ne peut pas être null ou vides");
+        if(comp == null || comp.contains(null)){
+            throw new IllegalArgumentException("La liste de Competence ne peut pas être null");
         }
         if(disponibilite == null){
-            throw new IllegalArgumentException("L'ensemble de Dispos ne peut pas être null ou vides");
+            throw new IllegalArgumentException("L'ensemble de Dispos ne peut pas être null");
         }
 
         this.id = id;
