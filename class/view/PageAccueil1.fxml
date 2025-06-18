@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -12,13 +13,19 @@
          <font>
             <Font name="System Bold" size="28.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
-      <Pane layoutX="607.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-color: #000000; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="77.0">
+      <Pane layoutX="607.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="77.0">
          <children>
             <Button layoutX="60.0" layoutY="136.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir le profil" textFill="WHITE">
                <font>
                   <Font size="44.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Label layoutX="147.0" layoutY="42.0" text="Profil">
                <font>
@@ -31,12 +38,15 @@
                </font>
             </Label>
          </children></Pane>
-      <Pane layoutX="77.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-color: #000000; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="77.0">
+      <Pane layoutX="77.0" layoutY="204.0" prefHeight="461.0" prefWidth="418.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-radius: 50;" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="77.0">
          <children>
             <Button layoutX="25.0" layoutY="136.0" mnemonicParsing="false" style="-fx-background-radius: 50; -fx-background-color: #004aad;" text="Voir le planning" textFill="WHITE">
                <font>
                   <Font size="44.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Label layoutX="113.0" layoutY="44.0" text="Planning">
                <font>
