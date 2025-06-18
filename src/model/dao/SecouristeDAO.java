@@ -23,6 +23,10 @@ public class SecouristeDAO extends DAO<Secouriste> {
     /** instance of DisposDAO used to retrieve dispos */
     private final DisposDAO disposDAO = new DisposDAO();
 
+    //================================
+    //          METHODS
+    //================================
+
     /**
      * Retrieves all Secouriste records from the database.
      *
@@ -136,8 +140,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
         }
         return competences;
     }
-
-    
+  
     @Override
     public int update(Secouriste element) {
         String sql = "UPDATE secouriste SET nom = ?, prenom = ?, date_naissance = ?, "

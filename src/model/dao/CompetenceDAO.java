@@ -5,10 +5,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+/**
+ * DAO for Competence
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
 public class CompetenceDAO extends DAO<Competence> {
 
+    /**
+     * Creates a new competence in the database
+     * @param competence the competence object to be created
+     * @return the number of rows affected, or 0 if an error occurs
+     */
     @Override
     public int create(Competence competence) {
         String sql = "INSERT INTO competence (intitule) VALUES (?)";
@@ -31,6 +39,12 @@ public class CompetenceDAO extends DAO<Competence> {
         }
     }
 
+    /**
+     * Finds a competence by its intitule
+     * @param intitule the intitule of the competence
+     * @return the competence object, or nothing if not found
+     * @throws IllegalArgumentException if the competence is not found
+     */
     public Competence findByIntitule(String intitule) {
         String sql = "SELECT intitule FROM competence WHERE intitule = ?";
         
@@ -50,9 +64,14 @@ public class CompetenceDAO extends DAO<Competence> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        throw new IllegalArgumentException("Compétence : intitule '" + intitule + "' inconnu.");
     }
 
+    /**
+     * Updates a competence in the database
+     * @param competence the competence object to be updated
+     * @return the number of rows affected, or 0 if an error occurs
+     */
     @Override
     public int update(Competence competence) {
         // On ne change pas l'intitulé car final
@@ -60,6 +79,11 @@ public class CompetenceDAO extends DAO<Competence> {
         return updateRequis(competence);
     }
 
+    /**
+     * Deletes a competence from the database
+     * @param competence the competence object to be deleted
+     * @return the number of rows affected, or 0 if an error occurs
+     */
     @Override
     public int delete(Competence competence) {
         String sql = "DELETE FROM competence WHERE intitule = ?";
@@ -76,6 +100,10 @@ public class CompetenceDAO extends DAO<Competence> {
         }
     }
 
+    /**
+     * Lists all competences in the database
+     * @return a list of competence objects
+     */
     @Override
     public List<Competence> findAll() {
         List<Competence> competences = new ArrayList<>();
@@ -99,6 +127,11 @@ public class CompetenceDAO extends DAO<Competence> {
         return competences;
     }
 
+    /**
+     * Finds all competences that are required by a given competence
+     * @param intituleCompetence the intitule of the competence
+     * @return a set of competence objects
+     */
     private HashSet<Competence> findRequisByCompetence(String intituleCompetence) {
         HashSet<Competence> requis = new HashSet<>();
         String sql = "SELECT competence_requise FROM competence_requis WHERE competence_principale = ?";
@@ -121,6 +154,11 @@ public class CompetenceDAO extends DAO<Competence> {
         return requis;
     }
 
+    /**
+     * Adds all competences that are required by a given competence
+     * @param competence the competence object to be updated
+     * @return the number of rows affected, or 0 if an error occurs
+     */
     private int addRequis(Competence competence) {
         String sql = "INSERT INTO competence_requis VALUES (?, ?)";
         try (Connection conn = getConnection();
@@ -141,6 +179,11 @@ public class CompetenceDAO extends DAO<Competence> {
         }
     }
 
+    /**
+     * Updates all competences that are required by a given competence
+     * @param competence the competence object to be updated
+     * @return the number of rows affected, or 0 if an error occurs
+     */
     public int updateRequis(Competence competence) {
         // D'abord supprimer les anciens prérequis
         deleteRequis(competence.getIntitule());
@@ -148,6 +191,11 @@ public class CompetenceDAO extends DAO<Competence> {
         return addRequis(competence);
     }
 
+    /**
+     * Deletes all competences that are required by a given competence
+     * @param competence the competence object to be deleted
+     * @return the number of rows affected, or 0 if an error occurs
+     */
     private int deleteRequis(String competence) {
         String sql = "DELETE FROM competence_requis WHERE competence_principale = ?";
         try (Connection conn = getConnection();
@@ -160,6 +208,11 @@ public class CompetenceDAO extends DAO<Competence> {
         }
     }
 
+    /**
+     * Lists all competences that are required by a given competence
+     * @param intituleCompetence the intitule of the competence
+     * @return a list of competence objects
+     */
     public List<Competence> findCompetencesRequiring(String intituleCompetence) {
         List<Competence> competences = new ArrayList<>();
         String sql = "SELECT competence_principale FROM competence_requis WHERE competence_requise = ?";
