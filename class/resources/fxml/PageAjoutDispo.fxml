@@ -10,7 +10,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #f1f0ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageAjoutDispoController">
    <children>
-      <Button fx:id="BouttonAccueil" layoutX="922.0" layoutY="28.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="25.0">
+      <Button fx:id="BouttonAccueil" layoutX="922.0" layoutY="28.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" onAction="#accueilPage" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="25.0">
          <font>
             <Font name="System Bold" size="28.0" />
          </font>
@@ -36,7 +36,7 @@
                </font>
             </Label>
             <Label fx:id="DateDuJour" layoutX="43.0" layoutY="63.0" text="- " />
-            <MenuButton fx:id="MenuHeureDebut" layoutX="41.0" layoutY="95.0" mnemonicParsing="false" text="Heure de début ">
+            <MenuButton fx:id="MenuHeureDebut" layoutX="41.0" layoutY="95.0" mnemonicParsing="false" onAction="#debutHandle"  text="Heure de début ">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -48,7 +48,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </MenuButton>
-            <MenuButton fx:id="MenuHeureFin" layoutX="41.0" layoutY="166.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="207.0" text="Heure de fin">
+            <MenuButton fx:id="MenuHeureFin" layoutX="41.0" layoutY="166.0" mnemonicParsing="false" onAction="#finHandle" prefHeight="51.0" prefWidth="207.0" text="Heure de fin">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -61,7 +61,7 @@
                </cursor>
             </MenuButton>
          </children></Pane>
-      <Button fx:id="BouttonEnregistrer" layoutX="657.0" layoutY="514.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Enregistrer" textFill="WHITE">
+      <Button fx:id="BouttonEnregistrer" onAction="#enregistrerHandle" layoutX="657.0" layoutY="514.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Enregistrer" textFill="WHITE">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
