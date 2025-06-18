@@ -32,9 +32,50 @@
                   <Font name="System Bold" size="48.0" />
                </font>
             </Label>
-            <Label layoutX="78.0" layoutY="242.0" text="Compétences :&#10;&#9;- PSC1&#10;&#9;- Machin&#10;&#10;Disponibilités :&#10;&#9;- 8/02 – 9h30 - 17h&#10;&#9;- 9/02 – 10h - 14h">
+            <HBox layoutX="74.0" layoutY="266.0" spacing="150.0">
+               <children>
+                  <VBox spacing="3.5">
+                     <children>
+                        <Label text="-" />
+                        <Label text="-" />
+                        <Label text="-" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.5">
+                     <children>
+                        <Label text="-" />
+                        <Label text="-" />
+                        <Label text="-" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label layoutX="74.0" layoutY="238.0" text="Compétences :">
                <font>
-                  <Font size="18.0" />
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <HBox layoutX="74.0" layoutY="376.0" spacing="150.0">
+               <children>
+                  <VBox spacing="3.5">
+                     <children>
+                        <Label text="-" />
+                        <Label text="-" />
+                        <Label text="-" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.5">
+                     <children>
+                        <Label text="-" />
+                        <Label text="-" />
+                        <Label text="-" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label layoutX="74.0" layoutY="345.0" text="Disponibilités :">
+               <font>
+                  <Font size="19.0" />
                </font>
             </Label>
          </children></Pane>
@@ -53,10 +94,15 @@
                   <Font name="System Bold" size="48.0" />
                </font>
             </Label>
-            <Label layoutX="52.0" layoutY="251.0" text="Prochain événement :&#10;&#10;     - ID : 39650&#10;     - Match de foot  &#10;     - Stade Rennais&#10;     - Vendredi 6 février&#10;     - 3000 spectateurs attendus">
-               <font>
-                  <Font size="19.0" />
-               </font></Label>
+            <VBox layoutX="47.0" layoutY="250.0" spacing="20.0">
+               <children>
+                  <Label text="- ID :" />
+                  <Label text="- " />
+                  <Label text="- " />
+                  <Label text="- " />
+                  <Label text="- " />
+               </children>
+            </VBox>
          </children>
       </Pane>
       <Label layoutX="389.0" layoutY="48.0" text="Accueil" textFill="#004aad">
