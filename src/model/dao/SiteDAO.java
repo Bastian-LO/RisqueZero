@@ -45,7 +45,6 @@ public class SiteDAO extends DAO<Site> {
         return sites;
     }
 
-    
     /**
      * Retrieves a Site object from the database based on the given code.
      *

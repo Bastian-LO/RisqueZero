@@ -3,6 +3,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Secouriste{
+
+    //================================
+    //           ATTRIBUTES
+    //================================
+    
     private long id;
     private String nom;
     private String prenom;

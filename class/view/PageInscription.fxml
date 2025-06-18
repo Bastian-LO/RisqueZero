@@ -18,19 +18,19 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.valignment="CENTER">
          <children>
-            <Label alignment="CENTER" layoutX="81.0" layoutY="18.0" text="Inscription" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label alignment="CENTER" layoutX="81.0" layoutY="18.0" text="Inscription" textFill="#004aad" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
-                  <Font size="30.0" />
+                  <Font name="System Bold" size="42.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="125.0" layoutY="60.0" text="Bienvenue" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label alignment="CENTER" layoutX="-1.0" layoutY="82.0" text="Bienvenue" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <VBox layoutX="19.0" layoutY="103.0" prefHeight="100.0" prefWidth="253.0" AnchorPane.leftAnchor="75.0">
+            <VBox layoutX="76.0" layoutY="112.0" prefHeight="100.0" prefWidth="253.0" AnchorPane.leftAnchor="76.0">
                <children>
                   <Label text="Nom :">
                      <font>
@@ -43,6 +43,9 @@
                      <VBox.margin>
                         <Insets bottom="20.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
                   </TextField>
                   <Label text="Prénom :">
                      <font>
@@ -56,6 +59,9 @@
                      <VBox.margin>
                         <Insets bottom="20.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
                   </TextField>
                   <Label text="Adresse-mail :">
                      <font>
@@ -69,6 +75,9 @@
                      <VBox.margin>
                         <Insets bottom="20.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
                   </TextField>
                   <Label text="Date de naissance :">
                      <font>
@@ -82,6 +91,9 @@
                      <VBox.margin>
                         <Insets bottom="20.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
                   </TextField>
                   <Label text="Téléphone :">
                      <font>
@@ -95,22 +107,57 @@
                      <VBox.margin>
                         <Insets bottom="20.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
                   </TextField>
-                  <Label text="Nationalité :">
-                     <font>
-                        <Font size="12.0" />
-                     </font>
-                  </Label>
-                  <ComboBox editable="true" minHeight="-Infinity" prefHeight="33.0" prefWidth="190.0" visibleRowCount="5" />
                </children>
             </VBox>
-            <Button layoutX="23.0" layoutY="338.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="136.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Button" textFill="WHITE" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="23.0">
+            <Button layoutX="23.0" layoutY="338.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="136.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="S'incrire" textFill="WHITE" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="23.0">
                <font>
                   <Font size="18.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
+            <VBox alignment="TOP_RIGHT" layoutX="221.0" layoutY="537.0" prefHeight="39.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="23.0">
+               <children>
+                  <Label text="Vous avez déjà votre compte?">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label text="Se connecter !" textFill="#0cc0df">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
-      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #f0f1ff;" />
+      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f0f1ff;" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <top>
+            <Label text="Risque Zéro" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="45.0" />
+               </font>
+            </Label>
+         </top>
+         <padding>
+            <Insets top="16.0" />
+         </padding>
+         <center>
+            <ImageView fitHeight="150.0" fitWidth="204.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@images/Risque_zéro_-_logo-removebg.png" />
+               </image>
+            </ImageView>
+         </center>
+      </BorderPane>
    </children>
 </GridPane>

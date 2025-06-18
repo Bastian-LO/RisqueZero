@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -31,7 +30,7 @@ public class DisposDAO extends DAO<Dispos> {
 
     /**
      * Finds all disposibilities in the database
-     * @return A list of all disponibilities
+     * @return A list of all disponibilities, or an empty list if no disponibilities are found
      */
     @Override
     public List<Dispos> findAll() {
@@ -65,14 +64,16 @@ public class DisposDAO extends DAO<Dispos> {
     /**
      * Finds all disponibilities for a given secouriste
      * @param secouristeId The ID of the secouriste
-     * @return A set of all disponibilities for the given secouriste
+     * @return A set of all disponibilities for the given secouriste or an empty set if no disponibilities are found
      */
-    public Set<Dispos> findBySecouriste(long secouristeId) {
-        Set<Dispos> dispos = new HashSet<>();
+    public HashSet<Dispos> findBySecouriste(long secouristeId) {
+        HashSet<Dispos> dispos = new HashSet<>();
         String sql = "SELECT date_dispo, heure_debut, heure_fin FROM dispos WHERE id_sec = ?";
         
         Secouriste secouriste = secouristeDAO.findById(secouristeId);
-        if (secouriste == null) return dispos;
+        if (secouriste == null){
+            return dispos;
+        }
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -95,30 +96,10 @@ public class DisposDAO extends DAO<Dispos> {
         return dispos;
     }
 
-
-    @Override
-    public int delete(Dispos dispos) {
-        String sql = "DELETE FROM dispos WHERE id_sec = ? AND date_dispo = ? AND heure_debut = ? AND heure_fin = ?";
-        
-        try (Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-            pstmt.setLong(1, dispos.getSecouriste().getId());
-            pstmt.setDate(2, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
-            pstmt.setString(3, formatTime(dispos.getHeureDebut()));
-            pstmt.setString(4, formatTime(dispos.getHeureFin()));
-            
-            return pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
     /**
      * Creates a new disponibility in the database
      * @param dispos The disponibility to create
-     * @return The number of rows affected by the query
+     * @return The number of rows affected by the query or 0 if an error occurs
      */
     @Override
     public int create(Dispos dispos) {
@@ -162,8 +143,8 @@ public class DisposDAO extends DAO<Dispos> {
             // Anciennes valeurs pour identification
             pstmt.setLong(4, dispos.getSecouriste().getId());
             pstmt.setDate(5, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
-            pstmt.setString(6, formatTime(dispos.getHeureDebut())); // Ancienne heure début
-            pstmt.setString(7, formatTime(dispos.getHeureFin()));    // Ancienne heure fin
+            pstmt.setString(6, formatTime(dispos.getHeureDebut()));
+            pstmt.setString(7, formatTime(dispos.getHeureFin()));    
             
             return pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -173,25 +154,27 @@ public class DisposDAO extends DAO<Dispos> {
     }
 
     /**
-     * Parses a time string into an array of two integers
-     * @param time String of the form "HH:MM"
-     * @return An array of two integers: {hour, minute}
+     * Deletes a disponibility from the database
+     * @param dispos The disponibility to delete
+     * @return The number of rows affected by the query or 0 if an error occurs
      */
-    private int[] parseTime(String time) {
-        String[] parts = time.split(":");
-        return new int[]{
-            Integer.parseInt(parts[0]),
-            Integer.parseInt(parts[1])
-        };
-    }
-
-    /**
-     * Formats an array of two integers into a string of the form "HH:MM"
-     * @param time An array of two integers: {hour, minute}
-     * @return A string of the form "HH:MM"
-     */
-    private String formatTime(int[] time) {
-        return String.format("%02d:%02d", time[0], time[1]);
+    @Override
+    public int delete(Dispos dispos) {
+        String sql = "DELETE FROM dispos WHERE id_sec = ? AND date_dispo = ? AND heure_debut = ? AND heure_fin = ?";
+        
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setLong(1, dispos.getSecouriste().getId());
+            pstmt.setDate(2, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
+            pstmt.setString(3, formatTime(dispos.getHeureDebut()));
+            pstmt.setString(4, formatTime(dispos.getHeureFin()));
+            
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }

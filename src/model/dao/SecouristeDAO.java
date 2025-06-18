@@ -1,4 +1,3 @@
-// SecouristeDAO.java
 package model.dao;
 
 import model.data.persistence.Competence;
@@ -9,11 +8,31 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * DAO for Secouriste
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
 public class SecouristeDAO extends DAO<Secouriste> {
+    //================================
+    //          ATTRIBUTES
+    //================================
 
+    /** instance of CompetenceDAO used to retrieve competences */
     private final CompetenceDAO competenceDAO = new CompetenceDAO();
+
+    /** instance of DisposDAO used to retrieve dispos */
     private final DisposDAO disposDAO = new DisposDAO();
 
+    //================================
+    //          METHODS
+    //================================
+
+    /**
+     * Retrieves all Secouriste records from the database.
+     *
+     * @return a list of all Secouriste objects, or an empty list if no records are found.
+     * In case of a database access error, the error is printed and the method returns an empty list.
+     */
     @Override
     public List<Secouriste> findAll() {
         List<Secouriste> secouristes = new ArrayList<>();
@@ -48,6 +67,13 @@ public class SecouristeDAO extends DAO<Secouriste> {
         return secouristes;
     }
 
+    /**
+     * Retrieves a Secouriste object from the database based on its id.
+     *
+     * @param id the id of the Secouriste to retrieve
+     * @return the Secouriste object if found, otherwise null
+     * In case of a database access error, the error is printed and the method returns null.
+     */
     public Secouriste findById(long id) {
         String sql = "SELECT nom, prenom, date_naissance, email, tel, adresse "
                    + "FROM secouriste WHERE id = ?";
@@ -85,9 +111,14 @@ public class SecouristeDAO extends DAO<Secouriste> {
         } catch (SQLException | IllegalArgumentException e) {
             e.printStackTrace();
         }
-        return null;
+        throw new IllegalArgumentException("Secouriste with id " + id + " not found.");
     }
 
+    /**
+     * Retrieves a list of competences associated with a given Secouriste id.
+     * @param idSecouriste the id of the Secouriste
+     * @return a list of competences, or an empty list if no competences are found
+     */
     private ArrayList<Competence> findCompetencesBySecouristeId(long idSecouriste) {
         ArrayList<Competence> competences = new ArrayList<>();
         String sql = "SELECT competence FROM secouriste_competence WHERE id_sec = ?";
@@ -109,7 +140,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
         }
         return competences;
     }
-
+  
     @Override
     public int update(Secouriste element) {
         String sql = "UPDATE secouriste SET nom = ?, prenom = ?, date_naissance = ?, "
