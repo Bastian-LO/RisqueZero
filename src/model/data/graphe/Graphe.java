@@ -68,7 +68,7 @@ public class Graphe {
         this.initMatriceAdjacence();
     }
 
-    
+
     //=================================
     //           METHODS
     // ================================
@@ -273,40 +273,44 @@ public class Graphe {
     private ArrayList<Affectation> exhaustif(ArrayList<Secouriste> listeSec) {
         ArrayList<Affectation> ret = new ArrayList<>();
         ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> tripleMonstreAffec = new ArrayList<>();
+
         for (Pair<DPS, Competence> pair : this.DPSCompet) {   // On parcourt toutes les paires DPS / Competence
             DPS dpsCurr = pair.getKey();    // DPS analysé
             Competence compCurr = pair.getValue();  // Compétence requise
 
-            boolean finnishFlag;
-            do {
-                finnishFlag = true;
-                for (int i = 0; i < listeSec.size(); i++) {   // On parcourt tous les secouristes
-                    Secouriste secCurr = listeSec.get(i);
-                    if (secCurr.getCompetencesIntitules().contains(compCurr.getIntitule())
-                            && checkDispos(secCurr, dpsCurr)) {
-                        tripleMonstreAffec.add(new Pair<>(new Pair<>(dpsCurr, compCurr), secCurr));
-                        // enlever la dispo
-                        if (finnishFlag) {
-                            finnishFlag = false;
-                        }
-                    }
+            boolean finnishFlag = false;
+            for (int i = 0; i < listeSec.size(); i++) {   // On parcourt tous les secouristes
+                Secouriste secCurr = listeSec.get(i);
+                boolean compTrouve = secCurr.getCompetencesIntitules().contains(compCurr.getIntitule());
+                boolean disponible = checkDispos(secCurr, dpsCurr);
+
+                if (!finnishFlag && compTrouve && disponible) {                             // et est dispo
+                    tripleMonstreAffec.add(new Pair<>(new Pair<>(dpsCurr, compCurr), secCurr)); // Ajout de la pseudo-affectation
+                    finnishFlag = true;
                 }
-            } while (!finnishFlag);
+            }
         }
+
         LinkedHashSet<DPS> listDPS = new LinkedHashSet<>();
         for (Pair<DPS, Competence> p : this.DPSCompet) {
             listDPS.add(p.getKey());
         }
+
         for (DPS dps : listDPS) {
             ArrayList<Pair<Secouriste, Competence>> listePairs = new ArrayList<>();
+            ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> restant = new ArrayList<>();
+
             for (int i = 0; i < tripleMonstreAffec.size(); i++) {
                 Pair<Pair<DPS, Competence>, Secouriste> monstreCurr = tripleMonstreAffec.get(i);
                 if (monstreCurr.getKey().getKey().equals(dps)) {
                     Pair<Secouriste, Competence> p = new Pair<>(monstreCurr.getValue(), monstreCurr.getKey().getValue());
-                    tripleMonstreAffec.remove(monstreCurr);
                     listePairs.add(p);
+                } else {
+                    restant.add(monstreCurr);                    
                 }
             }
+
+            tripleMonstreAffec = restant;
             Affectation affCurr = new Affectation(listePairs, dps);
             ret.add(affCurr);
         }
@@ -322,6 +326,9 @@ public class Graphe {
      */
     private boolean checkDispos(Secouriste sec, DPS dps){
         boolean ret = false;
+        ArrayList<Dispos> newDispos = new ArrayList<>();
+        ArrayList<Dispos> aSuppr = new ArrayList<>();
+
         for (Dispos dispo : sec.getDisponibilites()){   // On parcourt toutes les disponibilités du secouriste
             if(!ret){
                 boolean memeJour = dispo.getDate().equals(dps.getDateEvt());    // Vérifie que les journées correspondent
@@ -337,22 +344,30 @@ public class Graphe {
                     ret = true;                     // On sort de la boucle après avoir mis à jour les disponibilités du secouriste
                     Duration diffHoraireDebut = Duration.between(debutDispo, debutDPS); // Ecart entre le début du DPS et le début des dispos (0 possible)
                     Duration diffHoraireFin = Duration.between(finDPS, finDispo);     // Ecart entre le fin du DPS et le fin des dispos (0 possible)
-                    sec.getDisponibilites().remove(dispo);  // Une disponibilité étant trouvée, on la supprime des dispos du secouriste
+                    aSuppr.add(dispo);  // Une disponibilité étant trouvée, on la supprime des dispos du secouriste
 
                     if(diffHoraireDebut.getSeconds() >= 3600){                              // Si le temps précédant le DPS est supérieur à 1h...
                         LocalTime firstNewHoraireFin = finDispo.minus(diffHoraireDebut);
                         Dispos firstNewDispo = new Dispos(sec, dispo.getDate().toLocalDate(), debutDispo, firstNewHoraireFin);
-                        sec.getDisponibilites().add(firstNewDispo);                         // On rajoute la disponibilité précédant le DPS
+                        newDispos.add(firstNewDispo);                         // On rajoute la disponibilité précédant le DPS
                     }
 
                     if (diffHoraireFin.getSeconds() >= 3600){                               // Si le temps suivant le DPS est supérieur à 1h...
                         LocalTime secondNewHoraireDebut = finDispo.minus(diffHoraireFin);
                         Dispos secondNewDispo = new Dispos(sec, dispo.getDate().toLocalDate(), secondNewHoraireDebut, finDispo);
-                        sec.getDisponibilites().add(secondNewDispo);                        // On rajoute la disponibilité suivant le DPS
+                        newDispos.add(secondNewDispo);                        // On rajoute la disponibilité suivant le DPS
                     } 
                 }
             }
         }
+
+        for (Dispos d : aSuppr) {
+            sec.getDisponibilites().remove(d);
+        }
+        for (Dispos d : newDispos) {
+            sec.getDisponibilites().add(d);
+        }
+        
         return ret;
     }
 
