@@ -18,10 +18,10 @@ public class PageDeGardeController {
 
     // Méthode déclenchée quand on clique sur le bouton (nommée "goToSecondWindow" dans On Action)
     @FXML
-    public void test(ActionEvent event) {
+    public void inscriptionPage(ActionEvent event) {
         try {
             // Chargement de la deuxième interface depuis second.fxml
-            Parent secondRoot = FXMLLoader.load(getClass().getResource("../../class/view/PageInscription.fxml"));
+            Parent secondRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageInscription.fxml"));
 
             // Création de la nouvelle scène
             Scene secondScene = new Scene(secondRoot);

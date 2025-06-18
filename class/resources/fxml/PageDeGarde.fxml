@@ -20,7 +20,7 @@
       </Label>
       <HBox alignment="CENTER" prefHeight="42.0" prefWidth="800.0" spacing="50.0">
          <children>
-            <Button fx:id="inscriptionButton" alignment="CENTER" mnemonicParsing="false" onAction="#test" prefHeight="50.0" prefWidth="210.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Inscription" textFill="WHITE">
+            <Button fx:id="inscriptionButton" alignment="CENTER" mnemonicParsing="false" onAction="#inscriptionPage" prefHeight="50.0" prefWidth="210.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Inscription" textFill="WHITE">
                <font>
                   <Font size="23.0" />
                </font>

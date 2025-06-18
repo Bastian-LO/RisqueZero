@@ -154,7 +154,7 @@
          <center>
             <ImageView fitHeight="150.0" fitWidth="204.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@images/Risque_zéro_-_logo-removebg.png" />
+                  <Image url="@../images/Risque_zéro_-_logo-removebg.png" />
                </image>
             </ImageView>
          </center>
