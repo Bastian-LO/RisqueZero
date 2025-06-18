@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageModifSecouristeController">
+   <children>
+      <Button fx:id="deconnexionButton" layoutX="661.0" layoutY="29.0" mnemonicParsing="false" prefHeight="10.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion" textFill="WHITE" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <VBox alignment="CENTER" layoutX="624.0" layoutY="396.0" spacing="17.0" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="15.0">
+         <children>
+            <Button fx:id="supprimerButton" alignment="CENTER" layoutX="640.0" layoutY="432.0" mnemonicParsing="false" prefHeight="87.0" prefWidth="161.0" style="-fx-background-color: #ff3131; -fx-background-radius: 25;" text="Supprimer le secouriste" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="117.0" AnchorPane.leftAnchor="624.0" AnchorPane.rightAnchor="15.0">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="enregistrerButton" alignment="CENTER" layoutX="640.0" layoutY="513.0" mnemonicParsing="false" prefHeight="87.0" prefWidth="161.0" style="-fx-background-color: #004aad; -fx-background-radius: 25;" text="Enregistrer" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="624.0" AnchorPane.rightAnchor="15.0">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Label alignment="CENTER" layoutX="240.0" layoutY="5.0" prefHeight="79.0" prefWidth="322.0" text="Modifier les informations d'un secouriste" textAlignment="CENTER" textFill="#004aad" wrapText="true" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="238.0">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <VBox layoutX="43.0" layoutY="106.0" prefHeight="279.0" prefWidth="276.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;" AnchorPane.topAnchor="106.0">
+         <children>
+            <Label text="Date de naissance :">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="naissanceCalendar" promptText="10/02/2025" />
+         </children>
+         <padding>
+            <Insets left="15.0" right="15.0" top="30.0" />
+         </padding>
+      </VBox>
+      <GridPane hgap="10.0" layoutX="336.0" layoutY="106.0" AnchorPane.bottomAnchor="215.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="106.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="203.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="203.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" valignment="CENTER" />
+         </rowConstraints>
+         <children>
+            <AnchorPane layoutX="336.0" layoutY="107.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="233.0" GridPane.hgrow="ALWAYS">
+               <children>
+                  <VBox layoutY="145.0" prefHeight="132.0" prefWidth="231.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Label text="Prénom :">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="prenomTextField" prefHeight="32.0" prefWidth="178.0" style="-fx-background-radius: 50;">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" right="10.0" top="15.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="132.0" prefWidth="231.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label text="Nom :">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="nomTextField" prefHeight="39.0" prefWidth="38.0" style="-fx-background-radius: 50;">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" right="10.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <VBox fillWidth="false" layoutX="583.0" layoutY="106.0" prefHeight="279.0" prefWidth="203.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;" AnchorPane.leftAnchor="583.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="106.0" GridPane.columnIndex="1">
+               <children>
+                  <Label text="Coordonnées :">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="mailTextField" prefHeight="39.0" prefWidth="300.0" promptText="Adresse-mail" style="-fx-background-radius: 50;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <TextField fx:id="telephoneTextField" prefHeight="39.0" prefWidth="300.0" promptText="Téléphone" style="-fx-background-radius: 50;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <TextField fx:id="adresseTextField" prefHeight="39.0" prefWidth="300.0" promptText="Adresse" style="-fx-background-radius: 50;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets left="15.0" right="10.0" top="15.0" />
+               </padding>
+            </VBox>
+         </children>
+      </GridPane>
+      <VBox layoutX="41.0" layoutY="402.0" prefHeight="194.0" prefWidth="562.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="197.0" AnchorPane.topAnchor="398.0">
+         <children>
+            <Label text="Compétences :">
+               <font>
+                  <Font name="System Bold" size="23.0" />
+               </font>
+            </Label>
+            <ListView fx:id="competencesList" prefHeight="86.0" prefWidth="543.0" style="-fx-background-radius: 25;" VBox.vgrow="SOMETIMES" />
+            <ComboBox fx:id="competencesComboBox" prefHeight="0.0" prefWidth="244.0" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+         </padding>
+      </VBox>
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="4.0" prefHeight="79.0" prefWidth="235.0" spacing="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <children>
+            <ImageView fitHeight="69.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Risque_zéro_-_logo-removebg.png" />
+               </image>
+            </ImageView>
+            <Label text="Risque Zéro">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

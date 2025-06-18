@@ -213,109 +213,100 @@ public class Graphe {
      */
     public ArrayList<Affectation> startExhaustif() {
         ArrayList<Affectation> bestSolution = new ArrayList<>();
-        ArrayList<Secouriste> secouristesClones = new ArrayList<>();
-
-        // Clonage profond des secouristes ET de leurs disponibilités
-        for (Secouriste sec : this.secouristes) {
-            Secouriste clone = new Secouriste(sec.getId(), sec.getNom(), sec.getPrenom(), sec.getDateNaissance(),
-                    sec.getEmail(), sec.getTel(), sec.getAdresse(),
-                    sec.getCompetences(), sec.getDisponibilites());
-
-            // Clonage des disponibilités
-            List<Dispos> disposClones = new ArrayList<>();
-            for (Dispos d : sec.getDisponibilites()) {
-                clone.addDispos(new Dispos(clone,d.getDate(), d.getHeureDebut(), d.getHeureFin()));
-            }// À implémenter si absent
-
-            secouristesClones.add(clone);
-        }
-        permuteSecouristes(secouristesClones, 0, bestSolution);
+        ArrayList<Secouriste> clones = deepCloneSecouristes(this.secouristes);
+        generatePermutations(clones, 0, bestSolution);
         return bestSolution;
     }
 
-    /**
-     * Recursive method swapping secourists
-     * @param secouristes the list of secourists
-     * @param index the index
-     * @param bestSolution the current configuration of secourists for the DPS
-     */
-    private void permuteSecouristes(ArrayList<Secouriste> secouristes, int index, ArrayList<Affectation> bestSolution) {
-        // Condition d'arrêt : quand on a parcouru toute la liste
-        if (index == secouristes.size() - 1) {
-            // On applique exhaustif() sur la permutation actuelle
-            ArrayList<Affectation> current = exhaustif(new ArrayList<>(secouristes));
 
-            // On compare avec la meilleure solution actuelle
-            if (aIsBetterThanB(current,bestSolution)) { // Critère simple : max d'affectations
+    private void generatePermutations(ArrayList<Secouriste> arr, int index, ArrayList<Affectation> bestSolution) {
+        if (index == arr.size()) {
+            ArrayList<Secouriste> permutationClone = deepCloneSecouristes(arr);
+            ArrayList<Affectation> current = affectationExhaustive(permutationClone);
+            if (current.size() > bestSolution.size()) {
                 bestSolution.clear();
                 bestSolution.addAll(current);
             }
             return;
         }
-        // Échanges récursifs pour générer les permutations
-        for (int i = index; i < secouristes.size(); i++) {
-            // Échange les éléments
-            Collections.swap(secouristes, index, i);
-
-            // Appel récursif
-            permuteSecouristes(secouristes, index + 1, bestSolution);
-
-            // On remet dans l'ordre original (backtracking)
-            Collections.swap(secouristes, index, i);
+        for (int i = index; i < arr.size(); i++) {
+            Collections.swap(arr, index, i);
+            generatePermutations(arr, index + 1, bestSolution);
+            Collections.swap(arr, index, i);
         }
     }
 
-    /**
-     * Exhaustive algorithm finding the best configuration of secourists for a DPS and affecting them to it
-     * @param listeSec the list of secourists
-     * @return the list of affectations
-     */
-    private ArrayList<Affectation> exhaustif(ArrayList<Secouriste> listeSec) {
-        ArrayList<Affectation> ret = new ArrayList<>();
-        ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> tripleMonstreAffec = new ArrayList<>();
+    private ArrayList<Secouriste> deepCloneSecouristes(ArrayList<Secouriste> secouristes) {
+        ArrayList<Secouriste> clones = new ArrayList<>();
+        for (Secouriste sec : secouristes) {
+            Secouriste clone = new Secouriste(
+                    sec.getId(), sec.getNom(), sec.getPrenom(),
+                    sec.getDateNaissance(), sec.getEmail(), sec.getTel(),
+                    sec.getAdresse(), new ArrayList<>(sec.getCompetences()),
+                    new HashSet<>()
+            );
+            for (Dispos d : sec.getDisponibilites()) {
+                clone.addDispos(new Dispos(clone, d.getDate(), d.getHeureDebut(), d.getHeureFin()));
+            }
+            clones.add(clone);
+        }
+        return clones;
+    }
 
-        for (Pair<DPS, Competence> pair : this.DPSCompet) {   // On parcourt toutes les paires DPS / Competence
-            DPS dpsCurr = pair.getKey();    // DPS analysé
-            Competence compCurr = pair.getValue();  // Compétence requise
+    private ArrayList<Affectation> affectationExhaustive(ArrayList<Secouriste> secouristes) {
+        // Structure pour stocker les affectations par DPS
+        Map<DPS, Map<Secouriste, Competence>> affectationsMap = new HashMap<>();
 
-            boolean finnishFlag = false;
-            for (int i = 0; i < listeSec.size(); i++) {   // On parcourt tous les secouristes
-                Secouriste secCurr = listeSec.get(i);
-                boolean compTrouve = secCurr.getCompetencesIntitules().contains(compCurr.getIntitule());
-                boolean disponible = checkDispos(secCurr, dpsCurr);
+        for (Pair<DPS, Competence> poste : DPSCompet) {
+            DPS dps = poste.getKey();
+            Competence competence = poste.getValue();
 
-                if (!finnishFlag && compTrouve && disponible) {                             // et est dispo
-                    tripleMonstreAffec.add(new Pair<>(new Pair<>(dpsCurr, compCurr), secCurr)); // Ajout de la pseudo-affectation
-                    finnishFlag = true;
+            for (Secouriste sec : secouristes) {
+                if (sec.getCompetences().contains(competence)
+                        && reserveCreneau(sec, dps)) {
+
+                    affectationsMap
+                            .computeIfAbsent(dps, k -> new HashMap<>())
+                            .put(sec, competence);
+                    break;
                 }
             }
         }
 
-        LinkedHashSet<DPS> listDPS = new LinkedHashSet<>();
-        for (Pair<DPS, Competence> p : this.DPSCompet) {
-            listDPS.add(p.getKey());
+        // Conversion en liste d'affectations
+        ArrayList<Affectation> result = new ArrayList<>();
+        for (Map.Entry<DPS, Map<Secouriste, Competence>> entry : affectationsMap.entrySet()) {
+            ArrayList<Pair<Secouriste, Competence>> pairs = new ArrayList<>();
+            entry.getValue().forEach((sec, comp) -> pairs.add(new Pair<>(sec, comp)));
+            result.add(new Affectation(pairs, entry.getKey()));
         }
+        return result;
+    }
 
-        for (DPS dps : listDPS) {
-            ArrayList<Pair<Secouriste, Competence>> listePairs = new ArrayList<>();
-            ArrayList<Pair<Pair<DPS, Competence>, Secouriste>> restant = new ArrayList<>();
+    private boolean reserveCreneau(Secouriste sec, DPS dps) {
+        for (Iterator<Dispos> it = sec.getDisponibilites().iterator(); it.hasNext();) {
+            Dispos dispo = it.next();
+            if (dispo.getDate().equals(dps.getDateEvt())) {
+                LocalTime debutDispo = dispo.toLocalTime(dispo.getHeureDebut());
+                LocalTime finDispo = dispo.toLocalTime(dispo.getHeureFin());
+                LocalTime debutDPS = dps.toLocalTime(dps.getHoraireDepart());
+                LocalTime finDPS = dps.toLocalTime(dps.getHoraireFin());
 
-            for (int i = 0; i < tripleMonstreAffec.size(); i++) {
-                Pair<Pair<DPS, Competence>, Secouriste> monstreCurr = tripleMonstreAffec.get(i);
-                if (monstreCurr.getKey().getKey().equals(dps)) {
-                    Pair<Secouriste, Competence> p = new Pair<>(monstreCurr.getValue(), monstreCurr.getKey().getValue());
-                    listePairs.add(p);
-                } else {
-                    restant.add(monstreCurr);                    
+                if (!debutDPS.isBefore(debutDispo) && !finDPS.isAfter(finDispo)) {
+                    it.remove(); // Supprime le créneau entier
+
+                    // Ajoute les segments restants si besoin
+                    if (Duration.between(debutDispo, debutDPS).getSeconds() >= 3600) {
+                        sec.addDispos(new Dispos(sec, dispo.getDate().toLocalDate(), debutDispo, debutDPS));
+                    }
+                    if (Duration.between(finDPS, finDispo).getSeconds() >= 3600) {
+                        sec.addDispos(new Dispos(sec, dispo.getDate().toLocalDate(), finDPS, finDispo));
+                    }
+                    return true;
                 }
             }
-
-            tripleMonstreAffec = restant;
-            Affectation affCurr = new Affectation(listePairs, dps);
-            ret.add(affCurr);
         }
-
-        return ret;
+        return false;
     }
 
     /**
