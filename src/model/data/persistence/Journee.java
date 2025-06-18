@@ -1,6 +1,7 @@
 package model.data.persistence;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Journee{
     private int jour;
@@ -88,5 +89,28 @@ public class Journee{
     
     public LocalDate toLocalDate() {
         return LocalDate.of(annee, mois, jour);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        boolean ret = false;
+
+        if (this == obj){
+            ret = true;
+        } else if (obj instanceof Journee){
+            Journee autre = (Journee) obj;
+            if(this.getJour() == autre.getJour() && this.getMois() == autre.getMois() && 
+            this.getAnnee() == autre.getAnnee()){
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public int hashCode(){
+        int ret;
+        ret = Objects.hash(getJour(), getMois(), getAnnee());
+        return ret;
     }
 }

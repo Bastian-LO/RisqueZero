@@ -1,6 +1,6 @@
 package model.data.persistence;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.time.*;
+import java.util.*;
 
 public class Secouriste{
 
@@ -132,5 +132,122 @@ public class Secouriste{
             throw new IllegalArgumentException();
         }
         this.adresse = adresse;
+    }
+
+    public void addDispos(Dispos newDispo){
+        // pré-condition
+        if (newDispo == null || !newDispo.getSecouriste().equals(this)){
+            throw new IllegalArgumentException("addDispos : paramètre invalide");
+        }
+
+        HashSet<Dispos> currDispos = this.getDisponibilites();  // Copie des dispos
+
+        boolean existeDeja = false;
+        boolean debutInclus = false;
+        boolean finInclus = false;
+
+        LocalTime debutNewDispo = newDispo.toLocalTime(newDispo.getHeureDebut());
+        LocalTime finNewDispo = newDispo.toLocalTime(newDispo.getHeureFin());
+
+        ArrayList<Dispos> disposDebutInclus = new ArrayList<>();
+        ArrayList<Dispos> disposFinInclus = new ArrayList<>();
+
+        for(Dispos dispo : currDispos){
+            if (!existeDeja){
+                LocalTime debutDispo = dispo.toLocalTime(dispo.getHeureDebut());
+                LocalTime finDispo = dispo.toLocalTime(dispo.getHeureFin());
+
+                debutInclus = debutNewDispo.isAfter(debutDispo) && debutNewDispo.isBefore(finDispo);
+                finInclus = finNewDispo.isAfter(debutDispo) && finNewDispo.isBefore(finDispo);
+                boolean memeJour = dispo.getDate().equals(newDispo.getDate());
+
+                if(debutInclus && finInclus && memeJour){
+                    existeDeja = true;
+                } else if (debutInclus && !finInclus && memeJour){
+                    disposDebutInclus.add(dispo);
+                } else if (!debutInclus && finInclus && memeJour){
+                    disposFinInclus.add(dispo);
+                }
+            }
+        }
+
+        if(!existeDeja && disposDebutInclus.isEmpty() && disposFinInclus.isEmpty()){
+            this.getDisponibilites().add(newDispo);
+        } else if (!existeDeja){
+            Duration diffHDebutMax = Duration.ofSeconds(0L);
+            Duration diffHFinMax = Duration.ofSeconds(0L);
+
+
+            // Récupération de la disponibilité la plus étandue
+            Dispos dispoDebutInclus = null;
+            for(int i = 0; i < disposDebutInclus.size(); i++){
+                Dispos dispoCurr = disposDebutInclus.get(i);
+                LocalTime finDispo = dispoCurr.toLocalTime(dispoCurr.getHeureFin());
+
+                Duration diffHoraireFin = Duration.between(finNewDispo, finDispo);
+                if(diffHoraireFin.getSeconds() > diffHFinMax.getSeconds()){
+                    diffHFinMax = diffHoraireFin;
+                    dispoDebutInclus = new Dispos(dispoCurr.getSecouriste(), dispoCurr.getDate(), dispoCurr.getHeureDebut(), dispoCurr.getHeureFin());
+                }
+            }
+
+            Dispos dispoFinInclus = null;
+            for(int i = 0; i < disposFinInclus.size(); i++){
+                Dispos dispoCurr = disposFinInclus.get(i);
+                LocalTime debutDispo = dispoCurr.toLocalTime(dispoCurr.getHeureDebut());
+
+                Duration diffHoraireDebut = Duration.between(debutDispo, debutNewDispo);
+                if(diffHoraireDebut.getSeconds() > diffHDebutMax.getSeconds()){
+                    diffHDebutMax = diffHoraireDebut;
+                    dispoFinInclus = new Dispos(dispoCurr.getSecouriste(), dispoCurr.getDate(), dispoCurr.getHeureDebut(), dispoCurr.getHeureFin());
+                }
+            }
+
+            if(dispoFinInclus != null && dispoDebutInclus != null){
+                LocalTime debutDispo = dispoFinInclus.toLocalTime(dispoFinInclus.getHeureDebut());
+                LocalTime finDispo = dispoDebutInclus.toLocalTime(dispoDebutInclus.getHeureFin());
+
+                debutInclus = debutNewDispo.isAfter(debutDispo) && debutNewDispo.isBefore(finDispo);
+                finInclus = finNewDispo.isAfter(debutDispo) && finNewDispo.isBefore(finDispo);
+            } else {
+                debutInclus = false;
+                finInclus = false;
+            }
+
+            if(debutInclus && !finInclus && dispoDebutInclus != null){
+                Dispos dispoFinale = new Dispos(this, newDispo.getDate().toLocalDate(), dispoDebutInclus.toLocalTime(dispoDebutInclus.getHeureDebut()), finNewDispo);
+                this.getDisponibilites().remove(dispoDebutInclus);
+                this.getDisponibilites().add(dispoFinale);
+            } else if (!debutInclus && finInclus && dispoFinInclus != null){
+                Dispos dispoFinale = new Dispos(this, newDispo.getDate().toLocalDate(), debutNewDispo, dispoFinInclus.toLocalTime(dispoFinInclus.getHeureFin()));
+                this.getDisponibilites().remove(dispoFinInclus);
+                this.getDisponibilites().add(dispoFinale);
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        boolean ret = false;
+
+        if (this == obj){
+            ret = true;
+        } else if (obj instanceof Secouriste){
+            Secouriste autre = (Secouriste) obj;
+            if(this.getId() == autre.getId() && this.getPrenom().equals(autre.getPrenom()) && this.getNom().equals(autre.getNom()) &&
+            this.getDateNaissance().equals(autre.getDateNaissance()) && this.getAdresse().equals(autre.getAdresse()) && 
+            this.getEmail().equals(autre.getEmail()) && this.getTel().equals(autre.getTel()) && 
+            this.getDisponibilites().equals(autre.getDisponibilites()) && this.getCompetences().equals(autre.getCompetences())){
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public int hashCode(){
+        int ret;
+        ret = Objects.hash(getId(), getNom(), getPrenom(), getDateNaissance(), getAdresse(), getEmail(), getTel(), getDisponibilites(), getCompetences());
+        return ret;
     }
 }
