@@ -2,7 +2,7 @@ package model.data.users;
 
 /**
  * Class representing a secouriste user
- * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ * 
  */
 public class UserSecouriste extends User {
     private int idSecouriste;
@@ -10,6 +10,10 @@ public class UserSecouriste extends User {
     public UserSecouriste(int id, String login, String password, int idSecouriste) {
         super(id, login, password, false);
         this.idSecouriste = idSecouriste;
+    }
+
+    public UserSecouriste(String login, String password) {
+        super(login, password, false);
     }
 
     public int getIdSecouriste() {

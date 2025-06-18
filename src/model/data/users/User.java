@@ -2,6 +2,8 @@ package model.data.users;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import model.dao.UserDAO;
+import model.data.service.UserMngt;
 
 /**
  * Classe de base représentant un utilisateur de l'application
@@ -12,17 +14,24 @@ public abstract class User {
     private String password;
     private boolean isAdmin;
 
+    private final UserDAO userDAO = new UserDAO();
+
     public User(int id, String login, String password, boolean isAdmin) {
         this.id = id;
         this.login = login;
-        this.password = password;
+        this.password = UserMngt.hashPassword(password); // hash password;
         this.isAdmin = isAdmin;
     }
 
     /**
      * Default constructor
      */
-    public User() {}
+    public User(String login, String password, boolean isAdmin) {
+        this.login = login;
+        this.password = UserMngt.hashPassword(password); // hash password;
+        this.isAdmin = isAdmin;
+        int id = userDAO.create(this); // id is set in create method
+    }
 
     //================================
     //           GETTERS

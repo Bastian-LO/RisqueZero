@@ -110,7 +110,7 @@ public class UserDAO extends DAO<User> {
                     if (rs.next()) {
                         int generatedId = rs.getInt(1);
                         user.setId(generatedId);
-                        return generatedId;
+                        return 1;
                     }
                 }
             } catch (SQLException e) {
