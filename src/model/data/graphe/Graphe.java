@@ -3,7 +3,6 @@ package model.data.graphe;
 import model.data.persistence.*;
 import model.dao.CompetenceDAO;
 
-import java.rmi.UnexpectedException;
 import java.time.*;
 import java.util.*;
 
@@ -283,7 +282,6 @@ public class Graphe {
      * @param sec the secourist
      * @param dps the dps
      * @return true if the secourist is available
-     * @throws UnexpectedException thrown if somehow somethings goes out of bounds
      */
     private boolean checkDispos(Secouriste sec, DPS dps){
         boolean ret = false;
@@ -301,7 +299,7 @@ public class Graphe {
                 if (memeJour && horairesInclus){    // Si le jour et l'horaire correspond, donc qu'une dispo est trouvée...
                     ret = true;                     // On sort de la boucle après avoir mis à jour les disponibilités du secouriste
                     Duration diffHoraireDebut = Duration.between(debutDispo, debutDPS); // Ecart entre le début du DPS et le début des dispos (0 possible)
-                    Duration diffHoraireFin = Duration.between(finDPS, finDPS);     // Ecart entre le fin du DPS et le fin des dispos (0 possible)
+                    Duration diffHoraireFin = Duration.between(finDPS, finDispo);     // Ecart entre le fin du DPS et le fin des dispos (0 possible)
                     sec.getDisponibilites().remove(dispo);  // Une disponibilité étant trouvée, on la supprime des dispos du secouriste
 
                     if(diffHoraireDebut.getSeconds() >= 3600){                              // Si le temps précédant le DPS est supérieur à 1h...
