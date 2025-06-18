@@ -10,7 +10,7 @@ import java.sql.*;
 public class MyConnection {
 
     /** URL of the database */
-    private static final String URL = "jdbc:mysql://localhost:3306/db_SAE";
+    private static final String URL = "jdbc:mariadb://10.1.1.1:3306/db_SAE?useSSL=false&allowPublicKeyRetrieval=true&serverSslCert=/var/lib/mysql/server-cert.pem";;
 
     /** Login to connect to the database */
     private static final String LOGIN = "adminClient";
@@ -25,7 +25,7 @@ public class MyConnection {
     private static MyConnection myConnection = null;
 
     /** 
-     * Constructor which does nothing
+     * Constructor which does nothing,
      * to prevent several instances
      * of the class (Singleton pattern)
      */
@@ -36,9 +36,10 @@ public class MyConnection {
      */
     public Connection getConnection() throws SQLException {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace ();
+            System.out.println("Driver non trouvé");
         }
         
         if (conn == null || conn.isClosed()) {
