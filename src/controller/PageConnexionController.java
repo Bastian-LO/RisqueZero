@@ -56,7 +56,7 @@ public class PageConnexionController {
                 if ( user.isAdmin() ) {
                     root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageAccueilAdmin.fxml"));
                 } else {
-                    root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageAccueilSecouristes.fxml"));
+                    root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
                 }
                 Stage stage = (Stage) SeConnecterBoutton.getScene().getWindow();
                 stage.setScene(new Scene(root));

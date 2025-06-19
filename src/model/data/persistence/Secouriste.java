@@ -77,16 +77,50 @@ public class Secouriste{
      */
     public Secouriste(long id, String nom, String prenom, String dateNaissance, String email, String tel, String adresse, ArrayList<Competence> comp, HashSet<Dispos> disponibilite) throws IllegalArgumentException{
         // Checks if the parameters are valid
-        if(id < 1 || nom == null || nom.trim().equals("") || prenom == null || prenom.trim().isEmpty() || dateNaissance == null || !dateNaissance.trim().matches("^\\d{2}/\\d{2}/\\d{4}$") ||
-        email == null || !email.trim().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$") || tel == null || 
-        !tel.trim().matches("^0\\d{9}$") || adresse == null || adresse.trim().isEmpty()){
-            throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
+        if (id < 0) {
+            throw new IllegalArgumentException("L'ID doit être supérieur ou égal à 0 (valeur reçue: " + id + ")");
         }
-        if(comp == null || comp.isEmpty() || comp.contains(null)){
-            throw new IllegalArgumentException("La liste de Competence ne peut pas être null ou vides");
+
+        if (nom == null || nom.trim().isEmpty()) {
+            throw new IllegalArgumentException("Le nom ne doit pas être null ou vide");
+        }
+
+        if (prenom == null || prenom.trim().isEmpty()) {
+            throw new IllegalArgumentException("Le prénom ne doit pas être null ou vide");
+        }
+
+        if (dateNaissance == null) {
+            throw new IllegalArgumentException("La date de naissance ne doit pas être null");
+        }
+
+        if (!dateNaissance.trim().matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+            throw new IllegalArgumentException("La date de naissance doit être au format JJ/MM/AAAA (valeur reçue: '" + dateNaissance + "')");
+        }
+
+        if (email == null) {
+            throw new IllegalArgumentException("L'email ne doit pas être null");
+        }
+
+        if (!email.trim().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            throw new IllegalArgumentException("L'email doit être au format exemple@domaine.com (valeur reçue: '" + email + "')");
+        }
+
+        if (tel == null) {
+            throw new IllegalArgumentException("Le numéro de téléphone ne doit pas être null");
+        }
+
+        if (!tel.trim().matches("^0\\d{9}$")) {
+            throw new IllegalArgumentException("Le téléphone doit être au format 0123456789 (10 chiffres commençant par 0, valeur reçue: '" + tel + "')");
+        }
+
+        if (adresse == null || adresse.trim().isEmpty()) {
+            throw new IllegalArgumentException("L'adresse ne doit pas être null ou vide");
+        }
+        if(comp == null || comp.contains(null)){
+            throw new IllegalArgumentException("La liste de Competence ne peut pas être null");
         }
         if(disponibilite == null){
-            throw new IllegalArgumentException("L'ensemble de Dispos ne peut pas être null ou vides");
+            throw new IllegalArgumentException("L'ensemble de Dispos ne peut pas être null");
         }
 
         this.id = id;
