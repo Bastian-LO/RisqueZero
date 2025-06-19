@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
@@ -8,148 +7,98 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f1f0ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageProfilSecouristeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f1f0ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PageProfilSecouristesController">
    <children>
-      <Button fx:id="AccueilButton" layoutX="881.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="25.0">
+      <Button fx:id="BouttonAccueil" layoutX="674.0" layoutY="25.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="25.0">
          <font>
-            <Font name="System Bold" size="29.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label alignment="CENTER" layoutX="463.0" layoutY="13.0" text="Profil" textFill="#004aad" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Label layoutX="93.0" layoutY="25.0" text="Risque zéro">
          <font>
-            <Font name="System Bold" size="60.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <GridPane hgap="20.0" layoutX="56.0" layoutY="134.0" prefHeight="425.0" prefWidth="688.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="56.0" AnchorPane.rightAnchor="56.0" AnchorPane.topAnchor="134.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <Label layoutX="344.0" layoutY="33.0" text="Profil" textFill="#004aad">
+         <font>
+            <Font name="System Bold" size="50.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="50.0" layoutY="140.0" prefHeight="428.0" prefWidth="341.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" style="-fx-background-color: ffffff; -fx-background-radius: 50;">
-               <children>
-                  <Label text="Disponibilités :">
-                     <font>
-                        <Font name="System Bold" size="40.0" />
-                     </font>
-                  </Label>
-                  <VBox maxWidth="1.7976931348623157E308" prefHeight="164.0" prefWidth="343.0" spacing="10.0">
-                     <children>
-                        <Label fx:id="disponibilitesLabel" text="Label" />
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="30.0" />
-                     </VBox.margin>
-                  </VBox>
-                  <Button fx:id="ajoutDispoButton" mnemonicParsing="false" prefHeight="73.0" prefWidth="310.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Ajouter une disponibilité" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="22.0" />
-                     </font>
-                  </Button>
-               </children>
-               <padding>
-                  <Insets left="20.0" right="15.0" top="15.0" />
-               </padding>
-            </VBox>
-            <GridPane vgap="25.0" GridPane.columnIndex="1">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: ffffff; -fx-background-radius: 25;">
-                     <children>
-                        <Label text="Compétences :">
-                           <font>
-                              <Font name="System Bold" size="40.0" />
-                           </font>
-                        </Label>
-                        <VBox prefHeight="103.0" prefWidth="314.0">
-                           <children>
-                              <Label fx:id="competencesLabel" text="Label">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="15.0" left="20.0" top="15.0" />
-                     </padding>
-                  </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: ffffff; -fx-background-radius: 25;" GridPane.rowIndex="1">
-                     <children>
-                        <Label text="Informations :">
-                           <font>
-                              <Font name="System Bold" size="40.0" />
-                           </font>
-                        </Label>
-                        <VBox prefHeight="103.0" prefWidth="314.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="idLabel" text="Label">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="nomPrenomLabel" text="Label">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="naissanceLabel" text="Label">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="mailLabel" text="Label">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="telephoneLabel" text="Label" textOverrun="WORD_ELLIPSIS" wrapText="true">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="adresseLabel" text="Label" textOverrun="WORD_ELLIPSIS" wrapText="true">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="15.0" />
-                     </padding>
-                  </VBox>
-               </children>
-            </GridPane>
-         </children>
-      </GridPane>
-      <HBox alignment="CENTER_LEFT" layoutX="8.0" layoutY="7.0" prefHeight="77.0" prefWidth="272.0" spacing="5.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="7.0">
-         <children>
-            <ImageView fitHeight="79.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/Risque_zéro_-_logo-removebg.png" />
-               </image>
-            </ImageView>
-            <Label text="Risque Zéro">
+            <Label layoutX="48.0" layoutY="14.0" text="Disponibilités">
                <font>
-                  <Font name="System Bold Italic" size="33.0" />
+                  <Font name="System Bold" size="38.0" />
                </font>
             </Label>
+            <VBox layoutX="45.0" layoutY="92.0" spacing="15.0">
+               <children>
+                  <Label fx:id="Dispo1" text="-" />
+                  <Label fx:id="Dispo2" text="-" />
+                  <Label fx:id="Dispo3" text="-" />
+                  <Label fx:id="Dispo4" text="-" />
+                  <Label fx:id="Dispo5" text="-" />
+                  <Label fx:id="Dispo6" text="-" />
+               </children>
+            </VBox>
+            <Button fx:id="BouttonAjouter" layoutX="43.0" layoutY="348.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Ajouter une disponibilité" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
-      </HBox>
+      </AnchorPane>
+      <AnchorPane layoutX="434.0" layoutY="140.0" prefHeight="200.0" prefWidth="325.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;">
+         <children>
+            <Label layoutX="74.0" layoutY="8.0" text="Informations">
+               <font>
+                  <Font name="System Bold" size="29.0" />
+               </font>
+            </Label>
+            <VBox fx:id="ListeInfos" layoutX="39.0" layoutY="45.0" spacing="2.5">
+               <children>
+                  <Label fx:id="Info1" text="- ID :" />
+                  <Label fx:id="Info2" text="- Nom et Prénom :" />
+                  <Label fx:id="Info3" text="- Date de naissance :" />
+                  <Label fx:id="Info4" text="- Adresse mail :" />
+                  <Label fx:id="Info5" text="- Téléphone :" />
+                  <Label fx:id="Info6" text="- Adresse :" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="445.0" layoutY="368.0" prefHeight="200.0" prefWidth="325.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50;">
+         <children>
+            <Label layoutX="65.0" layoutY="10.0" text="Compétences">
+               <font>
+                  <Font name="System Bold" size="29.0" />
+               </font>
+            </Label>
+            <HBox fx:id="ContenairePrincipale" layoutX="22.0" layoutY="64.0" spacing="150.0">
+               <children>
+                  <VBox fx:id="ListeCompetence1" spacing="20.0">
+                     <children>
+                        <Label fx:id="Comp1" text="-" />
+                        <Label fx:id="Comp2" text="-" />
+                        <Label fx:id="Comp3" text="-" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="ListeCompetence2" spacing="20.0">
+                     <children>
+                        <Label fx:id="Comp4" text="-" />
+                        <Label fx:id="Comp5" text="-" />
+                        <Label fx:id="Comp6" text="-" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

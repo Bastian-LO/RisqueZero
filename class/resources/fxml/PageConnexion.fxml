@@ -8,8 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageConnexionController">;
+<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PageConnexionController">
    <children>
       <Label fx:id="RisqueZero" layoutX="443.0" layoutY="66.0" text="Risque zéro">
          <font>
@@ -53,7 +52,7 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Button fx:id="SeConnecterBoutton" layoutX="128.0" layoutY="446.0" onAction="#handleConnexion" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
+            <Button fx:id="SeConnecterBoutton" layoutX="103.0" layoutY="422.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>

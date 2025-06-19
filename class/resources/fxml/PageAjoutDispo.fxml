@@ -8,60 +8,22 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #f1f0ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageAjoutDispoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f1f0ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageAjoutDispoController">
    <children>
-      <Button fx:id="BouttonAccueil" layoutX="922.0" layoutY="28.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" onAction="#accueilPage" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="25.0">
+      <Button fx:id="BouttonAccueil" layoutX="684.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="17.0">
          <font>
-            <Font name="System Bold" size="28.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ImageView fitHeight="60.0" fitWidth="107.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Fonctionnalités_principales__1_-removebg-preview.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="121.0" layoutY="34.0" text="Risque zéro">
+      <Label layoutX="72.0" layoutY="25.0" text="Risque zéro">
          <font>
-            <Font name="System Bold" size="26.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Pane layoutX="634.0" layoutY="215.0" prefHeight="252.0" prefWidth="291.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
-         <children>
-            <Label layoutX="31.0" layoutY="14.0" text="Date Sélectionnée :">
-               <font>
-                  <Font size="27.0" />
-               </font>
-            </Label>
-            <Label fx:id="DateDuJour" layoutX="43.0" layoutY="63.0" text="- " />
-            <MenuButton fx:id="MenuHeureDebut" layoutX="41.0" layoutY="95.0" mnemonicParsing="false" onAction="#debutHandle"  text="Heure de début ">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
-               <font>
-                  <Font size="21.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </MenuButton>
-            <MenuButton fx:id="MenuHeureFin" layoutX="41.0" layoutY="166.0" mnemonicParsing="false" onAction="#finHandle" prefHeight="51.0" prefWidth="207.0" text="Heure de fin">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
-               <font>
-                  <Font size="21.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </MenuButton>
-         </children></Pane>
-      <Button fx:id="BouttonEnregistrer" onAction="#enregistrerHandle" layoutX="657.0" layoutY="514.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Enregistrer" textFill="WHITE">
+      <Button fx:id="BouttonEnregistrer" layoutX="511.0" layoutY="490.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Enregistrer" textFill="WHITE">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
@@ -69,15 +31,53 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="241.0" layoutY="101.0" text="Ajouter une disponibilité" textFill="#004aad">
+      <Label layoutX="131.0" layoutY="52.0" text="Ajouter une disponibilité" textFill="#004aad">
          <font>
-            <Font name="System Bold" size="56.0" />
+            <Font name="System Bold" size="46.0" />
          </font>
       </Label>
-      <DatePicker layoutX="52.0" layoutY="215.0" prefHeight="133.0" prefWidth="451.0" promptText="Choisissez la date">
+      <DatePicker layoutX="57.0" layoutY="250.0" prefHeight="100.0" prefWidth="291.0" promptText="Choisissez la date">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </DatePicker>
+      <AnchorPane layoutX="430.0" layoutY="189.0" prefHeight="252.0" prefWidth="291.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <children>
+            <Label layoutX="31.0" layoutY="14.0" text="Date Sélectionnée :">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Label fx:id="DateDuJour" layoutX="44.0" layoutY="62.0" text="- " />
+            <MenuButton fx:id="MenuHeureDebut" layoutX="31.0" layoutY="104.0" mnemonicParsing="false" text="Heure de début ">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+               <font>
+                  <Font size="21.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MenuButton>
+            <MenuButton fx:id="MenuHeureFin" layoutX="32.0" layoutY="173.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="207.0" text="Heure de fin">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+               <font>
+                  <Font size="21.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MenuButton>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="51.0" fitWidth="55.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../S2.01/class/resources/images/Risque_zéro_-_logo-removebg.png" />
+         </image></ImageView>
    </children>
 </AnchorPane>
