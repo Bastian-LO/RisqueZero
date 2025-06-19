@@ -24,6 +24,10 @@ import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for the DPS page
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
 public class PageDPSController {
 
     private UserAdmin user;
@@ -260,7 +264,7 @@ public class PageDPSController {
     }
 
     /**
-     * Classe interne représentant une ligne dans le tableau DPS
+     * Internal class representing a row in the table.
      */
     public static class DPSRow {
         private String lundi;
