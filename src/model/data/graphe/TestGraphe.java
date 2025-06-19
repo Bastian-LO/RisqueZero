@@ -170,7 +170,7 @@ public class TestGraphe {
         horaire_finSecouristeBastian[0] = 18;
         horaire_finSecouristeBastian[1] = 30;
 
-        Secouriste secBastian = new Secouriste(1L, "Bastian", "Le Ouedec", "03/11/2003", "LeOuedec.Bastian@gmail.com", "0708091112", "8 rue des potiers", secBastianComp, secBastianDispos);
+        Secouriste secBastian = new Secouriste(1L, "Le Ouedec", "Bastian", "03/11/2003", "LeOuedec.Bastian@gmail.com", "0708091112", "8 rue des potiers", secBastianComp, secBastianDispos);
         Dispos dispo1 = new Dispos(secBastian, jour1, horaire_departSecouristeBastian, horaire_finSecouristeBastian);
         secBastian.addDispos(dispo1);
 
