@@ -329,7 +329,7 @@ public class TestGraphe {
         Journee dateTest = new Journee(LocalDate.of(2025, 6, 20));
         Site siteTest = new Site("TST", "Site test", 0, 0);
         Sport sportTest = new Sport("FOT", "Football");
-        DPS dpsTest = new DPS(3L, horaireDepart, horaireFin, dateTest, compListSecTest, siteTest, sport);
+        DPS dpsTest = new DPS(3L, horaireDepart, horaireFin, dateTest, compListSecTest, siteTest, sportTest);
 
         ArrayList<Secouriste> listSecTest = new ArrayList<>();
         listSecTest.add(secTest);
