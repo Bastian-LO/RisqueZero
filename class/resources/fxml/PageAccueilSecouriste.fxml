@@ -10,6 +10,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageAccueilSecouristeController">
    <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="303.0" layoutY="19.0" text="Accueil" textAlignment="CENTER" textFill="#004aad" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="System Bold" size="57.0" />
+         </font>
+      </Label>
       <Button fx:id="deconnexionButton" layoutX="833.0" layoutY="23.0" mnemonicParsing="false" onAction="#deconnexionPage" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion " textFill="WHITE" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="18.0">
          <font>
             <Font name="System Bold" size="21.0" />
@@ -18,11 +23,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="303.0" layoutY="19.0" text="Accueil" textAlignment="CENTER" textFill="#004aad" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <font>
-            <Font name="System Bold" size="57.0" />
-         </font>
-      </Label>
       <GridPane hgap="40.0" layoutX="36.0" layoutY="149.0" prefHeight="421.0" prefWidth="728.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="149.0">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
