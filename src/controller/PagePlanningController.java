@@ -2,15 +2,24 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 import model.data.persistence.Dispos;
 import model.data.persistence.Secouriste;
 import model.data.users.UserSecouriste;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -40,6 +49,9 @@ public class PagePlanningController {
     private TableColumn<Map<DayOfWeek, String>, String> ColonneSamedi;
     @FXML
     private TableColumn<Map<DayOfWeek, String>, String> ColonneDimanche;
+
+    @FXML
+    private Button accueilButton;
 
     @FXML
     private Hyperlink IDPagePrecedente;
@@ -143,5 +155,32 @@ public class PagePlanningController {
     private void handleSemaineSuivante() {
         currentWeekStart = currentWeekStart.plusWeeks(1);
         loadWeekData();
+    }
+
+    @FXML
+    public void accueilPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
+            Parent root = loader.load();
+
+            // Passage des données utilisateur
+            PageAccueilSecouristeController controller = loader.getController();
+            controller.setUser(user);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Erreur de navigation", "Impossible de charger la page d'accueil");
+            e.printStackTrace();
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
