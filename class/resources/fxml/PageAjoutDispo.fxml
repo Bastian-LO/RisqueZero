@@ -36,7 +36,7 @@
             <Font name="System Bold" size="46.0" />
          </font>
       </Label>
-      <DatePicker layoutX="57.0" layoutY="250.0" prefHeight="100.0" prefWidth="291.0" promptText="Choisissez la date">
+      <DatePicker fx:id="datepicker" layoutX="57.0" layoutY="250.0" onAction="#datepicker" prefHeight="100.0" prefWidth="291.0" promptText="Choisissez la date">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>
