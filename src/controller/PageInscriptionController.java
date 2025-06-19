@@ -17,11 +17,9 @@ import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
 import model.data.service.DAOMngt;
 import model.data.service.UserMngt;
-import model.data.users.User;
 import model.data.users.UserSecouriste;
 
 import java.io.IOException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -86,19 +84,22 @@ public class PageInscriptionController {
 
         Secouriste secouriste = new Secouriste(user.getId(), nom, prenom, dateNaissance, mail, telephone, adresse, new ArrayList<>(), new HashSet<>());
         DAOMngt.getSecouristeDAO().create(secouriste);
-        
+
         user.setIdSecouriste(user.getId());
-        
+
         user.setSecouriste(secouriste);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
         try {
             Parent root = loader.load();
-        } catch (IOException e) {
+            PageAccueilSecouristeController controller = loader.getController();
+            controller.setUser(user);
+            Stage stage = (Stage) inscriptionButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
-        PageAccueilSecouristeController controller = loader.getController();
-        controller.setUser(user);
-        // Assuming you have a setUser method in your PageAccueilSecouristeController
     }
 
 
