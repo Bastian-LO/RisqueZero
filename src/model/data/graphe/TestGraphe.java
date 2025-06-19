@@ -283,7 +283,7 @@ public class TestGraphe {
         for(int i = 0; i < listAff.size(); i++){
             Affectation aff = listAff.get(i);
             ArrayList<Pair<Secouriste, Competence>> listSecComp = aff.getList();
-            DPS idDps = aff.getIdDps();
+            DPS idDps = aff.getDps();
             
             System.out.println("DPS ID: " + idDps.getId());
             for (int j = 0; j < listSecComp.size(); j++){
