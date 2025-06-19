@@ -15,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.data.service.UserMngt;
 import model.data.users.User;
+import model.data.users.UserAdmin;
+import model.data.users.UserSecouriste;
 
 import static model.data.service.UserMngt.hashPassword;
 
@@ -52,16 +54,30 @@ public class PageConnexionController {
             // Redirection vers la page principale
             try {
                 User user = UserManager.findUser(login);
-                Parent root;
+                Parent root = null;
                 if ( user.isAdmin() ) {
-                    root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageAccueilAdmin.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilAdmin.fxml"));
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    PageAccueilAdminController controller = loader.getController();
+                    controller.setUser((UserAdmin) user);
                 } else {
-                    root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    PageAccueilSecouristeController controller = loader.getController();
+                    controller.setUser((UserSecouriste) user);
                 }
                 Stage stage = (Stage) SeConnecterBoutton.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
