@@ -93,7 +93,7 @@ public class PageProfilSecouristeController {
 
         // Réinitialiser toutes les labels
         List<Label> dispoLabels = List.of(Dispo1, Dispo2, Dispo3, Dispo4, Dispo5, Dispo6);
-        dispoLabels.forEach(label -> label.setText(""));
+        dispoLabels.forEach(label -> label.setText("        "));
 
         // Afficher jusqu'à 6 disponibilités
         int max = Math.min(dispos.size(), 6);
@@ -109,7 +109,7 @@ public class PageProfilSecouristeController {
 
         // Réinitialiser toutes les labels
         List<Label> compLabels = List.of(Comp1, Comp2, Comp3, Comp4, Comp5, Comp6);
-        compLabels.forEach(label -> label.setText(""));
+        compLabels.forEach(label -> label.setText("        "));
 
         // Afficher jusqu'à 6 compétences
         int max = Math.min(competences.size(), 6);

@@ -18,7 +18,7 @@ import view.MyConnection;
 public abstract class DAO <T> {
     
     protected Connection getConnection() throws SQLException {
-        Connection conn = MyConnection.getMyConnection().getConnection();
+        Connection conn = MyConnection.getConnection();
         if (conn.isClosed()) {
             throw new SQLException("La connexion est fermée");
         }
@@ -54,8 +54,7 @@ public abstract class DAO <T> {
         FileWriter fileWriter = null;
 
         try {
-            MyConnection mc = MyConnection.getMyConnection();
-            connection = mc.getConnection();
+            connection = MyConnection.getConnection();
             
             // Créer et exécuter la requête
             statement = connection.createStatement();
