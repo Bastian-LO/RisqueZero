@@ -65,11 +65,13 @@ public class PageDPSController {
         dimancheColumn.setCellValueFactory(new PropertyValueFactory<>("dimanche"));
 
         // Style des cellules
-        TableColumn<?, ?>[] columns = {lundiColumn, mardiColumn, mercrediColumn, jeudiColumn, 
-                                      vendrediColumn, samediColumn, dimancheColumn};
+        TableColumn<DPSRow, String>[] columns = (TableColumn<DPSRow, String>[]) new TableColumn[] {
+            lundiColumn, mardiColumn, mercrediColumn, jeudiColumn, 
+            vendrediColumn, samediColumn, dimancheColumn
+        };
         
-        for (TableColumn<?, ?> col : columns) {
-            col.setCellFactory(column -> new TableCell<>() {
+        for (TableColumn<DPSRow, String> col : columns) {
+            col.setCellFactory(column -> new TableCell<DPSRow, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
