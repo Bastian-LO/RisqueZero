@@ -16,12 +16,14 @@ public class UserSecouriste extends User {
         super(id, login, password, false);
         this.idSecouriste = id;
         SecouristeMngt secMngt = new SecouristeMngt();
-        this.secouriste = secMngt.findSecouriste(id);
+        this.secouriste = secMngt.findSecouriste(idSecouriste);
     }
 
     public UserSecouriste(String login, String password) {
         super(login, password, false);
         this.idSecouriste = this.getId();
+        SecouristeMngt secMngt = new SecouristeMngt();
+        this.secouriste = secMngt.findSecouriste(idSecouriste);
     }
 
     public int getIdSecouriste() {
