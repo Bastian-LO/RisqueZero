@@ -91,6 +91,13 @@ public class PageInscriptionController {
             return;
         }
         UserMngt userMngt = new UserMngt();
+
+        try {
+            Secouriste testParam = new Secouriste(0, nom, prenom, dateNaissance, mail, telephone, adresse, new ArrayList<>(), new HashSet<>());
+        } catch (Exception e) {
+            showAlert("Erreur", e.getMessage());
+            return;
+        }
         UserSecouriste user1 = (UserSecouriste) userMngt.findUser(mail);
         if (user1 != null) {
             showAlert("Erreur", "Un compte existe deja avec cette adresse mail");
