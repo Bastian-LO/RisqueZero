@@ -3,6 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -104,10 +105,19 @@ public class PageInscriptionController {
 
     public void connexionHandle(ActionEvent actionEvent) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
-            Stage stage = (Stage) connexionHyperlink.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            // Chargement de la deuxième interface depuis second.fxml
+            Parent connexionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
+
+            // Création de la nouvelle scène
+            Scene connexionScene = new Scene(connexionRoot);
+
+            // Récupération de la fenêtre actuelle
+            Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Changement de la scène
+            currentStage.setScene(connexionScene);
+            currentStage.setTitle("Connexion");
+            currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
