@@ -42,7 +42,7 @@ public class PageGestionSecouristesController {
 
     private void ouvrirModificationSecouriste(Secouriste secouriste) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageModifSecouriste.fxml"));
             Parent root = loader.load();
             PageModifSecouristeController controller = loader.getController();
             controller.setSecouriste(secouriste);
