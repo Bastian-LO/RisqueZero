@@ -9,13 +9,13 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.data.persistence.Competence;
 import model.data.persistence.DPS;
+import model.data.persistence.Journee;
 import model.data.service.DAOMngt;
 import model.data.users.UserAdmin;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PageModifDPSController {
@@ -51,49 +51,56 @@ public class PageModifDPSController {
     private UserAdmin user;
 
 
-    // Initialisation du contrôleur
     @FXML
     public void initialize(UserAdmin user, DPS dps) {
         this.dpsEnCours = dps;
-        chargerDonneesDPS();
+        this.user = user;
 
-        // Peuplement des ComboBox avec des données
+        // Initialize UI components
         sportTextField.setText(dps.getSport().getNom());
         siteTextField.setText(dps.getLieu().getNom());
         ComboBoxCompetences.getItems().addAll("PSC1", "PSE1", "PSE2", "DEA", "BNSSA");
 
+        // Set date and time fields from DPS
         if (dpsEnCours != null && dpsEnCours.getDateEvt() != null) {
             Calendrier.setValue(dpsEnCours.getDateEvt().toLocalDate());
 
-            heureDebutTextField.setText(dpsEnCours.getHoraireDepart()[0] + "");
-            minuteDebutTextField.setText(dpsEnCours.getHoraireDepart()[0] + "");
-            heureFinTextField.setText(dpsEnCours.getHoraireFin()[0] + "");
-            minuteFinTextField.setText(dpsEnCours.getHoraireFin()[1] + "");
+            // Fixed array indices for time fields
+            if (dpsEnCours.getHoraireDepart() != null && dpsEnCours.getHoraireDepart().length >= 2) {
+                heureDebutTextField.setText(String.valueOf(dpsEnCours.getHoraireDepart()[0]));
+                minuteDebutTextField.setText(String.valueOf(dpsEnCours.getHoraireDepart()[1]));
+            }
+            if (dpsEnCours.getHoraireFin() != null && dpsEnCours.getHoraireFin().length >= 2) {
+                heureFinTextField.setText(String.valueOf(dpsEnCours.getHoraireFin()[0]));
+                minuteFinTextField.setText(String.valueOf(dpsEnCours.getHoraireFin()[1]));
+            }
         } else {
             Calendrier.setValue(LocalDate.now());
         }
 
-        this.user = user;
+        chargerDonneesDPS();
     }
 
-
     private void chargerDonneesDPS() {
-        if (dpsEnCours != null) {
-            sportTextField.setText(this.dpsEnCours.getSport().getNom());
-            siteTextField.setText(this.dpsEnCours.getLieu().getNom());
-            Calendrier.setValue(dpsEnCours.getDateEvt().toLocalDate());
+        if (dpsEnCours == null) return;
 
-            List<Competence> competences = DAOMngt.getCompetenceDAO().findAll();
-            List<Competence> competencesManquantes = new ArrayList<>();
-            for (Competence competence : competences) {
-                if (!dpsEnCours.getCompetences().contains(competence)) {
-                    competencesManquantes.add(competence);
-                }
-                List<Competence> sublist = competencesManquantes.subList(0, Math.min(5, competences.size()));
-                for (Competence comp : sublist) {
-                    ListeDeCompetences.getItems().add(comp.getIntitule());
-                }
+        // Clear existing items
+        ListeDeCompetences.getItems().clear();
+
+        // Load available competences
+        List<Competence> allCompetences = DAOMngt.getCompetenceDAO().findAll();
+        List<Competence> missingCompetences = new ArrayList<>();
+
+        for (Competence competence : allCompetences) {
+            if (!dpsEnCours.getCompetences().contains(competence)) {
+                missingCompetences.add(competence);
             }
+        }
+
+        int maxCompetencesToShow = 5;
+        for (int i = 0; i < Math.min(missingCompetences.size(), maxCompetencesToShow); i++) {
+            Competence comp = missingCompetences.get(i);
+            ListeDeCompetences.getItems().add(comp.getIntitule());
         }
     }
 
@@ -124,13 +131,107 @@ public class PageModifDPSController {
 
     @FXML
     public void BouttonAffecterHandle(ActionEvent event) {
-        System.out.println("Affectation des secouristes");
-        // TODO LES PUTAINS DE GRAPHES DE CON
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAffectation.fxml"));
+        try {
+            Parent root = loader.load();
+            PageAffectationController controller = loader.getController();
+            controller.initialize(user,dpsEnCours);
+            Stage stage = (Stage) BouttonAffecter.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void BouttonEnregistrerHandle(ActionEvent event) {
-        //TODO ENREGISTRER DANS LA BDD TOUTE LES INFOS DE LA PAGE SSI ELLES SONT VALIDES
+        // Validation des champs obligatoires
+        if (!validerChampsObligatoires()) {
+            return;
+        }
+
+        // Validation des formats de temps
+        if (!validerTemps()) {
+            return;
+        }
+
+        // Récupération des valeurs modifiées
+        String sport = sportTextField.getText();
+        String site = siteTextField.getText();
+        LocalDate date = Calendrier.getValue();
+
+        // Conversion des horaires
+        int[] horaireDebut = {
+                Integer.parseInt(heureDebutTextField.getText()),
+                Integer.parseInt(minuteDebutTextField.getText())
+        };
+
+        int[] horaireFin = {
+                Integer.parseInt(heureFinTextField.getText()),
+                Integer.parseInt(minuteFinTextField.getText())
+        };
+
+        // Mise à jour du DPS
+        dpsEnCours.getSport().setNom(sport);
+        dpsEnCours.getLieu().setNom(site);
+        dpsEnCours.setdateEvt(new Journee(date));
+        dpsEnCours.setHoraireDepart(horaireDebut);
+        dpsEnCours.setHoraireFin(horaireFin);
+
+        try {
+            DAOMngt.getDPSDAO().update(dpsEnCours);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        showAlert("Succès", "Modifications enregistrées avec succès", Alert.AlertType.INFORMATION);
+    }
+
+    // Méthode de validation des champs obligatoires
+    private boolean validerChampsObligatoires() {
+        if (sportTextField.getText().isEmpty() ||
+                siteTextField.getText().isEmpty() ||
+                Calendrier.getValue() == null) {
+
+            showAlert("Champs manquants",
+                    "Veuillez remplir tous les champs obligatoires",
+                    Alert.AlertType.WARNING);
+            return false;
+        }
+        return true;
+    }
+
+    // Méthode de validation des formats de temps
+    private boolean validerTemps() {
+        boolean valid = true;
+
+        if (invalideFormatTemps(heureDebutTextField, 0, 23)) valid = false;
+        if (invalideFormatTemps(minuteDebutTextField, 0, 59)) valid = false;
+        if (invalideFormatTemps(heureFinTextField, 0, 23)) valid = false;
+        if (invalideFormatTemps(minuteFinTextField, 0, 59)) valid = false;
+
+        return valid;
+    }
+
+    // Méthode utilitaire pour la validation des champs temps
+    private boolean invalideFormatTemps(TextField field, int min, int max) {
+        try {
+            int value = Integer.parseInt(field.getText());
+            if (value < min || value > max) {
+                field.setStyle("-fx-text-fill: red;");
+                showAlert("Valeur incorrecte",
+                        "La valeur doit être entre " + min + " et " + max,
+                        Alert.AlertType.WARNING);
+                return true;
+            }
+            field.setStyle("-fx-text-fill: black;");
+            return false;
+        } catch (NumberFormatException e) {
+            field.setStyle("-fx-text-fill: red;");
+            showAlert("Format incorrect", "Veuillez entrer un nombre valide", Alert.AlertType.WARNING);
+            return true;
+        }
     }
 
     @FXML
@@ -194,21 +295,36 @@ public class PageModifDPSController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-    public void calendrierHandle(ActionEvent actionEvent) {
-        if (Calendrier.getValue() != null) {
-
-        }
-    }
     public void heureDebutTextFieldHandle(ActionEvent actionEvent) {
-
+        validateTimeField(heureDebutTextField, 0, 23);
     }
+
     public void minuteDebutTextFieldHandle(ActionEvent actionEvent) {
+        validateTimeField(minuteDebutTextField, 0, 59);
     }
 
     public void heureFinTextFieldHandle(ActionEvent actionEvent) {
+        validateTimeField(heureFinTextField, 0, 23);
     }
 
     public void minuteFinTextFieldHandle(ActionEvent actionEvent) {
+        validateTimeField(minuteFinTextField, 0, 59);
+    }
+
+    private void validateTimeField(TextField field, int min, int max) {
+        try {
+            int value = Integer.parseInt(field.getText());
+            if (value < min || value > max) {
+                field.setStyle("-fx-text-fill: red;");
+                showAlert("Valeur incorrecte",
+                        "La valeur doit être entre " + min + " et " + max,
+                        Alert.AlertType.WARNING);
+            } else {
+                field.setStyle("-fx-text-fill: black;");
+            }
+        } catch (NumberFormatException e) {
+            field.setStyle("-fx-text-fill: red;");
+            showAlert("Format incorrect", "Veuillez entrer un nombre valide", Alert.AlertType.WARNING);
+        }
     }
 }
