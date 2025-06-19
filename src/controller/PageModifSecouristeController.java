@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
 import model.data.service.DAOMngt;
+import model.data.users.User;
 
 public class PageModifSecouristeController {
 
@@ -22,6 +23,7 @@ public class PageModifSecouristeController {
 
     private Secouriste secouriste;
     private Stage dialogStage;
+    private User user;
 
     public void initialize(Secouriste secouriste, Stage dialogStage) {
         this.secouriste = secouriste;
