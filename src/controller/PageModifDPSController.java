@@ -22,58 +22,65 @@ public class PageModifDPSController {
 
     public TextField heureDebutTextField;
     public TextField minuteDebutTextField;
+    public TextField sportTextField;
+    public TextField siteTextField;
+    public Label dateLabel;
+    public TextField heureFinTextField;
+    public TextField minuteFinTextField;
     // Déclaration des éléments FXML
     @FXML
     private Button BouttonAccueil;
     @FXML
     private Button BouttonAffecter;
+
     @FXML
     private Button BouttonEnregistrer;
     @FXML
     private Button BouttonSupprimer;
-    @FXML
-    private ComboBox<String> ComboBoxSport;
-    @FXML
-    private ComboBox<String> ComboBoxSite;
+
     @FXML
     private ComboBox<String> ComboBoxCompetences;
     @FXML
     private ListView<String> ListeDeCompetences;
     @FXML
     private DatePicker Calendrier;
-    @FXML
-    private Label LabelQuiAfficheHeureMinute;
 
     // Champs pour stocker les données
     private DPS dpsEnCours;
 
     private UserAdmin user;
 
-    // Méthode pour initialiser les données du DPS
-    public void setDPS(DPS dps) {
-        this.dpsEnCours = dps;
-        chargerDonneesDPS();
-    }
 
     // Initialisation du contrôleur
     @FXML
-    public void initialize(UserAdmin user) {
+    public void initialize(UserAdmin user, DPS dps) {
+        this.dpsEnCours = dps;
+        chargerDonneesDPS();
+
         // Peuplement des ComboBox avec des données
-        ComboBoxSport.getItems().addAll("Skateboard", "Breakdance", "Ski de fond", "Kamping");
-        ComboBoxSite.getItems().addAll("Paris", "Vannes", "Beijing", "Antananarivo");
+        sportTextField.setText(dps.getSport().getNom());
+        siteTextField.setText(dps.getLieu().getNom());
         ComboBoxCompetences.getItems().addAll("PSC1", "PSE1", "PSE2", "DEA", "BNSSA");
 
-        // Configuration du DatePicker
-        Calendrier.setValue(LocalDate.now());
+        if (dpsEnCours != null && dpsEnCours.getDateEvt() != null) {
+            Calendrier.setValue(dpsEnCours.getDateEvt().toLocalDate());
+
+            heureDebutTextField.setText(dpsEnCours.getHoraireDepart()[0] + "");
+            minuteDebutTextField.setText(dpsEnCours.getHoraireDepart()[0] + "");
+            heureFinTextField.setText(dpsEnCours.getHoraireFin()[0] + "");
+            minuteFinTextField.setText(dpsEnCours.getHoraireFin()[1] + "");
+        } else {
+            Calendrier.setValue(LocalDate.now());
+        }
 
         this.user = user;
-
     }
+
 
     private void chargerDonneesDPS() {
         if (dpsEnCours != null) {
-            ComboBoxSport.setValue(dpsEnCours.getSport().getNom());
-            ComboBoxSite.setValue(dpsEnCours.getLieu().getNom());
+            sportTextField.setText(this.dpsEnCours.getSport().getNom());
+            siteTextField.setText(this.dpsEnCours.getLieu().getNom());
             Calendrier.setValue(dpsEnCours.getDateEvt().toLocalDate());
 
             List<Competence> competences = DAOMngt.getCompetenceDAO().findAll();
@@ -190,12 +197,18 @@ public class PageModifDPSController {
 
     public void calendrierHandle(ActionEvent actionEvent) {
         if (Calendrier.getValue() != null) {
-            LabelQuiAfficheHeureMinute.setText(Calendrier.getValue().toString());
+
         }
     }
     public void heureDebutTextFieldHandle(ActionEvent actionEvent) {
 
     }
     public void minuteDebutTextFieldHandle(ActionEvent actionEvent) {
+    }
+
+    public void heureFinTextFieldHandle(ActionEvent actionEvent) {
+    }
+
+    public void minuteFinTextFieldHandle(ActionEvent actionEvent) {
     }
 }
