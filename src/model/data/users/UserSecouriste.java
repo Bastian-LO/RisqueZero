@@ -1,6 +1,7 @@
 package model.data.users;
 
 import model.data.persistence.Secouriste;
+import model.data.service.SecouristeMngt;
 
 /**
  * Class representing a secouriste user
@@ -10,9 +11,12 @@ public class UserSecouriste extends User {
     private int idSecouriste;
     private Secouriste secouriste;
 
+
     public UserSecouriste(int id, String login, String password) {
         super(id, login, password, false);
         this.idSecouriste = id;
+        SecouristeMngt secMngt = new SecouristeMngt();
+        this.secouriste = secMngt.findSecouriste(id);
     }
 
     public UserSecouriste(String login, String password) {
