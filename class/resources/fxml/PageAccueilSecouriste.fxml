@@ -42,10 +42,13 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Button mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir le planning" textFill="WHITE">
+                  <Button fx:id="planningButton" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir le planning" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin>
+                     <font>
+                        <Font size="30.0" />
+                     </font>
                   </Button>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
@@ -54,27 +57,27 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="idEvenementLabel" text="Label">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="nomEvenementLabel" text="Label">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="siteEvenementLabel" text="Label">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="dateEvenementLabel" text="Label">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="nbSpectateursLabel" text="Label">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -99,10 +102,13 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Button mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir le profil" textFill="WHITE">
+                  <Button fx:id="profilButton" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Voir le profil" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin>
+                     <font>
+                        <Font size="30.0" />
+                     </font>
                   </Button>
                   <VBox prefHeight="109.0" prefWidth="344.0">
                      <children>
@@ -111,7 +117,7 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="competenceLabel" text="Label">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -128,7 +134,7 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Label">
+                        <Label fx:id="disponibiliteLabel" text="Label">
                            <font>
                               <Font size="16.0" />
                            </font>
