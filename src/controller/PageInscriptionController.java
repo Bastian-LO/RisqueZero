@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
 import model.data.service.UserMngt;
+import model.data.users.User;
 import model.data.users.UserSecouriste;
 
 import java.io.IOException;
@@ -68,14 +69,15 @@ public class PageInscriptionController {
             showAlert("Erreur", "Les mots de passe ne correspondent pas.");
             return;
         }
-        UserSecouriste user;
-        try {
-            user = new UserSecouriste(mail, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Erreur", "Attributs deja utilises.");
+        UserMngt userMngt = new UserMngt();
+        UserSecouriste user1 = (UserSecouriste) userMngt.findUser(mail);
+        if (user1 != null) {
+            showAlert("Erreur", "Un compte existe deja avec cette adresse mail");
             return;
         }
+
+        UserSecouriste user = new UserSecouriste(mail, password);
+
         Secouriste secouriste = new Secouriste(user.getId(), nom, prenom, dateNaissance, mail, telephone, adresse, new ArrayList<>(), new HashSet<>());
         user.setIdSecouriste(user.getId());
         user.setSecouriste(secouriste);
