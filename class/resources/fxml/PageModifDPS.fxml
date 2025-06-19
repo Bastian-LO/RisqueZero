@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.text.*?>
@@ -9,7 +10,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f1f0ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageModifDPSController">
    <children>
-      <Button fx:id="BouttonAccueil" layoutX="682.0" layoutY="17.0" mnemonicParsing="false" onAction="#BouttonAccueilHandle" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="17.0">
+      <Label alignment="CENTER" layoutX="7.0" layoutY="9.0" text="Modifier un dispositif" textFill="#004aad" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <Button fx:id="BouttonAccueil" layoutX="680.0" layoutY="16.0" mnemonicParsing="false" onAction="#BouttonAccueilHandle" prefHeight="44.0" prefWidth="110.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="16.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -17,126 +23,147 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="72.0" layoutY="26.0" text="Risque zéro">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="171.0" layoutY="39.0" text="Modifier un dispositif" textFill="#004aad">
-         <font>
-            <Font name="System Bold" size="45.0" />
-         </font>
-      </Label>
-      <DatePicker fx:id="Calendrier" layoutX="42.0" layoutY="365.0" onAction="#CalendrierHandle" prefHeight="31.0" prefWidth="222.0" />
-      <Button fx:id="BouttonAffecter" layoutX="554.0" layoutY="396.0" mnemonicParsing="false" onAction="#BouttonAffecterHandle" prefWidth="200.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Affecter des &#10; secouristes" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="BouttonEnregistrer" layoutX="554.0" layoutY="459.0" mnemonicParsing="false" onAction="#BouttonEnregistrerHandle" prefWidth="200.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Enregistrer les&#10; modifications" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Button>
-      <Button fx:id="BouttonSupprimer" layoutX="554.0" layoutY="525.0" mnemonicParsing="false" onAction="#BouttonSupprimerHandle" prefWidth="200.0" style="-fx-background-color: #ff3131; -fx-background-radius: 50;" text="Supprimer le&#10;   dispositif" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Button>
-      <AnchorPane layoutX="42.0" layoutY="187.0" prefHeight="119.0" prefWidth="222.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+      <HBox alignment="CENTER_LEFT" layoutX="9.0" layoutY="12.0" spacing="10.0">
          <children>
-            <ComboBox fx:id="ComboBoxSport" layoutX="14.0" layoutY="60.0" onAction="#ComboBoxSportHandle" prefHeight="44.0" prefWidth="188.0" promptText="Ski alpin" style="-fx-background-radius: 50;" />
-            <Label layoutX="22.0" layoutY="21.0" text="Sport :">
+            <ImageView fitHeight="58.0" fitWidth="55.0" layoutX="9.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Risque_zéro_-_logo-removebg.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="72.0" layoutY="26.0" text="Risque zéro">
                <font>
-                  <Font size="19.0" />
+                  <Font name="System Bold Italic" size="18.0" />
                </font>
             </Label>
          </children>
-      </AnchorPane>
-      <AnchorPane layoutX="295.0" layoutY="187.0" prefHeight="119.0" prefWidth="232.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+      </HBox>
+      <DatePicker fx:id="Calendrier" layoutX="571.0" layoutY="317.0" maxHeight="177.0" onAction="#calendrierHandle" prefHeight="5.0" prefWidth="154.0" promptText="date" AnchorPane.rightAnchor="75.0" />
+      <Button fx:id="BouttonAffecter" layoutX="554.0" layoutY="396.0" mnemonicParsing="false" onAction="#BouttonAffecterHandle" prefWidth="200.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Affecter des &#10; secouristes" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="40.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="BouttonEnregistrer" layoutX="554.0" layoutY="459.0" mnemonicParsing="false" onAction="#BouttonEnregistrerHandle" prefWidth="200.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Enregistrer les&#10; modifications" textFill="WHITE" AnchorPane.bottomAnchor="85.0" AnchorPane.rightAnchor="40.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="BouttonSupprimer" layoutX="554.0" layoutY="525.0" mnemonicParsing="false" onAction="#BouttonSupprimerHandle" prefWidth="200.0" style="-fx-background-color: #ff3131; -fx-background-radius: 50;" text="Supprimer le&#10;   dispositif" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="40.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <VBox layoutX="49.0" layoutY="104.0" prefHeight="200.0" prefWidth="224.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;" AnchorPane.leftAnchor="49.0" AnchorPane.topAnchor="104.0">
          <children>
-            <Label layoutX="30.0" layoutY="12.0" text="Site :">
+            <Label text="Sport :">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <ComboBox fx:id="ComboBoxSite" layoutX="14.0" layoutY="60.0" onAction="#ComboBoxSiteHandle" prefHeight="44.0" prefWidth="188.0" promptText="Mont-Blanc, Vannes" style="-fx-background-radius: 50;">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ComboBox>
+            <TextField fx:id="sportTextField" onAction="#sportHandle" />
          </children>
-      </AnchorPane>
-      <AnchorPane layoutX="561.0" layoutY="187.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
+         </padding>
+      </VBox>
+      <VBox layoutX="304.0" layoutY="104.0" prefHeight="200.0" prefWidth="223.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;" AnchorPane.leftAnchor="295.0" AnchorPane.topAnchor="104.0">
          <children>
-            <Label layoutX="8.0" layoutY="21.0" text="Compétences :">
+            <Label text="Site :">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <ListView fx:id="ListeDeCompétences" layoutX="14.0" layoutY="55.0" prefHeight="82.0" prefWidth="171.0">
+            <TextField fx:id="siteTextField" onAction="#siteHandle" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
+         </padding>
+      </VBox>
+      <VBox layoutX="545.0" layoutY="105.0" prefHeight="200.0" prefWidth="227.0" style="-fx-background-radius: 25; -fx-background-color: #ffffff;" AnchorPane.bottomAnchor="295.0" AnchorPane.leftAnchor="545.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="105.0">
+         <children>
+            <Label text="Compétences :">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <ListView fx:id="ListeDeCompetences" prefHeight="82.0" prefWidth="171.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
             </ListView>
-            <ComboBox fx:id="ComboBoxCompétences" layoutX="14.0" layoutY="147.0" onAction="#ComboBoxCompétencesHandle" prefHeight="31.0" prefWidth="171.0" promptText="Compétences" style="-fx-background-radius: 50;">
+            <ComboBox fx:id="ComboBoxCompetences" onAction="#ComboBoxCompetencesHandle" prefHeight="51.0" promptText="Compétences" style="-fx-background-radius: 50;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ComboBox>
          </children>
-      </AnchorPane>
-      <AnchorPane layoutX="295.0" layoutY="331.0" prefHeight="233.0" prefWidth="232.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;">
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
+         </padding>
+      </VBox>
+      <VBox layoutX="38.0" layoutY="326.0" prefHeight="251.0" prefWidth="481.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;" AnchorPane.leftAnchor="49.0">
          <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Date sélectionnée :">
+            <Label text="Date sélectionnée :">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label fx:id="LabelQuiAfficheHeureMinute" layoutX="17.0" layoutY="47.0" text="-" />
-            <Label layoutX="14.0" layoutY="68.0" text="Heure de début :">
+            <Label fx:id="dateLabel" text="-" />
+            <Label text="Heure de début :">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" layoutX="20.0" layoutY="104.0">
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
                <children>
-                  <TextField prefHeight="31.0" prefWidth="77.0" promptText="Heure" />
-                  <TextField prefWidth="77.0" promptText="minute" />
+                  <TextField fx:id="heureDebutTextField" onAction="#heureDebutTextFieldHandle" prefHeight="51.0" prefWidth="104.0" promptText="Heure" />
+                  <TextField fx:id="minuteDebutTextField" onAction="#minuteDebutTextFieldHandle" prefWidth="104.0" promptText="minute" />
                </children>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
             </HBox>
-            <Label layoutX="20.0" layoutY="150.0" text="Heure de fin : ">
+            <Label text="Heure de fin : ">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" layoutX="20.0" layoutY="188.0">
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
                <children>
-                  <TextField prefHeight="31.0" prefWidth="77.0" promptText="Heure" />
-                  <TextField prefWidth="77.0" promptText="minute" />
+                  <TextField fx:id="heureFinTextField" onAction="#heureFinTextFieldHandle" prefHeight="31.0" prefWidth="104.0" promptText="Heure" />
+                  <TextField fx:id="minuteFinTextField" onAction="#minuteFinTextFieldHandle" prefWidth="104.0" promptText="minute" />
                </children>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
             </HBox>
          </children>
-      </AnchorPane>
-      <ImageView fitHeight="58.0" fitWidth="55.0" layoutX="9.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../S2.01/class/resources/images/Risque_zéro_-_logo-removebg.png" />
-         </image>
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
+         </padding>
+      </VBox>
+      <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="638.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+         <cursor>
+            <Cursor fx:constant="SE_RESIZE" />
+         </cursor>
       </ImageView>
    </children>
 </AnchorPane>

@@ -204,6 +204,14 @@ public class Dispos {
     @Override
     public String toString() {
         return date.toString() + " - " + heureDebut[0] + ":" + String.format("%02d", heureDebut[1]) + " - " + heureFin[0] + ":" + String.format("%02d", heureFin[1]);
+    }   
+
+    /**
+     * Returns the date as a LocalDate object
+     * @return the LocalDate object
+     */
+    public LocalDate getLocalDate() {
+        return this.date.toLocalDate();
     }
 
     /**
