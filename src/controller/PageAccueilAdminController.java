@@ -54,6 +54,15 @@ public class PageAccueilAdminController {
 
     private void updateDPS() {
         List<DPS> dps = DAOMngt.getDPSDAO().findAll();
+
+        if (dps == null || dps.isEmpty()) {
+            idEvenementLabel.setText("Aucun événement pour l'instant.");
+            sportLabel.setText("");
+            siteLabel.setText("");
+            dateLabel.setText("");
+            return;
+        }
+
         DPS nextDPS = dps.get(0);
         for ( DPS dps1 : dps) {
             if (dps1.getDateEvt().isBefore(nextDPS.getDateEvt())) {
