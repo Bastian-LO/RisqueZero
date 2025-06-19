@@ -10,7 +10,7 @@ import java.sql.*;
 public class MyConnection {
 
     /** URL of the database */
-    private static final String URL = "jdbc:mariadb://10.1.1.1:3306/db_SAE?useSSL=false&allowPublicKeyRetrieval=true&serverSslCert=/var/lib/mysql/server-cert.pem";;
+    private static final String URL = "jdbc:mariadb://10.1.1.1:3306/db_SAE?autoReconnect=true&connectTimeout=3000&useSSL=false&allowPublicKeyRetrieval=true&serverSslCert=/var/lib/mysql/server-cert.pem";;
 
     /** Login to connect to the database */
     private static final String LOGIN = "adminClient";

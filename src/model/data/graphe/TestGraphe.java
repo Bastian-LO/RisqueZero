@@ -367,7 +367,7 @@ public class TestGraphe {
         boolean reserveCreneauOK = graphTest.reserveCreneau(secTest, dpsTest);*/
     }
 
-    void testexhaustif(){
+    void testExhaustif(){
         System.out.println("\nAlgorithme exhaustif, tests : Cas normal ");
         
     }

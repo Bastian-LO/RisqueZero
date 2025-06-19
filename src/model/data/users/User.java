@@ -3,6 +3,7 @@ package model.data.users;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import model.dao.UserDAO;
+import model.data.persistence.Secouriste;
 import model.data.service.UserMngt;
 
 /**
