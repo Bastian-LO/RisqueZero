@@ -18,6 +18,11 @@ public class MyConnection {
     /** Password to connect to the database */
     private static final String PWD = "mdp_adminClient";
 
+    /**
+     * Returns a connection to the database
+     * @return a connection to the database
+     * @throws SQLException if there is an issue with the database
+     */
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, LOGIN, PWD);
     }

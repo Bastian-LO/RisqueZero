@@ -11,6 +11,11 @@ import java.sql.Connection;
 
 public class Main extends Application {
 
+    /**
+     * Starts the application, loading the first page (PageDeGarde)
+     * @param primaryStage the primary stage to display the application
+     * @throws Exception if any error occurs while loading the page
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -23,9 +28,12 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * The main entry point for the application.
+     * 
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
-        //MyConnection mc = MyConnection.getMyConnection();
-        //Connection c = mc.getConnection();
         launch(args);
     }
 }
