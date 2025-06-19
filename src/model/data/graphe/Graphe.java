@@ -165,14 +165,15 @@ public class Graphe {
         Set<Competence> visited = new HashSet<>();
         Set<Competence> recursionStack = new HashSet<>();
         CompetenceDAO DAOcomp = new CompetenceDAO();
+        boolean ret = true;
         for (Competence comp : DAOcomp.findAll()) {
             if (!visited.contains(comp)) {
                 if (hasCycle(comp, visited, recursionStack)) {
-                    return false;
+                    ret = false;
                 }
             }
         }
-        return true;
+        return ret;
     }
 
     /**
@@ -402,6 +403,7 @@ public class Graphe {
         return ret;
     }
 
+    /*
     public ArrayList<Affectation> glouton(){
         ArrayList<Affectation> ret = new ArrayList<>();
         HashMap<DPS, Integer> nbCompParDps = this.getNbComp();  // Pour chaque DPS, le nb de compétences requises
@@ -426,4 +428,5 @@ public class Graphe {
 
         return ret;
     }
+        */
 }
