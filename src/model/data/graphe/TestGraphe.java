@@ -265,8 +265,6 @@ public class TestGraphe {
         Dispos dispo10 = new Dispos(secKillian, jour2, horaire_departSecouristeKillian, horaire_finSecouristeKillian);
         secKillian.addDispos(dispo10);
 
-
-
         ArrayList<Secouriste> listSec = new ArrayList<>();
         listSec.add(secBastian);
         listSec.add(secEnrick);
@@ -275,14 +273,12 @@ public class TestGraphe {
         listSec.add(secKillian);
 
 
-
-
         // Création du graphe
 
         Graphe graph = new Graphe(listSec, dpss);
 
         System.out.println("\nAlgorithme exhaustif : ");
-        ArrayList<Affectation> listAff = graph.startExhaustif();
+        ArrayList<Affectation> listAff = graph.affectationExhaustive();
 
         for(int i = 0; i < listAff.size(); i++){
             Affectation aff = listAff.get(i);
@@ -296,7 +292,7 @@ public class TestGraphe {
             }
         }
 
-        /**
+        /*
         System.out.println("\nAlgorithme glouton : ");
         ArrayList<Affectation> listAffGlouton = graph.glouton();
         for(int i = 0; i < listAffGlouton.size(); i++){
@@ -309,7 +305,7 @@ public class TestGraphe {
                 Pair<Secouriste, Competence> pairSecComp = listSecComp.get(j);
                 System.out.println(pairSecComp.getKey().getNom() + " : " + pairSecComp.getValue());
             }
-        }*/
+        }
 
         System.out.println("\nTests de checkDispos et reserveCreneau");
         ArrayList<Competence> compListSecTest = new ArrayList<>();
@@ -345,6 +341,6 @@ public class TestGraphe {
         System.out.println("Dispo réservée : " + DispoOk);
         System.out.println("Dispos restantes : " + secTest.getDisponibilites());
 
-        boolean reserveCreneauOK = graphTest.reserveCreneau(secTest, dpsTest);
+        boolean reserveCreneauOK = graphTest.reserveCreneau(secTest, dpsTest);*/
     }
 }
