@@ -28,7 +28,6 @@ public class Sport {
      * @throws IllegalArgumentException if the parameters are invalid (null or empty)
      */
     public Sport(String code, String nom) throws IllegalArgumentException {
-        // Check if the parameters are valid
         if (code == null || code.trim().equals("") || nom == null || nom.trim().equals("")){
             throw new IllegalArgumentException("Paramètres invalides");
         }
@@ -69,7 +68,6 @@ public class Sport {
      * @throws IllegalArgumentException if the new code is invalid (null or empty)
      */
     public void setCode(String newCode) throws IllegalArgumentException {
-        // Check if the new code is valid
         if (newCode == null || newCode.trim().equals("")){
             throw new IllegalArgumentException("Paramètre invalide");
         }
@@ -82,7 +80,6 @@ public class Sport {
      * @throws IllegalArgumentException if the new name is invalid (null or empty)
      */
     public void setNom(String newNom) throws IllegalArgumentException {
-        // Checks if the new name is valid
         if(newNom == null || newNom.trim().equals("")){
             throw new IllegalArgumentException("Paramètre invalide");
         }

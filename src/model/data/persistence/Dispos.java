@@ -39,7 +39,6 @@ public class Dispos {
      * @throws IllegalArgumentException if a parameter is invalid
      */
     public Dispos(Secouriste secouriste, Journee date, int[] heureDebut, int[] heureFin) throws IllegalArgumentException {
-        // Checks if the parameters are valid
         if (secouriste == null || date == null || heureDebut == null || heureFin == null || heureDebut[0] < 0 || heureDebut[1] < 0 || heureFin[0] < 0 || heureFin[1] < 0 || heureDebut[0] > 23 || heureDebut[1] > 59 || heureFin[0] > 23 || heureFin[1] > 59 ) {
             throw new IllegalArgumentException("Les paramètres ne peuvent pas être null ou vides");
         }else if (heureDebut[0] > heureFin[0] || (heureDebut[0] == heureFin[0] && heureDebut[1] >= heureFin[1])) {

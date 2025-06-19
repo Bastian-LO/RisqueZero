@@ -143,8 +143,7 @@ public class Journee{
             if(jour > 30){
                 throw new IllegalArgumentException("La date est impossible");
             }
-        } else if (mois == 2){  
-            // Traitement des années bissextiles
+        } else if (mois == 2){
             if(annee % 4 != 0 || (annee % 100 == 0 && annee % 400 != 0)){
                 if (jour > 28){
                     throw new IllegalArgumentException("La date est impossible");
@@ -209,10 +208,20 @@ public class Journee{
         return ret;
     }
 
+    /**
+     * Checks if the current date is after the date in parameter
+     * @param date the date to compare
+     * @return true if the current date is after the given date
+     */
     public boolean isAfter(Journee date){
         return this.toLocalDate().isAfter(date.toLocalDate());
     }
 
+    /**
+     * Checks if the current date is before the date in parameter
+     * @param date the date to compare
+     * @return true if the current date is before the given date
+     */
     public boolean isBefore(Journee date){
         return this.toLocalDate().isBefore(date.toLocalDate());
     }

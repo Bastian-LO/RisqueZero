@@ -76,7 +76,6 @@ public class Secouriste{
      * @throws IllegalArgumentException if a parameter is invalid
      */
     public Secouriste(long id, String nom, String prenom, String dateNaissance, String email, String tel, String adresse, ArrayList<Competence> comp, HashSet<Dispos> disponibilite) throws IllegalArgumentException{
-        // Checks if the parameters are valid
         if (id < 0) {
             throw new IllegalArgumentException("L'ID doit être supérieur ou égal à 0 (valeur reçue: " + id + ")");
         }
@@ -338,7 +337,6 @@ public class Secouriste{
      * @throws IllegalArgumentException if the parameter is invalid
      */
     public void addDispos(Dispos newDispo) {
-        // Pré-condition
         if (newDispo == null || !newDispo.getSecouriste().equals(this)) {
             throw new IllegalArgumentException("addDispos : paramètre invalide");
         }
