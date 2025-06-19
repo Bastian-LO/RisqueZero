@@ -17,7 +17,7 @@ import java.io.IOException;
 public class PageGestionSecouristesController {
 
     @FXML private ListView<Secouriste> secouristesListView;
-    @FXML private Button ajouterButton;
+    @FXML public Button ajouterButton;
 
     public UserAdmin user;
 
@@ -47,7 +47,7 @@ public class PageGestionSecouristesController {
             PageModifSecouristeController controller = loader.getController();
             controller.setSecouriste(secouriste);
             controller.setUser(user);
-            Stage  stage = (Stage) ajouterButton.getScene().getWindow();
+            Stage  stage = (Stage) secouristesListView.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
 
