@@ -16,7 +16,6 @@ public class TestGraphe {
         // Création du DPS 
         
         ArrayList<Pair<DPS, Competence>> DPSCompet = new ArrayList<>();
-        ArrayList<DPS> dpss = new ArrayList<>();
 
         int[] horaire_depart1 = new int[2];
         horaire_depart1[0] = 10;
@@ -30,8 +29,13 @@ public class TestGraphe {
         Competence comp1 = new Competence("PSC1");
         HashSet<Competence> requis1 = new HashSet<>();
         requis1.add(comp1);
-        Competence comp2 = new Competence("PCS2", requis1);
-        Competence comp3 = new Competence("Skibidi");
+        
+        Competence comp2 = new Competence("PSC2", requis1);
+        Competence comp3 = new Competence("VAO1");
+        HashSet<Competence> requis2 = new HashSet<>();
+        requis2.add(comp3);
+        Competence comp4 = new Competence("VAO2", requis2);
+        Competence comp5 = new Competence("NVE");
 
         ArrayList<Competence> compList = new ArrayList<>();
         compList.add(comp1);
@@ -43,6 +47,7 @@ public class TestGraphe {
         Sport sport = new Sport("TNS", "Tennis");
 
         DPS dps = new DPS(1L, horaire_depart1, horaire_fin1, jour, compList, lieu, sport);
+        ArrayList<DPS> dpss = new ArrayList<>();
         dpss.add(dps);
 
         for (int i = 0; i < compList.size(); i++){
@@ -102,6 +107,7 @@ public class TestGraphe {
             }
         }
 
+        /*
         System.out.println("\nAlgorithme glouton : ");
         ArrayList<Affectation> listAffGlouton = graph.glouton();
         for(int i = 0; i < listAffGlouton.size(); i++){
@@ -114,6 +120,6 @@ public class TestGraphe {
                 Pair<Secouriste, Competence> pairSecComp = listSecComp.get(j);
                 System.out.println(pairSecComp.getKey().getNom() + " : " + pairSecComp.getValue());
             }
-        }
+        }*/
     }
 }
