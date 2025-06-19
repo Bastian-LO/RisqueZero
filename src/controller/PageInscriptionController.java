@@ -73,7 +73,7 @@ public class PageInscriptionController {
             user = new UserSecouriste(mail, password);
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert(Erreur, "Attributs deja utilises.");
+            showAlert("Erreur", "Attributs deja utilises.");
             return;
         }
         Secouriste secouriste = new Secouriste(user.getId(), nom, prenom, dateNaissance, mail, telephone, adresse, new ArrayList<>(), new HashSet<>());
