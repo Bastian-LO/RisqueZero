@@ -32,9 +32,6 @@
             <Font name="System Bold" size="31.0" />
          </font>
       </Label>
-<<<<<<< HEAD
-      <DatePicker fx:id="datepicker" layoutX="57.0" layoutY="250.0" onAction="#datepicker" prefHeight="100.0" prefWidth="291.0" promptText="Choisissez la date">
-=======
       <Button fx:id="BouttonAccueil" layoutX="684.0" layoutY="17.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="155.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="17.0">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -43,8 +40,8 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <DatePicker layoutX="89.0" layoutY="250.0" maxWidth="350.0" prefHeight="100.0" prefWidth="291.0" promptText="Choisissez la date" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="420.0">
->>>>>>> 817fc0e43693999240a5109f30f683d2cbae231d
+      <DatePicker layoutX="89.0" layoutY="250.0" maxWidth="350.0" prefHeight="100.0" onAction="#calendrierHandle" prefWidth="291.0" promptText="Choisissez la date" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="420.0">
+
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor>

@@ -9,19 +9,19 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageModifSecouristeController">
    <children>
-      <Button fx:id="deconnexionButton" layoutX="661.0" layoutY="29.0" mnemonicParsing="false" prefHeight="10.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion" textFill="WHITE" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <Button fx:id="deconnexionButton" onAction="#handleDeconnexion" layoutX="661.0" layoutY="29.0" mnemonicParsing="false" prefHeight="10.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Déconnexion" textFill="WHITE" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
       <VBox alignment="CENTER" layoutX="624.0" layoutY="396.0" spacing="17.0" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <Button fx:id="supprimerButton" alignment="CENTER" layoutX="640.0" layoutY="432.0" mnemonicParsing="false" prefHeight="87.0" prefWidth="161.0" style="-fx-background-color: #ff3131; -fx-background-radius: 25;" text="Supprimer le secouriste" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="117.0" AnchorPane.leftAnchor="624.0" AnchorPane.rightAnchor="15.0">
+            <Button fx:id="supprimerButton" onAction="#handleSupprimer" alignment="CENTER" layoutX="640.0" layoutY="432.0" mnemonicParsing="false" prefHeight="87.0" prefWidth="161.0" style="-fx-background-color: #ff3131; -fx-background-radius: 25;" text="Supprimer le secouriste" textAlignment="CENTER" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="117.0" AnchorPane.leftAnchor="624.0" AnchorPane.rightAnchor="15.0">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="enregistrerButton" alignment="CENTER" layoutX="640.0" layoutY="513.0" mnemonicParsing="false" prefHeight="87.0" prefWidth="161.0" style="-fx-background-color: #004aad; -fx-background-radius: 25;" text="Enregistrer" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="624.0" AnchorPane.rightAnchor="15.0">
+            <Button fx:id="enregistrerButton" onAction="#handleEnregistrer" alignment="CENTER" layoutX="640.0" layoutY="513.0" mnemonicParsing="false" prefHeight="87.0" prefWidth="161.0" style="-fx-background-color: #004aad; -fx-background-radius: 25;" text="Enregistrer" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="624.0" AnchorPane.rightAnchor="15.0">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>

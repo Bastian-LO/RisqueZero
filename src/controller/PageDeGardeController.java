@@ -35,7 +35,6 @@ public class PageDeGardeController {
 
             // Changement de la scène
             currentStage.setScene(inscriptionScene);
-            currentStage.setTitle("Inscription");
             currentStage.show();
 
         } catch (IOException e) {
@@ -56,7 +55,6 @@ public class PageDeGardeController {
 
             // Changement de la scène
             currentStage.setScene(connexionScene);
-            currentStage.setTitle("Connexion");
             currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
