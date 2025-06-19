@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.data.persistence.Dispos;
 import model.data.persistence.Secouriste;
 import model.data.users.UserSecouriste;
-import model.dao.DisposDAO;
+import model.data.service.DAOMngt;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -92,8 +92,7 @@ public class PagePlanningController {
      * Loads the planning data for the current week of the secouriste.
      */
     private void loadWeekData() {
-        DisposDAO disposDAO = new DisposDAO();
-        HashSet<Dispos> allDispos = disposDAO.findBySecouriste(secouriste.getId());
+        HashSet<Dispos> allDispos = DAOMngt.getDisposDAO().findBySecouriste(secouriste.getId());
         
         // Créer une ligne pour le secouriste
         PlanningRow row = new PlanningRow(secouriste.getNom() + " " + secouriste.getPrenom());

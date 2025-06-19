@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * DAO for User, and its subclasses
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
  */
 public class UserDAO extends DAO<User> {
 

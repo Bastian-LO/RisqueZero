@@ -3,6 +3,8 @@ package model.dao;
 import model.data.persistence.Competence;
 import model.data.persistence.Dispos;
 import model.data.persistence.Secouriste;
+import model.data.service.DAOMngt;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,12 +19,6 @@ public class SecouristeDAO extends DAO<Secouriste> {
     //          ATTRIBUTES
     //================================
 
-    /** instance of CompetenceDAO used to retrieve competences */
-    private final CompetenceDAO competenceDAO = new CompetenceDAO();
-
-    /** instance of DisposDAO used to retrieve dispos */
-    private final DisposDAO disposDAO = new DisposDAO();
-
     //================================
     //          METHODS
     //================================
@@ -36,18 +32,18 @@ public class SecouristeDAO extends DAO<Secouriste> {
     @Override
     public List<Secouriste> findAll() {
         List<Secouriste> secouristes = new ArrayList<>();
-        String sql = "SELECT id, nom, prenom, date_naissance, email, tel, adresse FROM secouriste";
+        String sql = "SELECT id_utilisateur, nom, prenom, date_naissance, email, tel, adresse FROM secouriste";
         
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             
             while (rs.next()) {
-                long id = rs.getLong("id");
+                long id = rs.getLong("id_utilisateur");
                 // Charger les compétences séparément
                 ArrayList<Competence> competences = findCompetencesBySecouristeId(id);
                 // Charger les disponibilités séparément
-                HashSet<Dispos> disponibilites = new HashSet<>(disposDAO.findBySecouriste(id));
+                HashSet<Dispos> disponibilites = new HashSet<>(DAOMngt.getDisposDAO().findBySecouriste(id));
                 
                 secouristes.add(new Secouriste(
                     id,
@@ -76,7 +72,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
      */
     public Secouriste findById(long id) {
         String sql = "SELECT nom, prenom, date_naissance, email, tel, adresse "
-                   + "FROM secouriste WHERE id = ?";
+                   + "FROM secouriste WHERE id_utilisateur = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -104,7 +100,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
                         rs.getString("tel"),
                         rs.getString("adresse"),
                         competences,
-                        new HashSet<>() // Remplacé par DisposDAO
+                        new HashSet<>()
                     );
                 }
             }
@@ -130,7 +126,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
             ResultSet rs = pstmt.executeQuery();
             
             while (rs.next()) {
-                Competence comp = competenceDAO.findByIntitule(rs.getString("competence"));
+                Competence comp = DAOMngt.getCompetenceDAO().findByIntitule(rs.getString("competence"));
                 if (comp != null) {
                     competences.add(comp);
                 }
@@ -144,7 +140,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
     @Override
     public int update(Secouriste element) {
         String sql = "UPDATE secouriste SET nom = ?, prenom = ?, date_naissance = ?, "
-                   + "email = ?, tel = ?, adresse = ? WHERE id = ?";
+                   + "email = ?, tel = ?, adresse = ? WHERE id_utilisateur = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -166,7 +162,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
 
     @Override
     public int delete(Secouriste element) {
-        String sql = "DELETE FROM secouriste WHERE id = ?";
+        String sql = "DELETE FROM secouriste WHERE id_utilisateur = ?";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -181,7 +177,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
 
     @Override
     public int create(Secouriste element) {
-        String sql = "INSERT INTO secouriste (id, nom, prenom, date_naissance, email, tel, adresse) "
+        String sql = "INSERT INTO secouriste (id_utilisateur, nom, prenom, date_naissance, email, tel, adresse) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = getConnection();

@@ -3,6 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,6 +12,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
 import model.data.service.UserMngt;
@@ -46,6 +48,8 @@ public class PageInscriptionController {
     private Button suivantButton;
     @FXML
     private PasswordField confirmPasswordField;
+    @FXML
+    private ImageView backButton;
 
     @FXML
     private VBox infoContainer;
@@ -104,10 +108,19 @@ public class PageInscriptionController {
 
     public void connexionHandle(ActionEvent actionEvent) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
-            Stage stage = (Stage) connexionHyperlink.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            // Chargement de la deuxième interface depuis second.fxml
+            Parent connexionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
+
+            // Création de la nouvelle scène
+            Scene connexionScene = new Scene(connexionRoot);
+
+            // Récupération de la fenêtre actuelle
+            Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Changement de la scène
+            currentStage.setScene(connexionScene);
+            currentStage.setTitle("Connexion");
+            currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,8 +137,12 @@ public class PageInscriptionController {
 
         inscriptionButton.setVisible(false);
         inscriptionButton.setManaged(false);
+
         suivantButton.setVisible(true);
         suivantButton.setManaged(true);
+
+        backButton.setVisible(false);
+        backButton.setManaged(false);
     }
 
     @FXML
@@ -138,8 +155,12 @@ public class PageInscriptionController {
 
         inscriptionButton.setVisible(true);
         inscriptionButton.setManaged(true);
+
         suivantButton.setVisible(false);
         suivantButton.setManaged(false);
+
+        backButton.setVisible(true);
+        backButton.setManaged(true);
     }
 }
 

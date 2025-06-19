@@ -69,9 +69,6 @@ public class PageAccueilSecouristeController {
     private Label Dispo6;
 
     @FXML
-    private Label LabelID;
-
-    @FXML
     private Label Label2;
 
     @FXML
@@ -109,9 +106,6 @@ public class PageAccueilSecouristeController {
     // Met à jour l'interface avec les données du secouriste
     private void updateUI() {
         if (secouriste != null) {
-            // Afficher l'ID
-            LabelID.setText("- ID : " + secouriste.getId());
-
             // Mettre à jour les compétences
             updateCompetences(secouriste.getCompetences());
 

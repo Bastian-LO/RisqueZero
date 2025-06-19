@@ -57,27 +57,22 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <Label fx:id="idEvenementLabel" text="Label">
+                        <Label fx:id="idEvenementLabel" text="idEvenementLabel">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="nomEvenementLabel" text="Label">
+                        <Label fx:id="nomEvenementLabel" text="nomEvenementLabel">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="siteEvenementLabel" text="Label">
+                        <Label fx:id="siteEvenementLabel" text="siteEvenementLabel">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="dateEvenementLabel" text="Label">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="nbSpectateursLabel" text="Label">
+                        <Label fx:id="dateEvenementLabel" text="dateEvenementLabel">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -117,15 +112,55 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <Label fx:id="competenceLabel" text="Label">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label fx:id="Competence1" text="Competence1">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="Competence2" text="Competence2">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label fx:id="Competence3" text="Competence3">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="Competence4" text="Competence4">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label fx:id="Competence5" text="Competence5">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="Competence6" text="Competence6">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets left="20.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
                   </VBox>
                   <VBox prefHeight="109.0" prefWidth="344.0">
                      <children>
@@ -134,11 +169,34 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <Label fx:id="disponibiliteLabel" text="Label">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label fx:id="Dispo1" text="Dispo1">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="Dispo2" text="Dispo2">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label fx:id="Dispo3" text="Dispo3">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="Dispo4" text="Dispo4">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets left="20.0" />
