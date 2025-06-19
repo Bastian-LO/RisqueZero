@@ -5,7 +5,6 @@ import model.dao.CompetenceDAO;
 
 import java.time.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javafx.util.Pair;
 
@@ -162,18 +161,19 @@ public class Graphe {
      * case of a disconnected graph ( if not, calling the recursive method would have been enough )
      * @return true if the graph is a DAG, false otherwise
      */
-    public boolean DAGCheckDFS(){
+    public boolean DAGCheckDFS() {
         Set<Competence> visited = new HashSet<>();
         Set<Competence> recursionStack = new HashSet<>();
-        CompetenceDAO DAOcomp = new CompetenceDAO();
-        for (Competence comp : DAOcomp.findAll()) {
-            if (!visited.contains(comp)) {
-                if (hasCycle(comp, visited, recursionStack)) {
-                    return false;
-                }
+        CompetenceDAO daoComp = new CompetenceDAO();
+        boolean isDAG = true;
+        
+        for (Competence comp : daoComp.findAll()) {
+            if (!visited.contains(comp) && hasCycle(comp, visited, recursionStack)) {
+                isDAG = false;
             }
         }
-        return true;
+        
+        return isDAG;
     }
 
     /**
@@ -185,27 +185,29 @@ public class Graphe {
      * @param recursionStack the nodes in the current DFS path
      * @return true if the graph is a DAG, false otherwise
      */
-    private boolean hasCycle(Competence current,
-                             Set<Competence> visited,
-                             Set<Competence> recursionStack) {
+    private boolean hasCycle(Competence current, Set<Competence> visited, Set<Competence> recursionStack) {
         visited.add(current);
         recursionStack.add(current);
+        boolean cycleFound = false;
+        Competence[] requis = current.getRequis().toArray(new Competence[0]);
+        int i = 0;
 
-        for (Competence req : current.getRequis()) {
-            if (!visited.contains(req)) {
-                if (hasCycle(req, visited, recursionStack)) {
-                    return true;
-                }
+        while (i < requis.length && !cycleFound) {
+            Competence req = requis[i];
+            boolean isUnvisited = !visited.contains(req);
+            boolean isInCurrentPath = recursionStack.contains(req);
+            
+            if (isUnvisited) {
+                cycleFound = hasCycle(req, visited, recursionStack);
             }
-            // If we find a node already in the stack, we have encountered a cycle.
-            else if (recursionStack.contains(req)) {
-                return true;
+            if (!isUnvisited && isInCurrentPath) {
+                cycleFound = true;
             }
+            i++;
         }
 
-        // Clears the recursion stack as we finish the recursion
         recursionStack.remove(current);
-        return false;
+        return cycleFound;
     }
 
 
@@ -376,8 +378,7 @@ public class Graphe {
             List<Competence> competencesTriees = trierCompetencesParRarete(dps);
             
             for (Competence competence : competencesTriees) {
-                Secouriste meilleurSecouriste = trouverMeilleurSecouriste(
-                    dps, competence, secouristesDejaAffectes, resultats);
+                Secouriste meilleurSecouriste = trouverMeilleurSecouriste(dps, competence, secouristesDejaAffectes, resultats);
                 
                 if (meilleurSecouriste != null) {
                     affectationsDPS.add(new Pair<>(meilleurSecouriste, competence));
@@ -453,7 +454,8 @@ public class Graphe {
      * @param resultats the list of affectations
      * @return the most appropriate secourist
      */
-    private Secouriste trouverMeilleurSecouriste(DPS dps, Competence competence, Set<Secouriste> secouristesDejaAffectes, ArrayList<Affectation> resultats) {
+    private Secouriste trouverMeilleurSecouriste(DPS dps, Competence competence, Set<Secouriste> secouristesDejaAffectes, 
+                                                ArrayList<Affectation> resultats) {
         Secouriste meilleurSecouriste = null;
         int minAffectations = Integer.MAX_VALUE;
         
