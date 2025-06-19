@@ -209,178 +209,153 @@ public class Graphe {
     }
 
     /**
-     * Method returning the best configuration of secourists for the DPS
-     * @return the best configuration of secourists for the DPS
+     * Algorithme exhaustif pour affecter les secouristes aux DPS
+     * @return Liste des affectations réalisées
      */
-    public ArrayList<Affectation> startExhaustif() {
-        ArrayList<Affectation> bestSolution = new ArrayList<>();
-        ArrayList<Secouriste> originalOrder = new ArrayList<>(this.secouristes);
+    public ArrayList<Affectation> affectationExhaustive() {
+        ArrayList<Affectation> resultats = new ArrayList<>();
         
-        // On commence par l'ordre original
-        evaluateSolution(originalOrder, bestSolution);
-        
-        // Puis on essaie des permutations aléatoires (plus efficace que toutes les permutations)
-        final int MAX_ITERATIONS = 1000; // Ajuster selon les besoins
-        Random random = new Random();
-        
-        for (int i = 0; i < MAX_ITERATIONS; i++) {
-            ArrayList<Secouriste> shuffled = new ArrayList<>(originalOrder);
-            Collections.shuffle(shuffled, random);
-            evaluateSolution(shuffled, bestSolution);
-        }
-        
-        return bestSolution;
-    }
-
-    private void evaluateSolution(ArrayList<Secouriste> secouristesOrder, 
-                                ArrayList<Affectation> bestSolution) {
-        ArrayList<Secouriste> clones = deepCloneSecouristes(secouristesOrder);
-        ArrayList<Affectation> current = affectationExhaustive(clones);
-        
-        if (aIsBetterThanB(current, bestSolution)) {
-            bestSolution.clear();
-            bestSolution.addAll(current);
-        }
-    }
-
-
-    private void generatePermutations(ArrayList<Secouriste> arr, int index, ArrayList<Affectation> bestSolution) {
-        if (index == arr.size()) {
-            ArrayList<Secouriste> permutationClone = deepCloneSecouristes(arr);
-            ArrayList<Affectation> current = affectationExhaustive(permutationClone);
+        // Regrouper les compétences par DPS
+        for (DPS dps : getUniqueDPS()) {
+            ArrayList<Pair<Secouriste, Competence>> affectationsDPS = new ArrayList<>();
             
-            // Calculate total number of affected competences
-            long totalAffected = current.stream()
-                .mapToInt(aff -> aff.getList().size())
-                .sum();
+            // Pour chaque compétence requise par le DPS
+            for (Competence competence : dps.getCompetences()) {
+                // Trouver tous les secouristes disponibles avec cette compétence
+                List<Secouriste> candidats = trouverSecouristesDisponibles(dps, competence);
+                
+                if (!candidats.isEmpty()) {
+                    // Prendre le premier secouriste disponible (approche simple)
+                    Secouriste secouriste = candidats.get(0);
+                    
+                    // Ajouter à l'affectation
+                    affectationsDPS.add(new Pair<>(secouriste, competence));
+                    
+                    // Mettre à jour les disponibilités du secouriste
+                    mettreAJourDisponibilites(secouriste, dps);
+                }
+            }
             
-            long bestTotal = bestSolution.stream()
-                .mapToInt(aff -> aff.getList().size())
-                .sum();
-                
-            if (totalAffected > bestTotal) {
-                bestSolution.clear();
-                bestSolution.addAll(current);
+            // Si on a trouvé au moins une affectation pour ce DPS
+            if (!affectationsDPS.isEmpty()) {
+                resultats.add(new Affectation(affectationsDPS, dps));
             }
-            return;
         }
         
-        for (int i = index; i < arr.size(); i++) {
-            Collections.swap(arr, index, i);
-            generatePermutations(arr, index + 1, bestSolution);
-            Collections.swap(arr, index, i);
-        }
+        return resultats;
     }
 
-    private ArrayList<Secouriste> deepCloneSecouristes(ArrayList<Secouriste> secouristes) {
-        ArrayList<Secouriste> clones = new ArrayList<>();
-        for (Secouriste sec : secouristes) {
-            Secouriste clone = new Secouriste(
-                    sec.getId(), sec.getNom(), sec.getPrenom(),
-                    sec.getDateNaissance(), sec.getEmail(), sec.getTel(),
-                    sec.getAdresse(), new ArrayList<>(sec.getCompetences()),
-                    new HashSet<>()
-            );
-            for (Dispos d : sec.getDisponibilites()) {
-                clone.addDispos(new Dispos(clone, d.getDate(), 
-                    d.getHeureDebut(), d.getHeureFin()));
-            }
-            clones.add(clone);
+    /**
+     * Récupère la liste des DPS uniques (sans doublons)
+     */
+    private Set<DPS> getUniqueDPS() {
+        Set<DPS> uniqueDPS = new HashSet<>();
+        for (Pair<DPS, Competence> pair : DPSCompet) {
+            uniqueDPS.add(pair.getKey());
         }
-        return clones;
+        return uniqueDPS;
     }
 
-    private ArrayList<Affectation> affectationExhaustive(ArrayList<Secouriste> secouristes) {
-        Map<DPS, Map<Secouriste, Competence>> affectationsMap = new HashMap<>();
-        Set<Long> dejaAffectes = new HashSet<>();
-
-        // On trie les DPS par ceux qui ont le plus de compétences requises d'abord
-        Map<DPS, Long> dpsByNbCompetences = DPSCompet.stream()
-            .collect(Collectors.groupingBy(
-                Pair::getKey, 
-                Collectors.counting()
-            ));
+    /**
+     * Trouve les secouristes disponibles pour un DPS donné avec une compétence donnée
+     */
+    private List<Secouriste> trouverSecouristesDisponibles(DPS dps, Competence competence) {
+        List<Secouriste> disponibles = new ArrayList<>();
         
-        List<DPS> dpsOrdered = dpsByNbCompetences.entrySet().stream()
-            .sorted(Map.Entry.<DPS, Long>comparingByValue().reversed())
-            .map(Map.Entry::getKey)
-            .collect(Collectors.toList());
-
-        for (DPS dps : dpsOrdered) {
-            List<Pair<DPS, Competence>> postes = DPSCompet.stream()
-                .filter(p -> p.getKey().equals(dps))
-                .collect(Collectors.toList());
-
-            for (Pair<DPS, Competence> poste : postes) {
-                Competence competence = poste.getValue();
-                
-                for (Secouriste sec : secouristes) {
-                    if (!dejaAffectes.contains(sec.getId()) &&
-                        sec.getCompetences().contains(competence) &&
-                        reserveCreneau(sec, dps)) {
-
-                        affectationsMap
-                            .computeIfAbsent(dps, k -> new HashMap<>())
-                            .put(sec, competence);
-
-                        dejaAffectes.add(sec.getId());
-                        break;
-                    }
-                }
+        for (Secouriste secouriste : secouristes) {
+            // Vérifie que le secouriste a la compétence requise
+            if (!secouriste.getCompetences().contains(competence)) {
+                continue;
+            }
+            
+            // Vérifie la disponibilité
+            if (estDisponible(secouriste, dps)) {
+                disponibles.add(secouriste);
             }
         }
-
-        // Conversion en liste d'affectations
-        ArrayList<Affectation> result = new ArrayList<>();
-        for (Map.Entry<DPS, Map<Secouriste, Competence>> entry : affectationsMap.entrySet()) {
-            ArrayList<Pair<Secouriste, Competence>> pairs = new ArrayList<>();
-            entry.getValue().forEach((sec, comp) -> pairs.add(new Pair<>(sec, comp)));
-            result.add(new Affectation(pairs, entry.getKey()));
-        }
-        return result;
+        
+        return disponibles;
     }
 
-
-    public boolean reserveCreneau(Secouriste sec, DPS dps) {
-        Iterator<Dispos> it = sec.getDisponibilites().iterator();
-        LocalDate dateDPS = dps.getDateEvt().toLocalDate();
-        LocalTime debutDPS = dps.toLocalTime(dps.getHoraireDepart());
-        LocalTime finDPS = dps.toLocalTime(dps.getHoraireFin());
-
-        while (it.hasNext()) {
-            Dispos dispo = it.next();
-
-            if (!dispo.getDate().toLocalDate().equals(dateDPS)) continue;
-
-            LocalTime debutDispo = dispo.toLocalTime(dispo.getHeureDebut());
-            LocalTime finDispo = dispo.toLocalTime(dispo.getHeureFin());
-
-            // Cherche un chevauchement
-            boolean chevauchement = !finDispo.isBefore(debutDPS) && !debutDispo.isAfter(finDPS);
-            if (!chevauchement) continue;
-
-            // Calcul de la partie avant le DPS
-            if (debutDispo.isBefore(debutDPS)) {
-                Duration avant = Duration.between(debutDispo, debutDPS);
-                if (avant.getSeconds() >= 3600) {
-                    sec.addDispos(new Dispos(sec, dateDPS, debutDispo, debutDPS));
-                }
+    /**
+     * Vérifie si un secouriste est disponible pour un DPS donné
+     */
+    private boolean estDisponible(Secouriste secouriste, DPS dps) {
+        LocalDateTime debutDPS = dps.debutToLocalDateTime();
+        LocalDateTime finDPS = dps.finToLocalDateTime();
+        
+        for (Dispos dispo : secouriste.getDisponibilites()) {
+            LocalDateTime debutDispo = dispo.debutToLocalDateTime();
+            LocalDateTime finDispo = dispo.finToLocalDateTime();
+            
+            // Vérifie si la disponibilité couvre le DPS
+            if (!debutDPS.toLocalDate().equals(debutDispo.toLocalDate())) {
+                continue; // Pas le même jour
             }
-
-            // Calcul de la partie après le DPS
-            if (finDPS.isBefore(finDispo)) {
-                Duration apres = Duration.between(finDPS, finDispo);
-                if (apres.getSeconds() >= 3600) {
-                    sec.addDispos(new Dispos(sec, dateDPS, finDPS, finDispo));
-                }
+            
+            if ((debutDispo.isBefore(debutDPS) || debutDispo.equals(debutDPS)) && 
+                ((finDispo.isAfter(finDPS)) || finDispo.equals(finDPS))) {
+                return true;
             }
-
-            // Supprimer la dispo d’origine, on l’a scindée
-            it.remove();
-            return true;
         }
-
+        
         return false;
+    }
+
+    /**
+     * Met à jour les disponibilités du secouriste après affectation
+     */
+    private void mettreAJourDisponibilites(Secouriste secouriste, DPS dps) {
+        LocalDateTime debutDPS = dps.debutToLocalDateTime();
+        LocalDateTime finDPS = dps.finToLocalDateTime();
+        
+        HashSet<Dispos> nouvellesDispos = new HashSet<>();
+        
+        for (Dispos dispo : secouriste.getDisponibilites()) {
+            LocalDateTime debutDispo = dispo.debutToLocalDateTime();
+            LocalDateTime finDispo = dispo.finToLocalDateTime();
+            
+            // Vérifie si c'est la même journée
+            if (!debutDPS.toLocalDate().equals(debutDispo.toLocalDate())) {
+                nouvellesDispos.add(dispo);
+                continue;
+            }
+            
+            // Si la disponibilité couvre le DPS
+            if ((debutDispo.isBefore(debutDPS) || debutDispo.equals(debutDPS)) && 
+                ((finDispo.isAfter(finDPS)) || finDispo.equals(finDPS))) {
+                
+                // Créer de nouvelles disponibilités si le temps restant est >= 1h
+                
+                // Temps avant le DPS
+                long diffAvant = java.time.Duration.between(debutDispo, debutDPS).toHours();
+                if (diffAvant >= 1) {
+                    nouvellesDispos.add(new Dispos(
+                        secouriste, 
+                        debutDispo.toLocalDate(), 
+                        debutDispo.toLocalTime(), 
+                        debutDPS.toLocalTime()
+                    ));
+                }
+                
+                // Temps après le DPS
+                long diffApres = java.time.Duration.between(finDPS, finDispo).toHours();
+                if (diffApres >= 1) {
+                    nouvellesDispos.add(new Dispos(
+                        secouriste, 
+                        finDPS.toLocalDate(), 
+                        finDPS.toLocalTime(), 
+                        finDispo.toLocalTime()
+                    ));
+                }
+            } else {
+                // Garder la disponibilité si elle ne couvre pas le DPS
+                nouvellesDispos.add(dispo);
+            }
+        }
+        
+        // Mettre à jour les disponibilités du secouriste
+        secouriste.setDisponibilites(nouvellesDispos);
     }
 
 
@@ -477,7 +452,7 @@ public class Graphe {
         return ret;
     }
 
-    /*
+    
     public ArrayList<Affectation> glouton(){
         ArrayList<Affectation> ret = new ArrayList<>();
         HashMap<DPS, Integer> nbCompParDps = this.getNbComp();  // Pour chaque DPS, le nb de compétences requises
@@ -501,5 +476,5 @@ public class Graphe {
         }
 
         return ret;
-    }*/
+    }
 }
