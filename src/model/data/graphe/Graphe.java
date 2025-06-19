@@ -331,9 +331,6 @@ public class Graphe {
 
                 boolean horairesInclus = !debutDPS.isBefore(debutDispo) && !finDPS.isAfter(finDispo);   // Vérifie que l'horaire du DPS est inclus dans les dispos du secouriste
 
-                System.out.println("Jour commun : " + memeJour);
-                System.out.println("Horaire inclus ? " + horairesInclus);
-
                 if (memeJour && horairesInclus){    // Si le jour et l'horaire correspond, donc qu'une dispo est trouvée...
                     ret = true;                     // On sort de la boucle après avoir mis à jour les disponibilités du secouriste
                     Duration diffHoraireDebut = Duration.between(debutDispo, debutDPS); // Ecart entre le début du DPS et le début des dispos (0 possible)
@@ -384,7 +381,6 @@ public class Graphe {
         return nbCurrent>nbBestSolution;
     }
 
-
     /**
      * Returns a HashMap with the amount of Competence required per DPS
      * @return a map with the amount of competences for each DPS
@@ -401,6 +397,31 @@ public class Graphe {
                 int valueCurr = ret.get(pair.getKey()) + 1;
                 ret.replace(pair.getKey(), valueCurr);
             }
+        }
+
+        return ret;
+    }
+
+    public ArrayList<Affectation> glouton(){
+        ArrayList<Affectation> ret = new ArrayList<>();
+        HashMap<DPS, Integer> nbCompParDps = this.getNbComp();  // Pour chaque DPS, le nb de compétences requises
+        
+        for(Pair<DPS, Competence> pair : this.DPSCompet){   // On parcourt toutes les paires DPS / Competence
+            ArrayList<Pair<Secouriste, Competence>> listPair = new ArrayList<>();
+            DPS dpsCurr = pair.getKey();    // DPS analysé
+            Competence compCurr = pair.getValue();  // Compétence requise
+            int nbComp = nbCompParDps.get(pair.getKey());   // Nb de compétences requises pour le DPS
+
+            for(int i = 0; i < this.secouristes.size(); i++){   // On parcourt tous les secouristes
+                Secouriste secCurr = this.secouristes.get(i);
+                if(secCurr.getCompetencesIntitules().contains(compCurr.getIntitule()) && checkDispos(secCurr, dpsCurr)){
+                    Pair<Secouriste, Competence> pairCurr = new Pair<Secouriste,Competence>(secCurr, compCurr);
+                    listPair.add(pairCurr);
+                }
+            }
+
+            Affectation affCurr = new Affectation(listPair, dpsCurr);
+            ret.add(affCurr);
         }
 
         return ret;

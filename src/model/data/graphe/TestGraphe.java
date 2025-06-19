@@ -12,6 +12,9 @@ public class TestGraphe {
         test();
     }
     public static void test(){
+
+        // Création du DPS 
+        
         ArrayList<Pair<DPS, Competence>> DPSCompet = new ArrayList<>();
         ArrayList<DPS> dpss = new ArrayList<>();
 
@@ -25,11 +28,15 @@ public class TestGraphe {
         Journee jour = new Journee(1,1,2030);
 
         Competence comp1 = new Competence("PSC1");
-        Competence comp2 = new Competence("PCS2");
+        HashSet<Competence> requis1 = new HashSet<>();
+        requis1.add(comp1);
+        Competence comp2 = new Competence("PCS2", requis1);
+        Competence comp3 = new Competence("Skibidi");
 
         ArrayList<Competence> compList = new ArrayList<>();
         compList.add(comp1);
         compList.add(comp2);
+        compList.add(comp3);
 
         Site lieu = new Site("STD", "Stade", 49F, 59F);
 
@@ -43,13 +50,23 @@ public class TestGraphe {
             DPSCompet.add(DpsCompetTest);
         }
 
+
+        // Création des secouristes
+
         HashSet<Dispos> secDispos1 = new HashSet<>();
 
         ArrayList<Competence> secComp1 = new ArrayList<>();
         secComp1.add(comp1);
 
+        int[] horaire_depart2 = new int[2];
+        horaire_depart2[0] = 9;
+        horaire_depart2[1] = 30;
+        int[] horaire_fin2 = new int[2];
+        horaire_fin2[0] = 18;
+        horaire_fin2[1] = 30;
+
         Secouriste sec1 = new Secouriste(1L, "Lucien", "Martin", "07/08/2009", "martin.lucien@gmail.com", "0708091112", "8 rue des potiers", secComp1, secDispos1);
-        Dispos dispo1 = new Dispos(sec1, jour, horaire_depart1, horaire_fin1);
+        Dispos dispo1 = new Dispos(sec1, jour, horaire_depart2, horaire_fin2);
         sec1.addDispos(dispo1);
 
         HashSet<Dispos> secDispos2 = new HashSet<>();
@@ -65,7 +82,12 @@ public class TestGraphe {
         listSec.add(sec1);
         listSec.add(sec2);
 
+
+        // Création du graphe
+
         Graphe graph = new Graphe(listSec, dpss);
+
+        System.out.println("\nAlgorithme exhaustif : ");
         ArrayList<Affectation> listAff = graph.startExhaustif();
 
         for(int i = 0; i < listAff.size(); i++){
@@ -73,10 +95,24 @@ public class TestGraphe {
             ArrayList<Pair<Secouriste, Competence>> listSecComp = aff.getList();
             DPS idDps = aff.getIdDps();
             
-            System.out.println("DPS : " + idDps.getId());
+            System.out.println("DPS ID: " + idDps.getId());
             for (int j = 0; j < listSecComp.size(); j++){
                 Pair<Secouriste, Competence> pairSecComp = listSecComp.get(j);
-                System.out.println(pairSecComp.getKey().toString() + " : " + pairSecComp.getValue().toString());
+                System.out.println(pairSecComp.getKey().getNom() + " : " + pairSecComp.getValue());
+            }
+        }
+
+        System.out.println("\nAlgorithme glouton : ");
+        ArrayList<Affectation> listAffGlouton = graph.glouton();
+        for(int i = 0; i < listAffGlouton.size(); i++){
+            Affectation aff = listAffGlouton.get(i);
+            ArrayList<Pair<Secouriste, Competence>> listSecComp = aff.getList();
+            DPS idDps = aff.getIdDps();
+            
+            System.out.println("DPS ID: " + idDps.getId());
+            for (int j = 0; j < listSecComp.size(); j++){
+                Pair<Secouriste, Competence> pairSecComp = listSecComp.get(j);
+                System.out.println(pairSecComp.getKey().getNom() + " : " + pairSecComp.getValue());
             }
         }
     }
