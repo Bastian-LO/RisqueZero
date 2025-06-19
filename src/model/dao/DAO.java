@@ -47,6 +47,13 @@ public abstract class DAO <T> {
         return String.format("%02d:%02d", time[0], time[1]);
     }
 
+    /**
+     * Export the content of a table in the database to a CSV file
+     * @param tableName the name of the table to export
+     * @param outputFilePath the path of the output file
+     * @throws SQLException if there is an issue with the database
+     * @throws IOException if there is an issue with the file
+     */
     public static void exportToCSV(String tableName, String outputFilePath) {
         Connection connection = null;
         Statement statement = null;
@@ -56,14 +63,11 @@ public abstract class DAO <T> {
         try {
             connection = MyConnection.getConnection();
             
-            // Créer et exécuter la requête
             statement = connection.createStatement();
             resultats = statement.executeQuery("SELECT * FROM " + tableName);
             
-            // Préparer le fichier de sortie
             fileWriter = new FileWriter(outputFilePath);
             
-            // 4. Écrire l'en-tête CSV (noms des colonnes)
             ResultSetMetaData metaData = resultats.getMetaData();
             int nbColonnes = metaData.getColumnCount();
             
@@ -75,11 +79,9 @@ public abstract class DAO <T> {
             }
             fileWriter.append("\n");
             
-            // 5. Écrire les données
             while (resultats.next()) {
                 for (int i = 1; i <= nbColonnes; i++) {
                     String value = resultats.getString(i);
-                    // Gérer les valeurs contenant des virgules (entourer de guillemets)
                     if (value != null && value.contains(",")) {
                         value = "\"" + value + "\"";
                     }
@@ -97,7 +99,6 @@ public abstract class DAO <T> {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
-            // 6. Fermer les ressources
             try {
                 if (resultats != null) resultats.close();
                 if (statement != null) statement.close();

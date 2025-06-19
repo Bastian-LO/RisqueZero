@@ -135,12 +135,10 @@ public class DisposDAO extends DAO<Dispos> {
         try (Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            // Nouvelles valeurs
             pstmt.setString(1, formatTime(dispos.getHeureDebut()));
             pstmt.setString(2, formatTime(dispos.getHeureFin()));
             pstmt.setDate(3, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
             
-            // Anciennes valeurs pour identification
             pstmt.setLong(4, dispos.getSecouriste().getId());
             pstmt.setDate(5, java.sql.Date.valueOf(dispos.getDate().toLocalDate()));
             pstmt.setString(6, formatTime(dispos.getHeureDebut()));

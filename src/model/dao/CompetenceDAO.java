@@ -27,7 +27,7 @@ public class CompetenceDAO extends DAO<Competence> {
             pstmt.setString(1, competence.getIntitule());
             int result = pstmt.executeUpdate();
             
-            // Ajouter les prérequis si la création a réussi
+            
             if (result > 0) {
                 addRequis(competence);
             }
@@ -56,7 +56,6 @@ public class CompetenceDAO extends DAO<Competence> {
             
             if (rs.next()) {
                 Competence competence = new Competence(rs.getString("intitule"));
-                // Charger les prérequis
                 HashSet<Competence> requis = findRequisByCompetence(intitule);
                 competence.setRequis(requis);
                 return competence;
@@ -74,8 +73,6 @@ public class CompetenceDAO extends DAO<Competence> {
      */
     @Override
     public int update(Competence competence) {
-        // On ne change pas l'intitulé car final
-        // On met seulement à jour les relations de prérequis
         return updateRequis(competence);
     }
 
@@ -93,7 +90,6 @@ public class CompetenceDAO extends DAO<Competence> {
             
             pstmt.setString(1, competence.getIntitule());
             return pstmt.executeUpdate();
-            // Les prérequis seront supprimés automatiquement grâce à ON DELETE CASCADE
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
@@ -116,7 +112,6 @@ public class CompetenceDAO extends DAO<Competence> {
             while (rs.next()) {
                 String intitule = rs.getString("intitule");
                 Competence competence = new Competence(intitule);
-                // Charger les prérequis
                 HashSet<Competence> requis = findRequisByCompetence(intitule);
                 competence.setRequis(requis);
                 competences.add(competence);
@@ -185,9 +180,7 @@ public class CompetenceDAO extends DAO<Competence> {
      * @return the number of rows affected, or 0 if an error occurs
      */
     public int updateRequis(Competence competence) {
-        // D'abord supprimer les anciens prérequis
         deleteRequis(competence.getIntitule());
-        // Puis ajouter les nouveaux
         return addRequis(competence);
     }
 

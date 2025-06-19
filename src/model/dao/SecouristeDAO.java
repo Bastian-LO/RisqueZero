@@ -40,9 +40,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
             
             while (rs.next()) {
                 long id = rs.getLong("id_utilisateur");
-                // Charger les compétences séparément
                 ArrayList<Competence> competences = findCompetencesBySecouristeId(id);
-                // Charger les disponibilités séparément
                 HashSet<Dispos> disponibilites = new HashSet<>(DAOMngt.getDisposDAO().findBySecouriste(id));
                 
                 secouristes.add(new Secouriste(
@@ -80,7 +78,6 @@ public class SecouristeDAO extends DAO<Secouriste> {
             pstmt.setLong(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    // Récupérer les compétences
                     ArrayList<Competence> competences = new ArrayList<>();
                     String compSql = "SELECT competence FROM secouriste_competence WHERE id_sec = ?";
                     try (PreparedStatement compStmt = conn.prepareStatement(compSql)) {
@@ -160,6 +157,12 @@ public class SecouristeDAO extends DAO<Secouriste> {
         }
     }
 
+    /**
+     * Deletes a Secouriste object from the database.
+     * @param element the Secouriste object to delete
+     * @return the number of rows affected (1 if the deletion was successful, 0 if no row was found with the given id)
+     * In case of a database access error, the error is printed, and 0 is returned.
+     */
     @Override
     public int delete(Secouriste element) {
         String sql = "DELETE FROM secouriste WHERE id_utilisateur = ?";
@@ -175,6 +178,13 @@ public class SecouristeDAO extends DAO<Secouriste> {
         }
     }
 
+    /**
+     * Creates a new Secouriste record in the database.
+     *
+     * @param element the Secouriste object to create
+     * @return the number of rows affected (1 if the creation was successful, 0 if an error occurs)
+     * In case of a database access error, the error is printed, and 0 is returned.
+     */
     @Override
     public int create(Secouriste element) {
         String sql = "INSERT INTO secouriste (id_utilisateur, nom, prenom, date_naissance, email, tel, adresse) "

@@ -7,59 +7,78 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f1f0ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageDPSController">
-   <children>
-      <Button fx:id="BoutonAccueil" layoutX="680.0" layoutY="23.0" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="23.0">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Label layoutX="72.0" layoutY="25.0" text="Risque zéro">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="134.0" layoutY="45.0" text="Dispositifs : Semaine " textFill="#004aad">
-         <font>
-            <Font name="System Bold" size="55.0" />
-         </font>
-      </Label>
-      <Button fx:id="BoutonAjoutDPS" layoutX="266.0" layoutY="504.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="301.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Ajouter un DPS" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <TableView layoutX="62.0" layoutY="152.0" prefHeight="342.0" prefWidth="681.0" AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="57.0">
-        <columns>
-          <TableColumn prefWidth="97.0" text="Lundi" />
-          <TableColumn prefWidth="97.0" text="Mardi" />
-            <TableColumn prefWidth="97.0" text="Mercredi" />
-            <TableColumn prefWidth="97.0" text="Jeudi" />
-            <TableColumn prefWidth="97.0" text="Vendredi" />
-            <TableColumn prefWidth="97.0" text="Samedi" />
-            <TableColumn prefWidth="97.0" text="Dimanche" />
-        </columns>
-      </TableView>
-      <Hyperlink fx:id="LienSemainePrécédente" layoutX="72.0" layoutY="504.0" text="&lt; Semaine précédente">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Hyperlink>
-      <Hyperlink fx:id="LienSemaineSuivante" layoutX="615.0" layoutY="504.0" text="Semaine suivante &gt;">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Hyperlink>
-      <ImageView fitHeight="74.0" fitWidth="57.0" layoutX="5.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../S2.01/class/resources/images/Risque_zéro_-_logo-removebg.png" />
-         </image>
-      </ImageView>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+            prefHeight="600.0" prefWidth="800.0" 
+            xmlns="http://javafx.com/javafx/8" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="controller.PageDPSController">
+    
+    <children>
+        <Button fx:id="BoutonAccueil" layoutX="680.0" layoutY="23.0" 
+                mnemonicParsing="false" 
+                style="-fx-background-color: #004aad; -fx-background-radius: 50;" 
+                text="Accueil" textFill="WHITE" 
+                AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="23.0">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        
+        <Label fx:id="titreLabel" layoutX="134.0" layoutY="45.0" text="Dispositifs : Semaine " 
+               textFill="#004aad" AnchorPane.leftAnchor="134.0" AnchorPane.topAnchor="45.0">
+            <font>
+                <Font name="System Bold" size="55.0" />
+            </font>
+        </Label>
+        
+        <Button fx:id="BoutonAjoutDPS" layoutX="266.0" layoutY="504.0" 
+                mnemonicParsing="false" prefHeight="60.0" prefWidth="301.0" 
+                style="-fx-background-color: #004aad; -fx-background-radius: 50;" 
+                text="Ajouter un DPS" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="25.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        
+        <TableView fx:id="tableView" layoutX="62.0" layoutY="152.0" 
+                   prefHeight="342.0" prefWidth="681.0" 
+                   AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="57.0">
+            <columns>
+                <TableColumn fx:id="lundiColumn" prefWidth="97.0" text="Lundi" />
+                <TableColumn fx:id="mardiColumn" prefWidth="97.0" text="Mardi" />
+                <TableColumn fx:id="mercrediColumn" prefWidth="97.0" text="Mercredi" />
+                <TableColumn fx:id="jeudiColumn" prefWidth="97.0" text="Jeudi" />
+                <TableColumn fx:id="vendrediColumn" prefWidth="97.0" text="Vendredi" />
+                <TableColumn fx:id="samediColumn" prefWidth="97.0" text="Samedi" />
+                <TableColumn fx:id="dimancheColumn" prefWidth="97.0" text="Dimanche" />
+            </columns>
+        </TableView>
+        
+        <Hyperlink fx:id="LienSemainePrécédente" layoutX="72.0" layoutY="504.0" 
+                   text="&lt; Semaine précédente">
+            <font>
+                <Font name="System Bold" size="13.0" />
+            </font>
+        </Hyperlink>
+        
+        <Hyperlink fx:id="LienSemaineSuivante" layoutX="615.0" layoutY="504.0" 
+                   text="Semaine suivante &gt;">
+            <font>
+                <Font name="System Bold" size="13.0" />
+            </font>
+        </Hyperlink>
+        
+        <ImageView fitHeight="74.0" fitWidth="57.0" layoutX="5.0" layoutY="10.0" 
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../S2.01/class/resources/images/Risque_zéro_-_logo-removebg.png" />
+            </image>
+        </ImageView>
+    </children>
 </AnchorPane>

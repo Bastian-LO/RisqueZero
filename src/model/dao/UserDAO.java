@@ -123,7 +123,6 @@ public class UserDAO extends DAO<User> {
 
     @Override
     public int update(User user) {
-        //Pour se protéger des injections SQL, pas de mise à jour des users
         throw new UnsupportedOperationException("Il est interdit de mettre à jour un utilisateur.");
     }
 

@@ -328,9 +328,6 @@ public class TestGraphe {
             }
         }
     }
-
-    void testExhaustif(){
-        System.out.println("\nAlgorithme exhaustif, tests : Cas normal ");
     */
     }
 }

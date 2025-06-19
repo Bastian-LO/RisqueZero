@@ -61,14 +61,12 @@ public class DPSDAO extends DAO<DPS> {
             ResultSet rs = pstmt.executeQuery();
             
             if (rs.next()) {
-                // Construction de base
                 int[] heureDepart = parseTime(rs.getString("horaire_depart"));
                 int[] heureFin = parseTime(rs.getString("horaire_fin"));
                 Journee journee = new Journee(rs.getDate("date_event").toLocalDate());
                 Site site = DAOMngt.getSiteDAO().findByCode(rs.getString("id_site"));
                 Sport sport = DAOMngt.getSportDAO().findByCode(rs.getString("id_sport"));
                 
-                // Récupération des compétences
                 ArrayList<Competence> competences = new ArrayList<>();
                 String compSql = "SELECT competence FROM dps_competence WHERE id_dps = ?";
                 try (PreparedStatement compPstmt = conn.prepareStatement(compSql)) {
