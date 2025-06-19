@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -157,6 +158,26 @@ public class PageModifSecouristeController {
                 }
             }
         });
+    }
+
+    /**
+     * Handles the selection of a competence from the ComboBox.
+     * 
+     * This method retrieves the selected competence from the ComboBox
+     * and adds it to the current secouriste's competence list. If the competence
+     * is not already present in the displayed list of competences, it is
+     * also added to the list view for display purposes.
+     * 
+     * @param event the ActionEvent triggered by selecting an item from the ComboBox
+     */
+    @FXML
+    public void ComboBoxCompetencesHandle(ActionEvent event) {
+        String competenceSelectionnee = competencesComboBox.getValue();
+        this.secouriste.getCompetences().add(DAOMngt.getCompetenceDAO().findByIntitule(competenceSelectionnee));
+
+        if (competenceSelectionnee != null && !competencesList.getItems().contains(competenceSelectionnee)) {
+            competencesList.getItems().add(competenceSelectionnee);
+        }
     }
 
     /**
