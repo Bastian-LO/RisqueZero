@@ -314,6 +314,7 @@ public class TestGraphe {
             }
         }*/
 
+
         System.out.println("\nAlgorithme glouton : ");
         ArrayList<Affectation> listAffGlouton = graph.affectationGlouton();
         for(int i = 0; i < listAffGlouton.size(); i++){

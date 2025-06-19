@@ -208,6 +208,12 @@ public class Graphe {
         return false;
     }
 
+
+
+    //=================================
+    //           EXHAUSTIF
+    // ================================
+
     /**
      * Exhaustive algorithm affecting secourists to DPSs
      * @return The list of affectations
@@ -270,7 +276,9 @@ public class Graphe {
     }
 
     /**
-     * Vérifie si un secouriste est disponible pour un DPS donné
+     * Checks if a secourist is available for a DPS
+     * @param secouriste the secourist
+     * @param dps the dps
      */
     private boolean estDisponible(Secouriste secouriste, DPS dps) {
         LocalDateTime debutDPS = dps.debutToLocalDateTime();
@@ -295,94 +303,86 @@ public class Graphe {
     }
 
     /**
-     * Met à jour les disponibilités du secouriste après affectation
+     * Updates a secouriste's disponibilities
+     * @param secouriste the sec
+     * @param dps the dps
      */
     private void mettreAJourDisponibilites(Secouriste secouriste, DPS dps) {
         LocalDateTime debutDPS = dps.debutToLocalDateTime();
         LocalDateTime finDPS = dps.finToLocalDateTime();
-        
         HashSet<Dispos> nouvellesDispos = new HashSet<>();
-        
+
         for (Dispos dispo : secouriste.getDisponibilites()) {
             LocalDateTime debutDispo = dispo.debutToLocalDateTime();
             LocalDateTime finDispo = dispo.finToLocalDateTime();
-            
-            // Vérifie si c'est la même journée
-            if (!debutDPS.toLocalDate().equals(debutDispo.toLocalDate())) {
-                nouvellesDispos.add(dispo);
-                continue;
-            }
-            
-            // Si la disponibilité couvre le DPS
-            if ((debutDispo.isBefore(debutDPS) || debutDispo.equals(debutDPS)) && 
-                ((finDispo.isAfter(finDPS)) || finDispo.equals(finDPS))) {
-                
-                // Créer de nouvelles disponibilités si le temps restant est >= 1h
-                
-                // Temps avant le DPS
-                long diffAvant = java.time.Duration.between(debutDispo, debutDPS).toHours();
-                if (diffAvant >= 1) {
-                    nouvellesDispos.add(new Dispos(
-                        secouriste, 
-                        debutDispo.toLocalDate(), 
-                        debutDispo.toLocalTime(), 
-                        debutDPS.toLocalTime()
-                    ));
-                }
-                
-                // Temps après le DPS
-                long diffApres = java.time.Duration.between(finDPS, finDispo).toHours();
-                if (diffApres >= 1) {
-                    nouvellesDispos.add(new Dispos(
-                        secouriste, 
-                        finDPS.toLocalDate(), 
-                        finDPS.toLocalTime(), 
-                        finDispo.toLocalTime()
-                    ));
-                }
+            boolean memeJour = debutDPS.toLocalDate().equals(debutDispo.toLocalDate());
+            boolean couvreDPS = memeJour && (debutDispo.isBefore(debutDPS) || debutDispo.equals(debutDPS)) && 
+                            (finDispo.isAfter(finDPS) || finDispo.equals(finDPS));
+
+            if (memeJour && couvreDPS) {
+                gererCreneauxExclusDPS(secouriste, nouvellesDispos, debutDPS, finDPS, debutDispo, finDispo);
             } else {
-                // Garder la disponibilité si elle ne couvre pas le DPS
                 nouvellesDispos.add(dispo);
             }
         }
         
-        // Mettre à jour les disponibilités du secouriste
         secouriste.setDisponibilites(nouvellesDispos);
     }
 
+    /**
+     * Handles dispos before and after an affectation
+     * @param secouriste the sec
+     * @param nouvellesDispos the new dispos
+     * @param debutDPS the start time of the DPS
+     * @param finDPS the end time of the DPS
+     * @param debutDispo the start time of the dispo
+     * @param finDispo the end time of the dispo
+     */
+    private void gererCreneauxExclusDPS(Secouriste secouriste, HashSet<Dispos> nouvellesDispos, LocalDateTime debutDPS,
+                                        LocalDateTime finDPS, LocalDateTime debutDispo, LocalDateTime finDispo) {
 
+        long diffAvant = java.time.Duration.between(debutDispo, debutDPS).toHours();
+        boolean ajouterAvant = diffAvant >= 1;
+        
+        long diffApres = java.time.Duration.between(finDPS, finDispo).toHours();
+        boolean ajouterApres = diffApres >= 1;
+
+        if (ajouterAvant) {
+            nouvellesDispos.add(new Dispos(secouriste, debutDispo.toLocalDate(), debutDispo.toLocalTime(), debutDPS.toLocalTime()));
+        }
+
+        if (ajouterApres) {
+            nouvellesDispos.add(new Dispos(secouriste, finDPS.toLocalDate(), finDPS.toLocalTime(), finDispo.toLocalTime()));
+        }
+    }
+
+
+
+    //===============================
+    //           GLOUTON
+    // ==============================
+
+    /**
+     * Greedy algorithm affecting secourists to DPSs
+     * @return the list of affectations
+     */
     public ArrayList<Affectation> affectationGlouton() {
         ArrayList<Affectation> resultats = new ArrayList<>();
-        
-        // Tri des DPS par ordre de difficulté (ceux avec le plus de compétences requises d'abord)
-        List<DPS> dpsTries = cloneListDPS().stream()
-            .sorted((d1, d2) -> Integer.compare(d2.getCompetences().size(), d1.getCompetences().size()))
-            .collect(Collectors.toList());
+        List<DPS> dpsTries = trierDpsParCompetences();
         
         for (DPS dps : dpsTries) {
             ArrayList<Pair<Secouriste, Competence>> affectationsDPS = new ArrayList<>();
             Set<Secouriste> secouristesDejaAffectes = new HashSet<>();
-            
-            // Tri des compétences par rareté (compétences possédées par le moins de secouristes d'abord)
-            List<Competence> competencesTriees = dps.getCompetences().stream()
-                .sorted((c1, c2) -> Integer.compare(
-                    countSecouristesAvecCompetence(c1),
-                    countSecouristesAvecCompetence(c2)))
-                .collect(Collectors.toList());
+            List<Competence> competencesTriees = trierCompetencesParRarete(dps);
             
             for (Competence competence : competencesTriees) {
-                // Trouve le secouriste disponible avec le moins d'affectations
-                Optional<Secouriste> secouristeOpt = secouristes.stream()
-                    .filter(s -> !secouristesDejaAffectes.contains(s))
-                    .filter(s -> s.getCompetences().contains(competence))
-                    .filter(s -> estDisponible(s, dps))
-                    .min(Comparator.comparingInt(s -> getNombreAffectations(s, resultats)));
+                Secouriste meilleurSecouriste = trouverMeilleurSecouriste(
+                    dps, competence, secouristesDejaAffectes, resultats);
                 
-                if (secouristeOpt.isPresent()) {
-                    Secouriste secouriste = secouristeOpt.get();
-                    affectationsDPS.add(new Pair<>(secouriste, competence));
-                    secouristesDejaAffectes.add(secouriste);
-                    mettreAJourDisponibilites(secouriste, dps);
+                if (meilleurSecouriste != null) {
+                    affectationsDPS.add(new Pair<>(meilleurSecouriste, competence));
+                    secouristesDejaAffectes.add(meilleurSecouriste);
+                    mettreAJourDisponibilites(meilleurSecouriste, dps);
                 }
             }
             
@@ -394,137 +394,118 @@ public class Graphe {
         return resultats;
     }
 
-    // Méthodes utilitaires nécessaires
-    private int countSecouristesAvecCompetence(Competence comp) {
-        return (int) secouristes.stream()
-            .filter(s -> s.getCompetences().contains(comp))
-            .count();
-    }
-
-    private int getNombreAffectations(Secouriste sec, List<Affectation> affectations) {
-        return affectations.stream()
-            .mapToInt(a -> (int) a.getList().stream()
-                .filter(p -> p.getKey().equals(sec))
-                .count())
-            .sum();
+    /**
+     * Sorts the DPS per required Competence's sets sizes
+     * @return the list of sorted DPSs
+     */
+    private List<DPS> trierDpsParCompetences() {
+        List<DPS> dpsTries = new ArrayList<>(cloneListDPS());
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int i = 0; i < dpsTries.size() - 1; i++) {
+                DPS d1 = dpsTries.get(i);
+                DPS d2 = dpsTries.get(i + 1);
+                if (d1.getCompetences().size() < d2.getCompetences().size()) {
+                    dpsTries.set(i, d2);
+                    dpsTries.set(i + 1, d1);
+                    swapped = true;
+                }
+            }
+        } while (swapped);
+        return dpsTries;
     }
 
     /**
-     * Checks if a secourist is available for a DPS and if so, changes their availibility in accordance
-     * @param sec the secourist
+     * Sorts the Competences per rarity
      * @param dps the dps
-     * @return true if the secourist is available
+     * @return the list of sorted competences
      */
-    public boolean checkDispos(Secouriste sec, DPS dps){
-        boolean ret = false;
-        ArrayList<Dispos> newDispos = new ArrayList<>();
-        ArrayList<Dispos> aSuppr = new ArrayList<>();
-
-        for (Dispos dispo : sec.getDisponibilites()){   // On parcourt toutes les disponibilités du secouriste
-            if(!ret){
-                boolean memeJour = dispo.getDate().toLocalDate().equals(dps.getDateEvt().toLocalDate());    // Vérifie que les journées correspondent
-
-                LocalTime debutDispo = dispo.toLocalTime(dispo.getHeureDebut());    // L'heure de début de la disponibilité en LocalTime
-                LocalTime finDispo = dispo.toLocalTime(dispo.getHeureFin());        // L'heure de fin de la dispo en LocalTime
-                LocalTime debutDPS = dps.toLocalTime(dps.getHoraireDepart());       // L'heure de début du DPS en LocalTime
-                LocalTime finDPS = dps.toLocalTime(dps.getHoraireFin());            // L'heure de fin du DPS en LocalTime
-
-                boolean horairesInclus = !debutDPS.isBefore(debutDispo) && !finDPS.isAfter(finDispo);   // Vérifie que l'horaire du DPS est inclus dans les dispos du secouriste
-
-                if (memeJour && horairesInclus){    // Si le jour et l'horaire correspond, donc qu'une dispo est trouvée...
-                    ret = true;                     // On sort de la boucle après avoir mis à jour les disponibilités du secouriste
-                    Duration diffHoraireDebut = Duration.between(debutDispo, debutDPS); // Ecart entre le début du DPS et le début des dispos (0 possible)
-                    Duration diffHoraireFin = Duration.between(finDPS, finDispo);     // Ecart entre le fin du DPS et le fin des dispos (0 possible)
-                    aSuppr.add(dispo);  // Une disponibilité étant trouvée, on la supprime des dispos du secouriste
-
-                    if(diffHoraireDebut.getSeconds() >= 3600){                              // Si le temps précédant le DPS est supérieur à 1h...
-                        LocalTime firstNewHoraireFin = finDispo.minus(diffHoraireDebut);
-                        Dispos firstNewDispo = new Dispos(sec, dispo.getDate().toLocalDate(), debutDispo, firstNewHoraireFin);
-                        newDispos.add(firstNewDispo);                         // On rajoute la disponibilité précédant le DPS
-                    }
-
-                    if (diffHoraireFin.getSeconds() >= 3600){                               // Si le temps suivant le DPS est supérieur à 1h...
-                        LocalTime secondNewHoraireDebut = finDispo.minus(diffHoraireFin);
-                        Dispos secondNewDispo = new Dispos(sec, dispo.getDate().toLocalDate(), secondNewHoraireDebut, finDispo);
-                        newDispos.add(secondNewDispo);                        // On rajoute la disponibilité suivant le DPS
-                    } 
-                }
-            }
-        }
-
-        for (Dispos d : aSuppr) {
-            sec.getDisponibilites().remove(d);
-        }
-        for (Dispos d : newDispos) {
-            sec.getDisponibilites().add(d);
-        }
-
-        return ret;
-    }
-
-    /**
-     * Checks if the current affectation list is more optimal than the registered best solution
-     * @param current the affectation list we want to check
-     * @param bestSolution the best registered affectation list
-     * @return true if it's more optimal
-     */
-    private boolean aIsBetterThanB(ArrayList<Affectation> current, ArrayList<Affectation> bestSolution){
-        int nbBestSolution = 0 ;
-        int nbCurrent = 0;
-        for ( Affectation affectation : bestSolution) {
-            nbBestSolution += affectation.getList().size();
-        }
-        for ( Affectation affectation : current){
-            nbCurrent += affectation.getList().size();
-        }
-
-        return nbCurrent>nbBestSolution;
-    }
-
-    /**
-     * Returns a HashMap with the amount of Competence required per DPS
-     * @return a map with the amount of competences for each DPS
-     */
-    private HashMap<DPS, Integer> getNbComp(){
-        HashMap<DPS, Integer> ret = new HashMap<>();
-
-        for (int i = 0; i < this.DPSCompet.size(); i++) {
-            Pair<DPS, Competence> pair = this.DPSCompet.get(i);
-
-            if (!ret.containsKey(pair.getKey())){
-                ret.put(pair.getKey(), 1);
-            } else {
-                int valueCurr = ret.get(pair.getKey()) + 1;
-                ret.replace(pair.getKey(), valueCurr);
-            }
-        }
-
-        return ret;
-    }
-
-    
-    public ArrayList<Affectation> glouton(){
-        ArrayList<Affectation> ret = new ArrayList<>();
-        HashMap<DPS, Integer> nbCompParDps = this.getNbComp();  // Pour chaque DPS, le nb de compétences requises
+    private List<Competence> trierCompetencesParRarete(DPS dps) {
+        List<Competence> competencesTriees = new ArrayList<>(dps.getCompetences());
         
-        for(Pair<DPS, Competence> pair : this.DPSCompet){   // On parcourt toutes les paires DPS / Competence
-            ArrayList<Pair<Secouriste, Competence>> listPair = new ArrayList<>();
-            DPS dpsCurr = pair.getKey();    // DPS analysé
-            Competence compCurr = pair.getValue();  // Compétence requise
-            int nbComp = nbCompParDps.get(pair.getKey());   // Nb de compétences requises pour le DPS
-
-            for(int i = 0; i < this.secouristes.size(); i++){   // On parcourt tous les secouristes
-                Secouriste secCurr = this.secouristes.get(i);
-                if(secCurr.getCompetencesIntitules().contains(compCurr.getIntitule()) && checkDispos(secCurr, dpsCurr)){
-                    Pair<Secouriste, Competence> pairCurr = new Pair<Secouriste,Competence>(secCurr, compCurr);
-                    listPair.add(pairCurr);
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int i = 0; i < competencesTriees.size() - 1; i++) {
+                Competence c1 = competencesTriees.get(i);
+                Competence c2 = competencesTriees.get(i + 1);
+                
+                int count1 = countSecouristesAvecCompetence(c1);
+                int count2 = countSecouristesAvecCompetence(c2);
+                
+                if (count1 > count2) {
+                    competencesTriees.set(i, c2);
+                    competencesTriees.set(i + 1, c1);
+                    swapped = true;
                 }
             }
+        } while (swapped);
+        
+        return competencesTriees;
+    }
 
-            Affectation affCurr = new Affectation(listPair, dpsCurr);
-            ret.add(affCurr);
+    /**
+     * Returns the most appropriate secourist for the affectation
+     * @param dps the dps
+     * @param competence the competence
+     * @param secouristesDejaAffectes the already affected secourists
+     * @param resultats the list of affectations
+     * @return the most appropriate secourist
+     */
+    private Secouriste trouverMeilleurSecouriste(DPS dps, Competence competence, Set<Secouriste> secouristesDejaAffectes, ArrayList<Affectation> resultats) {
+        Secouriste meilleurSecouriste = null;
+        int minAffectations = Integer.MAX_VALUE;
+        
+        for (Secouriste secouriste : secouristes) {
+            boolean estEligible = !secouristesDejaAffectes.contains(secouriste) && secouriste.getCompetences().contains(competence)
+                                && estDisponible(secouriste, dps);
+            
+            if (estEligible) {
+                int nbAffectations = getNombreAffectations(secouriste, resultats);
+                if (nbAffectations < minAffectations) {
+                    meilleurSecouriste = secouriste;
+                    minAffectations = nbAffectations;
+                }
+            }
         }
+        
+        return meilleurSecouriste;
+    }
 
-        return ret;
+    /**
+     * Returns the amount of secourists with a specified competence
+     * @param comp the competence
+     * @return the amount
+     */
+    private int countSecouristesAvecCompetence(Competence comp) {
+        int count = 0;
+        for (Secouriste secouriste : secouristes) {
+            if (secouriste.getCompetences().contains(comp)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Returns the amount of affectations for a secourist
+     * @param sec the secourist
+     * @param affectations the general affectations
+     * @return the amount
+     */
+    private int getNombreAffectations(Secouriste sec, List<Affectation> affectations) {
+        int total = 0;
+        
+        for (Affectation affectation : affectations) {
+            ArrayList<Pair<Secouriste, Competence>> listePairs = affectation.getList();
+            for (Pair<Secouriste, Competence> pair : listePairs) {
+                if (pair.getKey().equals(sec)) {
+                    total++;
+                }
+            }
+        }
+        
+        return total;
     }
 }
