@@ -44,7 +44,7 @@
                <font>
                   <Font size="25.0" />
                </font></Label>
-            <Hyperlink fx:id="LienInscription" layoutX="153.0" layoutY="541.0" text="S'inscrire">
+            <Hyperlink fx:id="LienInscription" layoutX="153.0" layoutY="541.0" onAction="#LienInscriptionHandle" text="S'inscrire">
                <font>
                   <Font size="18.0" />
                </font></Hyperlink>
