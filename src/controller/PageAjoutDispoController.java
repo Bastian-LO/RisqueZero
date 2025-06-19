@@ -20,4 +20,8 @@ public class PageAjoutDispoController {
 
     public void calendrierHandle(ActionEvent actionEvent) {
     }
+
+    public void setUser(UserSecouriste user) {
+        this.user = user;
+    }
 }
