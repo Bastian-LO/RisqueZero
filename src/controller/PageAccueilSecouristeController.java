@@ -93,8 +93,6 @@ public class PageAccueilSecouristeController {
     public void setUser(UserSecouriste user) {
         this.user = user;
         this.secouriste = user.getSecouriste();
-        // Ici vous devriez charger les données du secouriste depuis votre base de données
-        // Par exemple: this.secouriste = Database.getSecouriste(user.getIdSecouriste());
 
         // Mise à jour de l'interface
         updateUI();
@@ -196,8 +194,8 @@ public class PageAccueilSecouristeController {
             disponibiliteLabels[maxDisplay].setText("... +" + (dispoList.size() - maxDisplay));
         }
     }
+    
     // Met à jour les éléments du planning
-    // TODO: TS
     private void updatePlanning(List<String> planningItems) {
         // Réinitialiser les labels
         Label[] planningLabels = {idEvenementLabel, nomEvenementLabel, siteEvenementLabel, dateEvenementLabel};
