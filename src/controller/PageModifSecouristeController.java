@@ -108,7 +108,7 @@ public class PageModifSecouristeController {
      * the modal window.
      */
     @FXML
-    private void handleEnregistrer() {
+    public void handleEnregistrer() {
         if (estSaisieValide()) {
             mettreAJourSecouriste();
             DAOMngt.getSecouristeDAO().update(secouriste);
@@ -124,7 +124,7 @@ public class PageModifSecouristeController {
      * and closes the modal window.
      */
     @FXML
-    private void handleSupprimer() {
+    public void handleSupprimer() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
         alert.setHeaderText("Supprimer le secouriste");
@@ -144,7 +144,7 @@ public class PageModifSecouristeController {
      * Closes the current window and opens the login window.
      */
     @FXML
-    private void handleDeconnexion() {
+    public void handleDeconnexion() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
             Parent root = loader.load();
