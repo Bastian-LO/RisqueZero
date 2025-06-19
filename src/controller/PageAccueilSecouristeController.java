@@ -30,7 +30,7 @@ public class PageAccueilSecouristeController {
     public Button deconnexionButton;
 
     @FXML
-    private Button VoirProfilBoutton;
+    private Button voirProfilButton;
 
     @FXML
     private Label Competence1;
@@ -239,7 +239,7 @@ public class PageAccueilSecouristeController {
             // Passer les données utilisateur au contrôleur de la page de profil
             PageProfilSecouristeController controller = loader.getController();
             controller.setUser(user);
-            Stage stage = (Stage) VoirProfilBoutton.getScene().getWindow();
+            Stage stage = (Stage) voirProfilButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -258,7 +258,7 @@ public class PageAccueilSecouristeController {
             PagePlanningController controller = loader.getController();
             controller.setUser(user);
 
-            Stage stage = (Stage) VoirProfilBoutton.getScene().getWindow();
+            Stage stage = (Stage) voirProfilButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -275,7 +275,7 @@ public class PageAccueilSecouristeController {
             // Création de la nouvelle scène
             Scene connexionScene = new Scene(connexionRoot);            // Récupération de la fenêtre actuelle
             Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Stage stage = (Stage) VoirProfilBoutton.getScene().getWindow();
+            Stage stage = (Stage) voirProfilButton.getScene().getWindow();
             stage.setScene(new Scene(connexionRoot));
             stage.show();
         } catch (IOException e) {
