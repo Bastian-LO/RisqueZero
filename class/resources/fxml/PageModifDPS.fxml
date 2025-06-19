@@ -37,7 +37,7 @@
             </Label>
          </children>
       </HBox>
-      <DatePicker fx:id="Calendrier" layoutX="571.0" layoutY="317.0" maxHeight="177.0" onAction="#CalendrierHandle" prefHeight="5.0" prefWidth="154.0" promptText="date" AnchorPane.rightAnchor="75.0" />
+      <DatePicker fx:id="Calendrier" layoutX="571.0" layoutY="317.0" maxHeight="177.0" onAction="#calendrierHandle" prefHeight="5.0" prefWidth="154.0" promptText="date" AnchorPane.rightAnchor="75.0" />
       <Button fx:id="BouttonAffecter" layoutX="554.0" layoutY="396.0" mnemonicParsing="false" onAction="#BouttonAffecterHandle" prefWidth="200.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Affecter des &#10; secouristes" textFill="WHITE" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="40.0">
          <font>
             <Font name="System Bold" size="15.0" />
@@ -95,7 +95,7 @@
                   <Font size="19.0" />
                </font>
             </Label>
-            <ListView fx:id="ListeDeCompétences" prefHeight="82.0" prefWidth="171.0">
+            <ListView fx:id="ListeDeCompetences" prefHeight="82.0" prefWidth="171.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -103,7 +103,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </ListView>
-            <ComboBox fx:id="ComboBoxCompétences" onAction="#ComboBoxCompétencesHandle" prefHeight="51.0" promptText="Compétences" style="-fx-background-radius: 50;">
+            <ComboBox fx:id="ComboBoxCompetences" onAction="#ComboBoxCompétencesHandle" prefHeight="51.0" promptText="Compétences" style="-fx-background-radius: 50;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
