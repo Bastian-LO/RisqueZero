@@ -40,7 +40,7 @@ public class AffectationDAO extends DAO<Affectation> {
                         
                     Affectation existing = null;
                     for (Affectation aff : affectations) {
-                        if (aff.getIdDps().getId() == dpsId) {
+                        if (aff.getDps().getId() == dpsId) {
                             existing = aff;
                             break;
                         }
@@ -77,7 +77,7 @@ public class AffectationDAO extends DAO<Affectation> {
             
             for (Pair<Secouriste, Competence> pair : affectation.getList()) {
                 pstmt.setLong(1, pair.getKey().getId());
-                pstmt.setLong(2, affectation.getIdDps().getId());
+                pstmt.setLong(2, affectation.getDps().getId());
                 pstmt.setString(3, pair.getValue().getIntitule());
                 pstmt.addBatch();
                 count++;
@@ -116,7 +116,7 @@ public class AffectationDAO extends DAO<Affectation> {
             
             for (Pair<Secouriste, Competence> pair : affectation.getList()) {
                 pstmt.setLong(1, pair.getKey().getId());
-                pstmt.setLong(2, affectation.getIdDps().getId());
+                pstmt.setLong(2, affectation.getDps().getId());
                 pstmt.setString(3, pair.getValue().getIntitule());
                 pstmt.addBatch();
                 count++;

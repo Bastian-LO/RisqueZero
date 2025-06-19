@@ -74,7 +74,7 @@ public class Affectation {
      * Returns the DPS
      * @return the DPS
      */
-    public DPS getIdDps(){
+    public DPS getDps(){
         return new DPS(this.idDps.getId(), this.idDps.getHoraireDepart(), this.idDps.getHoraireFin(), 
                             this.idDps.getDateEvt(), this.idDps.getCompetences(), this.idDps.getLieu(), 
                             this.idDps.getSport());
