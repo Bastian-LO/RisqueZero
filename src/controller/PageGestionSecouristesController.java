@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,17 +17,23 @@ import java.io.IOException;
 
 /**
  * Controller for the gestion secouristes page
+ *
  * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
  */
 public class PageGestionSecouristesController {
 
-    @FXML private ListView<Secouriste> secouristesListView;
-    @FXML public Button ajouterButton;
+    public Button ajouterSecouristeButton;
+    public Button accueilButton;
+    @FXML
+    private ListView<Secouriste> secouristesListView;
+    @FXML
+    public Button ajouterButton;
 
     public UserAdmin user;
 
     /**
      * Initializes the controller. Called after the FXML file has been loaded
+     *
      * @param user the current user
      */
     @FXML
@@ -54,6 +61,7 @@ public class PageGestionSecouristesController {
 
     /**
      * Opens a new window or dialog for modifying a secouriste
+     *
      * @param secouriste the secouriste to modify
      */
     private void ouvrirModificationSecouriste(Secouriste secouriste) {
@@ -63,10 +71,24 @@ public class PageGestionSecouristesController {
             PageModifSecouristeController controller = loader.getController();
             controller.setSecouriste(secouriste);
             controller.setUser(user);
-            Stage  stage = (Stage) secouristesListView.getScene().getWindow();
+            Stage stage = (Stage) secouristesListView.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handleAccueil(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilAdmin.fxml"));
+            Stage stage = (Stage) accueilButton.getScene().getWindow();
+            Parent root = loader.load();
+            PageAccueilAdminController controller = loader.getController();
+            controller.setUser((UserAdmin) user);
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
