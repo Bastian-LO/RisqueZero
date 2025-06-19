@@ -140,6 +140,9 @@
          <image>
             <Image url="@../images/Back_motif.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
    </children>
 </AnchorPane>
