@@ -36,7 +36,7 @@ public class PageConnexionController {
 
     // Méthode appelée lors du clic sur le bouton de connexion
     @FXML
-    private void handleConnexion(ActionEvent event) {
+    public void handleConnexion(ActionEvent event) {
         String login = IDZoneEcrit.getText();
         String motDePasse = MDPZoneEcrit.getText();
 
