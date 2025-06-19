@@ -1,11 +1,16 @@
 package controller;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
 import model.data.service.DAOMngt;
-import model.data.users.User;
+import model.data.users.UserAdmin;
 
 public class PageModifSecouristeController {
 
@@ -23,11 +28,23 @@ public class PageModifSecouristeController {
 
     private Secouriste secouriste;
     private Stage dialogStage;
-    private User user;
+    private UserAdmin user;
+
+    public void setUser(UserAdmin user) {
+        this.user = user;
+    }
+
 
     public void initialize(Secouriste secouriste, Stage dialogStage) {
         this.secouriste = secouriste;
         this.dialogStage = dialogStage;
+        remplirChamps();
+        chargerCompetences();
+    }
+
+
+    public void setSecouriste(Secouriste secouriste) {
+        this.secouriste = secouriste;
         remplirChamps();
         chargerCompetences();
     }
@@ -42,8 +59,9 @@ public class PageModifSecouristeController {
     }
 
     private void chargerCompetences() {
+        competencesList.getItems().clear();
         competencesList.getItems().addAll(secouriste.getCompetencesIntitules());
-        // Ici vous pourriez charger les compétences disponibles dans le ComboBox
+
     }
 
     @FXML
@@ -72,8 +90,15 @@ public class PageModifSecouristeController {
 
     @FXML
     private void handleDeconnexion() {
-        // Implémentez la déconnexion ici
-        dialogStage.close();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) deconnexionButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void mettreAJourSecouriste() {
@@ -117,11 +142,5 @@ public class PageModifSecouristeController {
             alert.showAndWait();
             return false;
         }
-    }
-
-    public void setSecouriste(Secouriste secouriste) {
-        this.secouriste = secouriste;
-        remplirChamps();
-        chargerCompetences();
     }
 }
