@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import model.dao.DAO;
 import model.data.persistence.DPS;
 import model.data.service.DAOMngt;
 import model.data.users.UserAdmin;
@@ -40,9 +39,7 @@ public class PageAccueilAdminController {
     public Label siteLabel;
     @FXML
     public Label dateLabel;
-    @FXML
-    public Label nbSpectateursLabel;
-    
+
     public UserAdmin admin;
 
     public void setUser(UserAdmin admin){
@@ -57,8 +54,17 @@ public class PageAccueilAdminController {
 
     private void updateDPS() {
         List<DPS> dps = DAOMngt.getDPSDAO().findAll();
+        DPS nextDPS = dps.get(0);
+        for ( DPS dps1 : dps) {
+            if (dps1.getDateEvt().isBefore(nextDPS.getDateEvt())) {
+                nextDPS = dps1;
+            }
+        }
 
-        idEvenementLabel.setText(String.valueOf(dps.get(0).getId()));
+        idEvenementLabel.setText(String.valueOf(nextDPS.getId()));
+        sportLabel.setText(nextDPS.getSport().getNom());
+        siteLabel.setText(nextDPS.getLieu().getNom());
+        dateLabel.setText(nextDPS.getDateEvt().toString());
     }
 
     private void updateProfileLabels() {

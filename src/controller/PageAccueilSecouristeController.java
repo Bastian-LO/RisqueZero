@@ -63,12 +63,6 @@ public class PageAccueilSecouristeController {
     private Label Dispo4;
 
     @FXML
-    private Label Dispo5;
-
-    @FXML
-    private Label Dispo6;
-
-    @FXML
     private Label Label2;
 
     @FXML
@@ -168,7 +162,7 @@ public class PageAccueilSecouristeController {
 
     private void updateDisponibilites(HashSet<Dispos> disponibilites) {
         Label[] disponibiliteLabels = {Dispo1, Dispo2, Dispo3,
-                Dispo4, Dispo5, Dispo6};
+                Dispo4};
 
         // Réinitialiser toutes les disponibilités
         for (Label label : disponibiliteLabels) {

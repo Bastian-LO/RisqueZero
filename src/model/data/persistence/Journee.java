@@ -97,7 +97,6 @@ public class Journee{
      */
     public void setJour(int newJour) throws IllegalArgumentException{
         checkDate(newJour, this.mois, this.annee);
-
         this.jour = newJour;
     }
 
@@ -208,5 +207,13 @@ public class Journee{
         int ret;
         ret = Objects.hash(getJour(), getMois(), getAnnee());
         return ret;
+    }
+
+    public boolean isAfter(Journee date){
+        return this.toLocalDate().isAfter(date.toLocalDate());
+    }
+
+    public boolean isBefore(Journee date){
+        return this.toLocalDate().isBefore(date.toLocalDate());
     }
 }
