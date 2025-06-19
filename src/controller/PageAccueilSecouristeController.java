@@ -264,7 +264,7 @@ public class PageAccueilSecouristeController {
         }
     }
 
-
+    @FXML
     public void deconnexionPage(ActionEvent actionEvent) {
         try {
             // Chargement de la deuxième interface depuis second.fxml
