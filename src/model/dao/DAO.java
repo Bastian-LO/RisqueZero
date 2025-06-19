@@ -18,7 +18,11 @@ import view.MyConnection;
 public abstract class DAO <T> {
     
     protected Connection getConnection() throws SQLException {
-        return MyConnection.getMyConnection().getConnection();
+        Connection conn = MyConnection.getMyConnection().getConnection();
+        if (conn.isClosed()) {
+            throw new SQLException("La connexion est fermée");
+        }
+        return conn; 
     }
 
     /**
