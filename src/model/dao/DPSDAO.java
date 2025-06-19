@@ -4,8 +4,10 @@ import model.data.persistence.*;
 import model.data.service.DAOMngt;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * DAO for DPS
@@ -42,6 +44,14 @@ public class DPSDAO extends DAO<DPS> {
             e.printStackTrace();
         }
         return dpsList;
+    }
+
+    public List<DPS> findByDateRange(LocalDate startDate, LocalDate endDate) {
+        List<DPS> allDps = findAll();
+        return allDps.stream()
+            .filter(dps -> !dps.getDateEvt().toLocalDate().isBefore(startDate) && 
+                        !dps.getDateEvt().toLocalDate().isAfter(endDate))
+            .collect(Collectors.toList());
     }
 
     /**

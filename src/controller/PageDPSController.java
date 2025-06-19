@@ -24,6 +24,10 @@ import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for the DPS page
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
 public class PageDPSController {
 
     private UserAdmin user;
@@ -65,11 +69,13 @@ public class PageDPSController {
         dimancheColumn.setCellValueFactory(new PropertyValueFactory<>("dimanche"));
 
         // Style des cellules
-        TableColumn<?, ?>[] columns = {lundiColumn, mardiColumn, mercrediColumn, jeudiColumn, 
-                                      vendrediColumn, samediColumn, dimancheColumn};
+        TableColumn<DPSRow, String>[] columns = (TableColumn<DPSRow, String>[]) new TableColumn[] {
+            lundiColumn, mardiColumn, mercrediColumn, jeudiColumn, 
+            vendrediColumn, samediColumn, dimancheColumn
+        };
         
-        for (TableColumn<?, ?> col : columns) {
-            col.setCellFactory(column -> new TableCell<>() {
+        for (TableColumn<DPSRow, String> col : columns) {
+            col.setCellFactory(column -> new TableCell<DPSRow, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -258,7 +264,7 @@ public class PageDPSController {
     }
 
     /**
-     * Classe interne représentant une ligne dans le tableau DPS
+     * Internal class representing a row in the table.
      */
     public static class DPSRow {
         private String lundi;

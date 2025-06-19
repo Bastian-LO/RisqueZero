@@ -40,7 +40,11 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <DatePicker fx:id="naissanceCalendar" promptText="10/02/2025" />
+            <TextField fx:id="dateNaissanceField" promptText="JJ/MM/AAAA" style="-fx-background-radius: 50;">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
          </children>
          <padding>
             <Insets left="15.0" right="15.0" top="30.0" />
@@ -64,7 +68,7 @@
                               <Font name="System Bold" size="19.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="prenomTextField" prefHeight="32.0" prefWidth="178.0" style="-fx-background-radius: 50;">
+                        <TextField fx:id="prenomField" prefHeight="32.0" prefWidth="178.0" style="-fx-background-radius: 50;">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -84,7 +88,7 @@
                               <Font name="System Bold" size="19.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="nomTextField" prefHeight="39.0" prefWidth="38.0" style="-fx-background-radius: 50;">
+                        <TextField fx:id="nomField" prefHeight="39.0" prefWidth="38.0" style="-fx-background-radius: 50;">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -103,7 +107,7 @@
                         <Font name="System Bold" size="19.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="mailTextField" prefHeight="39.0" prefWidth="300.0" promptText="Adresse-mail" style="-fx-background-radius: 50;">
+                  <TextField fx:id="emailField" prefHeight="39.0" prefWidth="300.0" promptText="Adresse-mail" style="-fx-background-radius: 50;">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -111,7 +115,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="telephoneTextField" prefHeight="39.0" prefWidth="300.0" promptText="Téléphone" style="-fx-background-radius: 50;">
+                  <TextField fx:id="telField" prefHeight="39.0" prefWidth="300.0" promptText="Téléphone" style="-fx-background-radius: 50;">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -119,7 +123,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField fx:id="adresseTextField" prefHeight="39.0" prefWidth="300.0" promptText="Adresse" style="-fx-background-radius: 50;">
+                  <TextField fx:id="adresseField" prefHeight="39.0" prefWidth="300.0" promptText="Adresse" style="-fx-background-radius: 50;">
                      <font>
                         <Font size="18.0" />
                      </font>

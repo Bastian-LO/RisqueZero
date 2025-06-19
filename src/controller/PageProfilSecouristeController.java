@@ -139,8 +139,21 @@ public class PageProfilSecouristeController {
 
     @FXML
     public void ajouterDisponibilite(ActionEvent event) {
-        // TODO Fonctionnalité à implémenter
-        showAlert("Fonctionnalité en développement", "L'ajout de disponibilité sera disponible prochainement");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilAjoutDispo.fxml"));
+            Parent root = loader.load();
+
+            // Passage des données utilisateur
+            PageAjoutDispoController controller = loader.getController();
+            controller.setUser(user);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Erreur de navigation", "Impossible de charger la page d'accueil");
+            e.printStackTrace();
+        }
     }
 
     private void showAlert(String title, String message) {

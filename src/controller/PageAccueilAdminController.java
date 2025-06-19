@@ -101,8 +101,10 @@ public class PageAccueilAdminController {
     public void secouristePage(ActionEvent actionEvent) {
         try {
             // Chargement de la deuxième interface depuis second.fxml
-            Parent secouristeRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageGestionSecouristes.fxml"));
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageGestionSecouristes.fxml"));
+            Parent secouristeRoot = loader.load();
+            PageGestionSecouristesController controller = loader.getController();
+            controller.initialize(admin);
             // Création de la nouvelle scène
             Scene secouristeScene = new Scene(secouristeRoot);
 
