@@ -94,20 +94,15 @@ public class PageAccueilSecouristeController {
         this.user = user;
         this.secouriste = user.getSecouriste();
 
-        // On attend que l'interface soit complètement chargée avant de mettre à jour
         Platform.runLater(this::updateUI);
     }
 
-    // Met à jour l'interface avec les données du secouriste
     private void updateUI() {
         if (secouriste != null) {
-            // Mettre à jour les compétences
             updateCompetences(secouriste.getCompetences());
 
-            // Mettre à jour les disponibilités
             updateDisponibilites(secouriste.getDisponibilites());
 
-            // Mettre à jour le planning
             List<Affectation> affectations = DAOMngt.getAffectationDAO().findBySecouriste(secouriste.getId());
             List<String> planning = new ArrayList<>();
             for (Affectation affectation : affectations) {
@@ -118,10 +113,8 @@ public class PageAccueilSecouristeController {
         }
     }
 
-    // Met à jour les labels des compétences
     private void updateCompetences(ArrayList<Competence> competences) {
 
-        // Réinitialiser toutes les compétences
         Label[] initCompetenceLabels = {Competence1, Competence2, Competence3,Competence4, Competence5, Competence6};
 
         int count = 1;
@@ -138,7 +131,6 @@ public class PageAccueilSecouristeController {
             return;
         }
 
-        // Mettre à jour avec les compétences réelles
         if (competences != null) {
             if ( competences.size() < 7 && !competences.isEmpty()) {
                 Label[] competenceLabels = {Competence1, Competence2, Competence3,
@@ -161,7 +153,6 @@ public class PageAccueilSecouristeController {
 
             }
         } else {
-            // Réinitialiser toutes les compétences
             count = 1;
             for (Label label : initCompetenceLabels) {
                 if (label == null) {
@@ -179,7 +170,6 @@ public class PageAccueilSecouristeController {
         Label[] disponibiliteLabels = {Dispo1, Dispo2, Dispo3,
                 Dispo4};
         int count = 1;
-        // Réinitialiser toutes les disponibilités
         for (Label label : disponibiliteLabels) {
             if (label == null) {
                 System.err.println("Le label de disponibilité " + count + " est null!");
@@ -189,13 +179,11 @@ public class PageAccueilSecouristeController {
             count++;
         }
 
-        // Mettre à jour avec les disponibilités réelles
         if (disponibilites == null || disponibilites.isEmpty()) {
             disponibiliteLabels[0].setText("Pas de disponibilités enregistrées pour le moment.");
             return;
         }
 
-        // Convertir le HashSet en ArrayList pour accéder par index
         ArrayList<Dispos> dispoList = new ArrayList<>(disponibilites);
         int maxDisplay = disponibiliteLabels.length - 1; // On garde une place pour "..."
         int displayCount = Math.min(dispoList.size(), maxDisplay);
@@ -209,9 +197,7 @@ public class PageAccueilSecouristeController {
         }
     }
 
-    // Met à jour les éléments du planning
     private void updatePlanning(List<String> planningItems) {
-        // Réinitialiser les labels
         Label[] planningLabels = {idEvenementLabel, nomEvenementLabel, siteEvenementLabel, dateEvenementLabel};
         int count = 1;
         for (Label label : planningLabels) {
@@ -223,7 +209,6 @@ public class PageAccueilSecouristeController {
             count++;
         }
 
-        // Mettre à jour avec les éléments du planning
         if (planningItems != null && !planningItems.isEmpty()) {
             for (int i = 0; i < Math.min(planningItems.size(), 4); i++) {
                 switch (i) {
@@ -244,14 +229,12 @@ public class PageAccueilSecouristeController {
         }
     }
 
-    // Gère le clic sur le bouton "Voir le profil"
     @FXML
     public void handleVoirProfil(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageProfilSecouristes.fxml"));
             Parent root = loader.load();
 
-            // Passer les données utilisateur au contrôleur de la page de profil
             PageProfilSecouristeController controller = loader.getController();
             controller.setUser(user);
             Stage stage = (Stage) profilButton.getScene().getWindow();
@@ -262,19 +245,15 @@ public class PageAccueilSecouristeController {
         }
     }
 
-    // Gère le clic sur le bouton "Voir le planning"
     @FXML
     public void handleVoirPlanning(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PagePlanning.fxml"));
             Parent root = loader.load();
 
-            // Passer les données utilisateur au contrôleur de la page de planning
             PagePlanningController controller = loader.getController();
             controller.setUser(user);
 
-            // Récupérer la scène actuelle et changer de scène
-            
 
             Stage stage = (Stage) profilButton.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -287,13 +266,10 @@ public class PageAccueilSecouristeController {
     @FXML
     public void deconnexionPage(ActionEvent actionEvent) {
         try {
-            // Chargement de la deuxième interface depuis second.fxml
             Parent connexionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
 
-            // Création de la nouvelle scène
-            Scene connexionScene = new Scene(connexionRoot);            
+            Scene connexionScene = new Scene(connexionRoot);
             
-            // Récupération de la fenêtre actuelle
             Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             currentStage.setScene(connexionScene);
             currentStage.show();

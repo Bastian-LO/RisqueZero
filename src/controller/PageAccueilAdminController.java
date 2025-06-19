@@ -16,7 +16,12 @@ import model.data.users.UserAdmin;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller for the admin home page.
+ * @author Emile Thevenin
+ */
 public class PageAccueilAdminController {
+
     @FXML
     public Button deconnexionButton;
     @FXML
@@ -42,16 +47,26 @@ public class PageAccueilAdminController {
 
     public UserAdmin admin;
 
+    /**
+     * Sets the admin user and updates the UI accordingly.
+     * @param admin the admin user to set
+     */
     public void setUser(UserAdmin admin){
         this.admin = admin;
         updateUI();
     }
 
+    /**
+     * Updates the UI by refreshing the profile labels and DPS information.
+     */
     private void updateUI() {
         updateProfileLabels();
         updateDPS();
     }
 
+    /**
+     * Updates the DPS label by retrieving the next upcoming DPS event.
+     */
     private void updateDPS() {
         List<DPS> dps = DAOMngt.getDPSDAO().findAll();
 
@@ -64,7 +79,7 @@ public class PageAccueilAdminController {
         }
 
         DPS nextDPS = dps.get(0);
-        for ( DPS dps1 : dps) {
+        for (DPS dps1 : dps) {
             if (dps1.getDateEvt().isBefore(nextDPS.getDateEvt())) {
                 nextDPS = dps1;
             }
@@ -76,20 +91,22 @@ public class PageAccueilAdminController {
         dateLabel.setText(nextDPS.getDateEvt().toString());
     }
 
+    /**
+     * Updates the profile labels with the admin's information.
+     */
     private void updateProfileLabels() {
         idProfilLabel.setText(String.valueOf(admin.getId()));
         mailLabel.setText(admin.getLogin());
     }
 
+    /**
+     * Logs out the admin and redirects to the login page.
+     * @param actionEvent the action event that triggered this method
+     */
     public void deconnexionPage(ActionEvent actionEvent) {
         try {
-            // Chargement de la deuxième interface depuis second.fxml
             Parent connexionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
-
-            // Création de la nouvelle scène
             Scene connexionScene = new Scene(connexionRoot);
-
-            // Récupération de la fenêtre actuelle
             Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             currentStage.setScene(connexionScene);
             currentStage.show();
@@ -98,17 +115,17 @@ public class PageAccueilAdminController {
         }
     }
 
+    /**
+     * Opens the secouristes management page.
+     * @param actionEvent the action event that triggered this method
+     */
     public void secouristePage(ActionEvent actionEvent) {
         try {
-            // Chargement de la deuxième interface depuis second.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageGestionSecouristes.fxml"));
             Parent secouristeRoot = loader.load();
             PageGestionSecouristesController controller = loader.getController();
             controller.initialize(admin);
-            // Création de la nouvelle scène
             Scene secouristeScene = new Scene(secouristeRoot);
-
-            // Récupération de la fenêtre actuelle
             Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             currentStage.setScene(secouristeScene);
             currentStage.show();
@@ -117,15 +134,14 @@ public class PageAccueilAdminController {
         }
     }
 
+    /**
+     * Opens the DPS page.
+     * @param actionEvent the action event that triggered this method
+     */
     public void dpsPage(ActionEvent actionEvent) {
         try {
-            // Chargement de la deuxième interface depuis second.fxml
             Parent secouristeRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageDPS.fxml"));
-
-            // Création de la nouvelle scène
             Scene secouristeScene = new Scene(secouristeRoot);
-
-            // Récupération de la fenêtre actuelle
             Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             currentStage.setScene(secouristeScene);
             currentStage.show();

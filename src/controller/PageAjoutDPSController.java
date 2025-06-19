@@ -1,7 +1,9 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import model.data.users.UserAdmin;
 
 public class PageAjoutDPSController {
@@ -11,8 +13,8 @@ public class PageAjoutDPSController {
     @FXML private DatePicker Calendrier;
     @FXML private TextField sportTextField;
     @FXML private TextField siteTextField;
-    @FXML private ListView<String> ListeCompétence;
-    @FXML private ComboBox<String> ComboBoxCompétence;
+    @FXML private ListView<String> ListeCompetence;
+    @FXML private ComboBox<String> ComboBoxCompetence;
     @FXML private TextField heureDebutTextField;
     @FXML private TextField minuteDebutTextField;
     @FXML private TextField heureFinTextField;
@@ -34,4 +36,13 @@ public class PageAjoutDPSController {
     @FXML public void heureFinHandle() {}
     @FXML public void minuteFinHandle() {}
     @FXML public void BoutonEnregistrerHandle() {}
+
+    public void BoutonAccueilHandle(ActionEvent actionEvent) {
+    }
+
+    public void ListeCompétenceHandle(ListView.EditEvent editEvent) {
+    }
+
+    public void backHandle(MouseEvent mouseEvent) {
+    }
 }
