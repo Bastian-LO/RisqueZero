@@ -50,9 +50,8 @@ public class PageGestionSecouristesController {
             PageModifSecouristeController controller = loader.getController();
             controller.setSecouriste(secouriste);
             controller.setUser(user);
+            Stage  stage = (Stage) ajouterButton.getScene().getWindow();
             stage.setScene(new Scene(root));
-
-
             stage.show();
 
         } catch (IOException e) {
