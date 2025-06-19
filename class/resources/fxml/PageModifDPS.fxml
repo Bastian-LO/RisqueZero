@@ -103,7 +103,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </ListView>
-            <ComboBox fx:id="ComboBoxCompetences" onAction="#ComboBoxCompétencesHandle" prefHeight="51.0" promptText="Compétences" style="-fx-background-radius: 50;">
+            <ComboBox fx:id="ComboBoxCompetences" onAction="#ComboBoxCompetencesHandle" prefHeight="51.0" promptText="Compétences" style="-fx-background-radius: 50;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

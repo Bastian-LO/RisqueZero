@@ -3,7 +3,6 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -128,17 +127,17 @@ public class PageModifDPSController {
     }
 
     @FXML
-    public void ComboBoxSportHandle(ActionEvent event) {
+    public void sportHandle(ActionEvent event) {
         System.out.println("Sport sélectionné: " + ComboBoxSport.getValue());
     }
 
     @FXML
-    public void ComboBoxSiteHandle(ActionEvent event) {
+    public void siteHandle(ActionEvent event) {
         System.out.println("Site sélectionné: " + ComboBoxSite.getValue());
     }
 
     @FXML
-    public void ComboBoxCompétencesHandle(ActionEvent event) {
+    public void ComboBoxCompetencesHandle(ActionEvent event) {
         String competenceSelectionnee = ComboBoxCompetences.getValue();
         this.dpsEnCours.getCompetences().add(DAOMngt.getCompetenceDAO().findByIntitule(competenceSelectionnee));
 
@@ -168,32 +167,23 @@ public class PageModifDPSController {
 
         if (alert.showAndWait().isPresent() && alert.showAndWait().get() == ButtonType.OK) {
             System.out.println("DPS supprimé: " + dpsEnCours.getId());
-            // Logique de suppression à implémenter
-            naviguerVersPage("../resources/fxml/PageAccueilAdmin.fxml", BouttonSupprimer.getScene());
+            DAOMngt.getDPSDAO().delete(dpsEnCours);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilAdmin.fxml"));
+            try {
+                Parent root = loader.load();
+                PageDPSController controller = loader.getController();
+                controller.initialize(user);
+                Stage stage = (Stage) BouttonAccueil.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void naviguerVersPage(String fxmlPath, ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private void naviguerVersPage(String fxmlPath, Scene currentScene) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-            Stage stage = (Stage) currentScene.getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void afficherAlerte(String titre, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
