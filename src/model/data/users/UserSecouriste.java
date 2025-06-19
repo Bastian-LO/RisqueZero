@@ -5,7 +5,7 @@ import model.data.service.SecouristeMngt;
 
 /**
  * Class representing a secouriste user
- * 
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
  */
 public class UserSecouriste extends User {
     private int idSecouriste;
