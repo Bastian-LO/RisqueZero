@@ -56,6 +56,7 @@ public class PageInscriptionController {
     @FXML
     private VBox passwordContainer;
 
+    @FXML
     public void inscriptionHandle(ActionEvent actionEvent) {
         String nom = nomTextField.getText();
         String prenom = prenomTextField.getText();
@@ -106,6 +107,7 @@ public class PageInscriptionController {
         alert.showAndWait();
     }
 
+    @FXML
     public void connexionHandle(ActionEvent actionEvent) {
         try {
             // Chargement de la deuxième interface depuis second.fxml
@@ -162,5 +164,6 @@ public class PageInscriptionController {
         backButton.setVisible(true);
         backButton.setManaged(true);
     }
+
 }
 

@@ -30,7 +30,7 @@
                   <Font size="11.0" />
                </font>
             </Label>
-            <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" layoutX="14.0" layoutY="18.0" onMouseClicked="#goToInformation" opacity="0.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="18.0">
+            <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" layoutX="14.0" layoutY="18.0" onMouseClicked="#goToInformation" opacity="0.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="18.0" visible="false">
                <image>
                   <Image url="@../images/Back_motif.png" />
                </image>

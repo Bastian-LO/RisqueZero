@@ -265,12 +265,34 @@ public class TestGraphe {
         Dispos dispo10 = new Dispos(secKillian, jour2, horaire_departSecouristeKillian, horaire_finSecouristeKillian);
         secKillian.addDispos(dispo10);
 
+
+
+        HashSet<Dispos> secTestDispos = new HashSet<>();
+
+        ArrayList<Competence> secTestComp = new ArrayList<>();
+        secTestComp.add(comp2);
+        secTestComp.add(comp4);
+        secTestComp.add(comp5);
+
+        int[] horaire_departSecouristeTest = new int[2];
+        horaire_departSecouristeTest[0] = 9;
+        horaire_departSecouristeTest[1] = 30;
+        int[] horaire_finSecouristeTest = new int[2];
+        horaire_finSecouristeTest[0] = 18;
+        horaire_finSecouristeTest[1] = 30;
+
+        Secouriste secTest = new Secouriste(6L, "Test", "Testtt", "01/04/2000", "Test.Testtt@gmail.com", "0708091156", "13 rue des potiers", secTestComp, secTestDispos);
+        Dispos dispo11 = new Dispos(secTest, jour3, horaire_departSecouristeTest, horaire_finSecouristeTest);
+        secTest.addDispos(dispo11);
+
+
         ArrayList<Secouriste> listSec = new ArrayList<>();
         listSec.add(secBastian);
         listSec.add(secEnrick);
         listSec.add(secElwan);
         listSec.add(secEmile);
         listSec.add(secKillian);
+        listSec.add(secTest);
 
 
         // Création du graphe
@@ -343,4 +365,12 @@ public class TestGraphe {
 
         boolean reserveCreneauOK = graphTest.reserveCreneau(secTest, dpsTest);*/
     }
+
+    void testexhaustif(){
+        System.out.println("\nAlgorithme exhaustif, tests : Cas normal ");
+        
+    }
+
+
+
 }
