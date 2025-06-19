@@ -93,8 +93,6 @@ public class PageAccueilSecouristeController {
     public void setUser(UserSecouriste user) {
         this.user = user;
         this.secouriste = user.getSecouriste();
-        // Ici vous devriez charger les données du secouriste depuis votre base de données
-        // Par exemple: this.secouriste = Database.getSecouriste(user.getIdSecouriste());
 
         // Mise à jour de l'interface
         updateUI();
@@ -122,13 +120,23 @@ public class PageAccueilSecouristeController {
 
     // Met à jour les labels des compétences
     private void updateCompetences(ArrayList<Competence> competences) {
+
         // Réinitialiser toutes les compétences
-        Competence1.setText(" ");
-        Competence2.setText(" ");
-        Competence3.setText(" ");
-        Competence4.setText(" ");
-        Competence5.setText(" ");
-        Competence6.setText(" ");
+        Label[] initCompetenceLabels = {Competence1, Competence2, Competence3,Competence4, Competence5, Competence6};
+
+        int count = 1;
+        for (Label label : initCompetenceLabels) {
+            if (label == null) {
+                System.err.println("Le label de disponibilité " + count + " est null!");
+                return;
+            }
+            label.setText(" ");
+            count++;
+        }
+        if (competences == null || competences.isEmpty()) {
+            initCompetenceLabels[0].setText("Pas de compétences enregistrées pour le moment.");
+            return;
+        }
 
         // Mettre à jour avec les compétences réelles
         if (competences != null) {
@@ -154,12 +162,15 @@ public class PageAccueilSecouristeController {
             }
         } else {
             // Réinitialiser toutes les compétences
-            Competence1.setText(" ");
-            Competence2.setText(" ");
-            Competence3.setText(" ");
-            Competence4.setText(" ");
-            Competence5.setText(" ");
-            Competence6.setText(" ");
+            count = 1;
+            for (Label label : initCompetenceLabels) {
+                if (label == null) {
+                    System.err.println("Le label de disponibilité " + count + " est null!");
+                    return;
+                }
+                label.setText(" ");
+                count++;
+            }
         }
 
     }
@@ -180,6 +191,7 @@ public class PageAccueilSecouristeController {
 
         // Mettre à jour avec les disponibilités réelles
         if (disponibilites == null || disponibilites.isEmpty()) {
+            disponibiliteLabels[0].setText("Pas de disponibilités enregistrées pour le moment.");
             return;
         }
 
@@ -196,8 +208,8 @@ public class PageAccueilSecouristeController {
             disponibiliteLabels[maxDisplay].setText("... +" + (dispoList.size() - maxDisplay));
         }
     }
+
     // Met à jour les éléments du planning
-    // TODO: TS
     private void updatePlanning(List<String> planningItems) {
         // Réinitialiser les labels
         Label[] planningLabels = {idEvenementLabel, nomEvenementLabel, siteEvenementLabel, dateEvenementLabel};
