@@ -17,11 +17,9 @@ import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
 import model.data.service.DAOMngt;
 import model.data.service.UserMngt;
-import model.data.users.User;
 import model.data.users.UserSecouriste;
 
 import java.io.IOException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
