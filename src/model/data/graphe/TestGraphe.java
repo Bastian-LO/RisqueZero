@@ -298,7 +298,7 @@ public class TestGraphe {
         // Création du graphe
 
         Graphe graph = new Graphe(listSec, dpss);
-
+        /*
         System.out.println("\nAlgorithme exhaustif : ");
         ArrayList<Affectation> listAff = graph.affectationExhaustive();
 
@@ -312,15 +312,14 @@ public class TestGraphe {
                 Pair<Secouriste, Competence> pairSecComp = listSecComp.get(j);
                 System.out.println(pairSecComp.getKey().getNom() + " : " + pairSecComp.getValue());
             }
-        }
+        }*/
 
-        /*
         System.out.println("\nAlgorithme glouton : ");
-        ArrayList<Affectation> listAffGlouton = graph.glouton();
+        ArrayList<Affectation> listAffGlouton = graph.affectationGlouton();
         for(int i = 0; i < listAffGlouton.size(); i++){
             Affectation aff = listAffGlouton.get(i);
             ArrayList<Pair<Secouriste, Competence>> listSecComp = aff.getList();
-            DPS idDps = aff.getIdDps();
+            DPS idDps = aff.getDps();
             
             System.out.println("DPS ID: " + idDps.getId());
             for (int j = 0; j < listSecComp.size(); j++){
@@ -328,6 +327,7 @@ public class TestGraphe {
                 System.out.println(pairSecComp.getKey().getNom() + " : " + pairSecComp.getValue());
             }
         }
+        /*
 
         System.out.println("\nTests de checkDispos et reserveCreneau");
         ArrayList<Competence> compListSecTest = new ArrayList<>();
