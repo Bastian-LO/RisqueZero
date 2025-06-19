@@ -47,7 +47,11 @@
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </VBox>
-                  <Button fx:id="ajoutDispoButton" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Ajouter une disponibilité" textFill="WHITE" />
+                  <Button fx:id="ajoutDispoButton" mnemonicParsing="false" prefHeight="73.0" prefWidth="310.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Ajouter une disponibilité" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Button>
                </children>
                <padding>
                   <Insets left="20.0" right="15.0" top="15.0" />
