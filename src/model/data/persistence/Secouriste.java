@@ -325,8 +325,9 @@ public class Secouriste{
     // ================================
 
     /**
-     * Method adding a disponibility to a secourist and merging them if they overlap
-     * @param newDispo the new disponibility
+     * Method adding a disponibility to a secourist without automatic merging
+     * @param newDispo the new disponibility to add
+     * @throws IllegalArgumentException if the parameter is invalid
      */
     public void addDispos(Dispos newDispo) {
         // Pré-condition
@@ -334,50 +335,19 @@ public class Secouriste{
             throw new IllegalArgumentException("addDispos : paramètre invalide");
         }
         
-        HashSet<Dispos> newDispos = this.getDisponibilites();
+        // Crée une nouvelle copie pour éviter les modifications inattendues
+        HashSet<Dispos> updatedDispos = new HashSet<>(this.disponibilites);
         
-        if(newDispos.isEmpty()){   // Si la liste de dispos est vide, on ajoute directement
-            newDispos.add(newDispo);
-            this.setDisponibilites(newDispos);
-        } else {
-            LocalTime newStart = newDispo.toLocalTime(newDispo.getHeureDebut());
-            LocalTime newEnd = newDispo.toLocalTime(newDispo.getHeureFin());
-            LocalDate date = newDispo.getDate().toLocalDate();
-
-            Dispos mergedDispo = new Dispos(this, date, newStart, newEnd);
-            ArrayList<Dispos> toRemove = new ArrayList<Dispos>();
-            boolean identicalExists = false;
-
-            HashSet<Dispos> disponibilites = this.getDisponibilites();
-
-            for (Dispos dispo : disponibilites) {
-                LocalDate dispoDate = dispo.getDate().toLocalDate();
-                if (dispoDate.equals(date)) {
-                    LocalTime dispoStart = dispo.toLocalTime(dispo.getHeureDebut());
-                    LocalTime dispoEnd = dispo.toLocalTime(dispo.getHeureFin());
-
-                    boolean overlaps = !(newEnd.isBefore(dispoStart) || newStart.isAfter(dispoEnd));
-                    if (overlaps) {
-                        LocalTime mergedStart = newStart.isBefore(dispoStart) ? newStart : dispoStart;
-                        LocalTime mergedEnd = newEnd.isAfter(dispoEnd) ? newEnd : dispoEnd;
-                        mergedDispo = new Dispos(this, date, mergedStart, mergedEnd);
-                        toRemove.add(dispo);
-                    }
-
-                    boolean isIdentical = newStart.equals(dispoStart) && newEnd.equals(dispoEnd);
-                    if (isIdentical) {
-                        identicalExists = true;
-                    }
-                }
-            }
-
-            for (Dispos d : toRemove) {
-                disponibilites.remove(d);
-            }
-
-            if (!identicalExists) {
-                disponibilites.add(mergedDispo);
-            }
+        // Vérifie d'abord s'il existe une disponibilité identique
+        boolean exists = updatedDispos.stream().anyMatch(d -> 
+            d.getDate().equals(newDispo.getDate()) &&
+            Arrays.equals(d.getHeureDebut(), newDispo.getHeureDebut()) &&
+            Arrays.equals(d.getHeureFin(), newDispo.getHeureFin())
+        );
+        
+        if (!exists) {
+            updatedDispos.add(newDispo);
+            this.disponibilites = updatedDispos;
         }
     }
 

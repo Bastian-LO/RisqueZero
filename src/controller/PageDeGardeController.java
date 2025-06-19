@@ -24,8 +24,9 @@ public class PageDeGardeController {
     public void inscriptionPage(ActionEvent event) {
         try {
             // Chargement de la deuxième interface depuis second.fxml
-            Parent inscriptionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageInscription.fxml"));
-
+            FXMLLoader inscriptionloader = new FXMLLoader(getClass().getResource("../resources/fxml/PageInscription.fxml"));
+            Parent inscriptionRoot = inscriptionloader.load();
+            PageInscriptionController inscriptionController = inscriptionloader.getController();
             // Création de la nouvelle scène
             Scene inscriptionScene = new Scene(inscriptionRoot);
 
