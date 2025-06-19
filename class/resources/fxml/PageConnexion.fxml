@@ -12,22 +12,22 @@
    <children>
       <Label fx:id="RisqueZero" layoutX="443.0" layoutY="66.0" text="Risque zéro">
          <font>
-            <Font name="System Bold Italic" size="59.0" />
+            <Font name="System Bold Italic" size="49.0" />
          </font>
       </Label>
-      <ImageView fx:id="Logo" fitHeight="343.0" fitWidth="334.0" layoutX="452.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="Logo" fitHeight="301.0" fitWidth="263.0" layoutX="452.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Risque_zéro_-_logo-removebg.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="30.0" layoutY="14.0" prefHeight="566.0" prefWidth="388.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-color: #000000; -fx-border-radius: 50;">
+      <AnchorPane layoutX="30.0" layoutY="14.0" prefHeight="578.0" prefWidth="365.0" style="-fx-background-color: #ffffff; -fx-background-radius: 50; -fx-border-color: #000000; -fx-border-radius: 50;">
          <children>
             <Label fx:id="LabelConnexion" layoutX="32.0" layoutY="14.0" text="Connexion" textFill="#004aad">
                <font>
-                  <Font name="System Bold" size="63.0" />
+                  <Font name="System Bold" size="55.0" />
                </font>
             </Label>
-            <Label fx:id="Heureux" layoutX="69.0" layoutY="98.0" text="Heureux de vous revoir !">
+            <Label fx:id="Heureux" layoutX="48.0" layoutY="95.0" text="Heureux de vous revoir !">
                <font>
                   <Font size="21.0" />
                </font>
@@ -44,15 +44,15 @@
                <font>
                   <Font size="25.0" />
                </font></Label>
-            <Hyperlink fx:id="LienInscription" layoutX="153.0" layoutY="541.0" onAction="#LienInscriptionHandle" text="S'inscrire">
+            <Hyperlink fx:id="LienInscription" layoutX="141.0" layoutY="541.0" onAction="#LienInscriptionHandle" text="S'inscrire">
                <font>
                   <Font size="18.0" />
                </font></Hyperlink>
-            <Label fx:id="PasDeCompte" layoutX="50.0" layoutY="514.0" text="Vous n’avez pas encore de compte ?">
+            <Label fx:id="PasDeCompte" layoutX="38.0" layoutY="514.0" text="Vous n’avez pas encore de compte ?">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Button fx:id="SeConnecterBoutton" layoutX="103.0" layoutY="422.0" onAction="#handleConnexion" mnemonicParsing="false" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
+            <Button fx:id="SeConnecterBoutton" layoutX="83.0" layoutY="421.0" mnemonicParsing="false" onAction="#handleConnexion" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Se connecter" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
