@@ -147,9 +147,10 @@ public class TestGraphe {
         dpss.add(dps7);
 
 
-        for (int i = 0; i < compList.size(); i++){
-            Pair<DPS, Competence> DpsCompetTest = new Pair<DPS,Competence>(dps1, compList.get(i));
-            DPSCompet.add(DpsCompetTest);
+        for (DPS dps : dpss) {
+            for (Competence comp : dps.getCompetences()) {
+                DPSCompet.add(new Pair<>(dps, comp));
+            }
         }
 
 
@@ -192,7 +193,7 @@ public class TestGraphe {
         horaire_finSecouristeEnrick[0] = 12;
         horaire_finSecouristeEnrick[1] = 30;
 
-        Secouriste secEnrick = new Secouriste(1L, "Mananjean", "Enrick", "07/09/2006", "Mananjean.Enrick@gmail.com", "0708091124", "9 rue des potiers", secEnrickComp, secEnrickDispos);
+        Secouriste secEnrick = new Secouriste(2L, "Mananjean", "Enrick", "07/09/2006", "Mananjean.Enrick@gmail.com", "0708091124", "9 rue des potiers", secEnrickComp, secEnrickDispos);
         Dispos dispo3 = new Dispos(secEnrick, jour1, horaire_departSecouristeEnrick, horaire_finSecouristeEnrick);
         secEnrick.addDispos(dispo3);
 
@@ -215,7 +216,7 @@ public class TestGraphe {
         horaire_finSecouristeElwan[0] = 23;
         horaire_finSecouristeElwan[1] = 30;
 
-        Secouriste secElwan = new Secouriste(1L, "Yvin", "Elwan", "25/12/2006", "Yvin.Elwan@gmail.com", "0708091196", "10 rue des potiers", secElwanComp, secElwanDispos);
+        Secouriste secElwan = new Secouriste(3L, "Yvin", "Elwan", "25/12/2006", "Yvin.Elwan@gmail.com", "0708091196", "10 rue des potiers", secElwanComp, secElwanDispos);
         Dispos dispo5 = new Dispos(secElwan, jour1, horaire_departSecouristeElwan, horaire_finSecouristeElwan);
         secElwan.addDispos(dispo5);
 
@@ -236,7 +237,7 @@ public class TestGraphe {
         horaire_finSecouristeEmile[0] = 19;
         horaire_finSecouristeEmile[1] = 0;
 
-        Secouriste secEmile = new Secouriste(1L, "Thevin", "Emile", "14/07/2004", "Thevin.Emile@gmail.com", "0708091141", "11 rue des potiers", secEmileComp, secEmileDispos);
+        Secouriste secEmile = new Secouriste(4L, "Thevin", "Emile", "14/07/2004", "Thevin.Emile@gmail.com", "0708091141", "11 rue des potiers", secEmileComp, secEmileDispos);
         Dispos dispo7 = new Dispos(secEmile, jour1, horaire_departSecouristeEmile, horaire_finSecouristeEmile);
         secEmile.addDispos(dispo7);
 
@@ -257,7 +258,7 @@ public class TestGraphe {
         horaire_finSecouristeKillian[0] = 18;
         horaire_finSecouristeKillian[1] = 30;
 
-        Secouriste secKillian = new Secouriste(1L, "Avril", "Killian", "07/04/2006", "Avril.Killian@gmail.com", "0708091156", "12 rue des potiers", secKillianComp, secKillianDispos);
+        Secouriste secKillian = new Secouriste(5L, "Avril", "Killian", "07/04/2006", "Avril.Killian@gmail.com", "0708091156", "12 rue des potiers", secKillianComp, secKillianDispos);
         Dispos dispo9 = new Dispos(secKillian, jour1, horaire_departSecouristeKillian, horaire_finSecouristeKillian);
         secKillian.addDispos(dispo9);
 
@@ -310,13 +311,14 @@ public class TestGraphe {
             }
         }*/
 
+        System.out.println("\nTests de checkDispos et reserveCreneau");
         ArrayList<Competence> compListSecTest = new ArrayList<>();
         Competence compe1 = new Competence("comp1");
         compListSecTest.add(compe1);
 
         HashSet<Dispos> disposSecTest = new HashSet<>();
 
-        Secouriste secTest = new Secouriste(3L, "Testeur", "Test", "03/04/2005", "test@test.test", "0123456789", "1 rue du test", compListSecTest, disposSecTest);
+        Secouriste secTest = new Secouriste(6L, "Testeur", "Test", "03/04/2005", "test@test.test", "0123456789", "1 rue du test", compListSecTest, disposSecTest);
         secTest.addDispos(new Dispos(secTest, LocalDate.of(2025, 6, 20), LocalTime.of(8, 0), LocalTime.of(18, 0)));
 
         int[] horaireDepart = new int[2];
@@ -329,7 +331,7 @@ public class TestGraphe {
         Journee dateTest = new Journee(LocalDate.of(2025, 6, 20));
         Site siteTest = new Site("TST", "Site test", 0, 0);
         Sport sportTest = new Sport("FOT", "Football");
-        DPS dpsTest = new DPS(3L, horaireDepart, horaireFin, dateTest, compListSecTest, siteTest, sportTest);
+        DPS dpsTest = new DPS(10L, horaireDepart, horaireFin, dateTest, compListSecTest, siteTest, sportTest);
 
         ArrayList<Secouriste> listSecTest = new ArrayList<>();
         listSecTest.add(secTest);

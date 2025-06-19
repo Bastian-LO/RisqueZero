@@ -5,6 +5,7 @@ import model.dao.CompetenceDAO;
 
 import java.time.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javafx.util.Pair;
 
@@ -213,9 +214,33 @@ public class Graphe {
      */
     public ArrayList<Affectation> startExhaustif() {
         ArrayList<Affectation> bestSolution = new ArrayList<>();
-        ArrayList<Secouriste> clones = deepCloneSecouristes(this.secouristes);
-        generatePermutations(clones, 0, bestSolution);
+        ArrayList<Secouriste> originalOrder = new ArrayList<>(this.secouristes);
+        
+        // On commence par l'ordre original
+        evaluateSolution(originalOrder, bestSolution);
+        
+        // Puis on essaie des permutations aléatoires (plus efficace que toutes les permutations)
+        final int MAX_ITERATIONS = 1000; // Ajuster selon les besoins
+        Random random = new Random();
+        
+        for (int i = 0; i < MAX_ITERATIONS; i++) {
+            ArrayList<Secouriste> shuffled = new ArrayList<>(originalOrder);
+            Collections.shuffle(shuffled, random);
+            evaluateSolution(shuffled, bestSolution);
+        }
+        
         return bestSolution;
+    }
+
+    private void evaluateSolution(ArrayList<Secouriste> secouristesOrder, 
+                                ArrayList<Affectation> bestSolution) {
+        ArrayList<Secouriste> clones = deepCloneSecouristes(secouristesOrder);
+        ArrayList<Affectation> current = affectationExhaustive(clones);
+        
+        if (aIsBetterThanB(current, bestSolution)) {
+            bestSolution.clear();
+            bestSolution.addAll(current);
+        }
     }
 
 
@@ -223,12 +248,23 @@ public class Graphe {
         if (index == arr.size()) {
             ArrayList<Secouriste> permutationClone = deepCloneSecouristes(arr);
             ArrayList<Affectation> current = affectationExhaustive(permutationClone);
-            if (current.size() > bestSolution.size()) {
+            
+            // Calculate total number of affected competences
+            long totalAffected = current.stream()
+                .mapToInt(aff -> aff.getList().size())
+                .sum();
+            
+            long bestTotal = bestSolution.stream()
+                .mapToInt(aff -> aff.getList().size())
+                .sum();
+                
+            if (totalAffected > bestTotal) {
                 bestSolution.clear();
                 bestSolution.addAll(current);
             }
             return;
         }
+        
         for (int i = index; i < arr.size(); i++) {
             Collections.swap(arr, index, i);
             generatePermutations(arr, index + 1, bestSolution);
@@ -246,7 +282,8 @@ public class Graphe {
                     new HashSet<>()
             );
             for (Dispos d : sec.getDisponibilites()) {
-                clone.addDispos(new Dispos(clone, d.getDate(), d.getHeureDebut(), d.getHeureFin()));
+                clone.addDispos(new Dispos(clone, d.getDate(), 
+                    d.getHeureDebut(), d.getHeureFin()));
             }
             clones.add(clone);
         }
@@ -255,23 +292,40 @@ public class Graphe {
 
     private ArrayList<Affectation> affectationExhaustive(ArrayList<Secouriste> secouristes) {
         Map<DPS, Map<Secouriste, Competence>> affectationsMap = new HashMap<>();
-        Set<Integer> dejaAffectes = new HashSet<>();
+        Set<Long> dejaAffectes = new HashSet<>();
 
-        for (Pair<DPS, Competence> poste : DPSCompet) {
-            DPS dps = poste.getKey();
-            Competence competence = poste.getValue();
+        // On trie les DPS par ceux qui ont le plus de compétences requises d'abord
+        Map<DPS, Long> dpsByNbCompetences = DPSCompet.stream()
+            .collect(Collectors.groupingBy(
+                Pair::getKey, 
+                Collectors.counting()
+            ));
+        
+        List<DPS> dpsOrdered = dpsByNbCompetences.entrySet().stream()
+            .sorted(Map.Entry.<DPS, Long>comparingByValue().reversed())
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
 
-            for (Secouriste sec : secouristes) {
-                if (!dejaAffectes.contains(sec.getId()) &&
-                    sec.getCompetences().contains(competence) &&
-                    reserveCreneau(sec, dps)) {
+        for (DPS dps : dpsOrdered) {
+            List<Pair<DPS, Competence>> postes = DPSCompet.stream()
+                .filter(p -> p.getKey().equals(dps))
+                .collect(Collectors.toList());
 
-                    affectationsMap
-                        .computeIfAbsent(dps, k -> new HashMap<>())
-                        .put(sec, competence);
+            for (Pair<DPS, Competence> poste : postes) {
+                Competence competence = poste.getValue();
+                
+                for (Secouriste sec : secouristes) {
+                    if (!dejaAffectes.contains(sec.getId()) &&
+                        sec.getCompetences().contains(competence) &&
+                        reserveCreneau(sec, dps)) {
 
-                    // dejaAffectes.add(sec.getId());
-                    break;
+                        affectationsMap
+                            .computeIfAbsent(dps, k -> new HashMap<>())
+                            .put(sec, competence);
+
+                        dejaAffectes.add(sec.getId());
+                        break;
+                    }
                 }
             }
         }
