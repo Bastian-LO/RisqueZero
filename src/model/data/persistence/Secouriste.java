@@ -343,15 +343,18 @@ public class Secouriste{
             throw new IllegalArgumentException("addDispos : paramètre invalide");
         }
         
-        // Crée une nouvelle copie pour éviter les modifications inattendues
         HashSet<Dispos> updatedDispos = new HashSet<>(this.disponibilites);
+        boolean exists = false;
         
-        // Vérifie d'abord s'il existe une disponibilité identique
-        boolean exists = updatedDispos.stream().anyMatch(d -> 
-            d.getDate().equals(newDispo.getDate()) &&
-            Arrays.equals(d.getHeureDebut(), newDispo.getHeureDebut()) &&
-            Arrays.equals(d.getHeureFin(), newDispo.getHeureFin())
-        );
+        for (Dispos d : this.disponibilites) {
+            boolean sameDate = d.getDate().equals(newDispo.getDate());
+            boolean sameStartTime = Arrays.equals(d.getHeureDebut(), newDispo.getHeureDebut());
+            boolean sameEndTime = Arrays.equals(d.getHeureFin(), newDispo.getHeureFin());
+            
+            if (sameDate && sameStartTime && sameEndTime) {
+                exists = true;
+            }
+        }
         
         if (!exists) {
             updatedDispos.add(newDispo);
