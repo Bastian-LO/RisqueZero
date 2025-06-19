@@ -327,4 +327,7 @@ public class PageModifDPSController {
             showAlert("Format incorrect", "Veuillez entrer un nombre valide", Alert.AlertType.WARNING);
         }
     }
+
+    public void calendrierHandle(ActionEvent actionEvent) {
+    }
 }

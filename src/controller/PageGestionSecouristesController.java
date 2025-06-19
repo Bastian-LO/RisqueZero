@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
+import model.data.service.DAOMngt;
 import model.data.users.UserAdmin;
 import model.data.users.UserSecouriste;
 
@@ -22,11 +23,7 @@ public class PageGestionSecouristesController {
 
     @FXML
     public void initialize(UserAdmin user) {
-        // Charge ta liste toi-même depuis la BDD :
-        // Exemple :
-        // secouristesListView.getItems().setAll(DAOMngt.getSecouristeDAO().findAll());
-
-        // Quand on clique sur un secouriste -> ouvrir modification
+        secouristesListView.getItems().setAll(DAOMngt.getSecouristeDAO().findAll());
         this.user = user;
         secouristesListView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) { // Double clic
