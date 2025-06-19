@@ -20,6 +20,8 @@ import java.util.List;
 
 public class PageModifDPSController {
 
+    public TextField heureDebutTextField;
+    public TextField minuteDebutTextField;
     // Déclaration des éléments FXML
     @FXML
     private Button BouttonAccueil;
@@ -91,32 +93,37 @@ public class PageModifDPSController {
     // Handlers définis dans le FXML
     @FXML
     public void BouttonAccueilHandle(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageDPS.fxml"));
-        try {
-            Parent root = loader.load();
-            PageDPSController controller = loader.getController();
-            controller.initialize(user);
-            Stage stage = (Stage) BouttonAccueil.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Retour");
+        alert.setHeaderText("SAUVEGARDE");
+        alert.setContentText("Avez vous bien enregistré ?");
 
+        if (alert.showAndWait().isPresent() && alert.showAndWait().get() == ButtonType.OK) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageDPS.fxml"));
+            try {
+                Parent root = loader.load();
+                PageDPSController controller = loader.getController();
+                controller.initialize(user);
+                Stage stage = (Stage) BouttonAccueil.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     @FXML
     public void BouttonAffecterHandle(ActionEvent event) {
         System.out.println("Affectation des secouristes");
-        // Logique d'affectation à implémenter
+        // TODO LES PUTAINS DE GRAPHES DE CON
     }
 
     @FXML
     public void BouttonEnregistrerHandle(ActionEvent event) {
-        System.out.println("Enregistrement des modifications");
-        // Validation et sauvegarde des modifications
-        sauvegarderModifications();
+        //TODO ENREGISTRER DANS LA BDD TOUTE LES INFOS DE LA PAGE SSI ELLES SONT VALIDES
     }
 
     @FXML
@@ -128,12 +135,12 @@ public class PageModifDPSController {
 
     @FXML
     public void sportHandle(ActionEvent event) {
-        System.out.println("Sport sélectionné: " + ComboBoxSport.getValue());
+        // jsp si utile
     }
 
     @FXML
     public void siteHandle(ActionEvent event) {
-        System.out.println("Site sélectionné: " + ComboBoxSite.getValue());
+        //jsp non plus
     }
 
     @FXML
@@ -146,18 +153,6 @@ public class PageModifDPSController {
         }
     }
 
-    // Méthodes utilitaires
-    private void sauvegarderModifications() {
-        // Logique de sauvegarde à implémenter
-        System.out.println("DPS mis à jour avec :");
-        System.out.println("- Sport: " + ComboBoxSport.getValue());
-        System.out.println("- Site: " + ComboBoxSite.getValue());
-        System.out.println("- Date: " + Calendrier.getValue());
-        System.out.println("- Compétences: " + Arrays.toString(ListeDeCompetences.getItems().toArray()));
-
-        // Afficher une confirmation
-        afficherAlerte("Succès", "Modifications enregistrées avec succès");
-    }
 
     private void confirmerSuppression() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -185,8 +180,8 @@ public class PageModifDPSController {
 
 
 
-    private void afficherAlerte(String titre, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void showAlert(String titre, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
         alert.setTitle(titre);
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -197,5 +192,10 @@ public class PageModifDPSController {
         if (Calendrier.getValue() != null) {
             LabelQuiAfficheHeureMinute.setText(Calendrier.getValue().toString());
         }
+    }
+    public void heureDebutTextFieldHandle(ActionEvent actionEvent) {
+
+    }
+    public void minuteDebutTextFieldHandle(ActionEvent actionEvent) {
     }
 }
