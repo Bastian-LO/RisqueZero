@@ -12,6 +12,11 @@ import model.data.persistence.Secouriste;
 import model.data.service.DAOMngt;
 import model.data.users.UserAdmin;
 
+/**
+ * Controller for the modif secouriste page
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
+
 public class PageModifSecouristeController {
 
     @FXML private TextField nomField;
@@ -30,11 +35,24 @@ public class PageModifSecouristeController {
     private Stage dialogStage;
     private UserAdmin user;
 
+    /**
+     * Sets the current user to the given user
+     * @param user the current user
+     */
     public void setUser(UserAdmin user) {
         this.user = user;
     }
 
 
+/**
+ * Initializes the modification page with the given secouriste and dialog stage.
+ * This method sets the secouriste and dialog stage attributes and then populates
+ * the form fields with the secouriste's information. It also loads the available
+ * competences into the relevant UI components.
+ *
+ * @param secouriste the secouriste whose information is to be displayed and modified
+ * @param dialogStage the stage for the current dialog window
+ */
     public void initialize(Secouriste secouriste, Stage dialogStage) {
         this.secouriste = secouriste;
         this.dialogStage = dialogStage;
@@ -43,12 +61,23 @@ public class PageModifSecouristeController {
     }
 
 
+    /**
+     * Sets the current secouriste to the given secouriste.
+     * This method sets the secouriste attribute and then populates
+     * the form fields with the secouriste's information. It also loads
+     * the available competences into the relevant UI components.
+     *
+     * @param secouriste the secouriste whose information is to be displayed and modified
+     */
     public void setSecouriste(Secouriste secouriste) {
         this.secouriste = secouriste;
         remplirChamps();
         chargerCompetences();
     }
 
+    /**
+     * Remplit les champs du formulaire avec les informations du secouriste
+     */
     private void remplirChamps() {
         nomField.setText(secouriste.getNom());
         prenomField.setText(secouriste.getPrenom());
@@ -58,12 +87,26 @@ public class PageModifSecouristeController {
         adresseField.setText(secouriste.getAdresse());
     }
 
+/**
+ * Loads the competences of the current secouriste into the UI component.
+ * Clears the existing items in the competencesList and repopulates it
+ * with the names of the competences associated with the secouriste.
+ */
+
     private void chargerCompetences() {
         competencesList.getItems().clear();
         competencesList.getItems().addAll(secouriste.getCompetencesIntitules());
 
     }
 
+    /**
+     * Handles the button click event when the user wants to save
+     * changes made to the secouriste's information.
+     *
+     * If the information entered is valid, updates the secouriste
+     * object and saves the changes to the database. Then closes
+     * the modal window.
+     */
     @FXML
     private void handleEnregistrer() {
         if (estSaisieValide()) {
@@ -73,6 +116,13 @@ public class PageModifSecouristeController {
         }
     }
 
+    /**
+     * Handles the button click event when the user wants to delete
+     * the current secouriste.
+     *
+     * If the user confirms, deletes the secouriste from the database
+     * and closes the modal window.
+     */
     @FXML
     private void handleSupprimer() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -88,6 +138,11 @@ public class PageModifSecouristeController {
         });
     }
 
+    /**
+     * Handles the button click event when the user wants to log out.
+     *
+     * Closes the current window and opens the login window.
+     */
     @FXML
     private void handleDeconnexion() {
         try {
@@ -101,6 +156,13 @@ public class PageModifSecouristeController {
         }
     }
 
+/**
+ * Updates the current secouriste's information using the data entered in the form fields.
+ * 
+ * This method retrieves the text from the input fields for the secouriste's name, 
+ * first name, date of birth, email, telephone, and address, and updates the 
+ * corresponding attributes of the secouriste object.
+ */
     private void mettreAJourSecouriste() {
         secouriste.setNom(nomField.getText());
         secouriste.setPrenom(prenomField.getText());
@@ -110,6 +172,21 @@ public class PageModifSecouristeController {
         secouriste.setAdresse(adresseField.getText());
     }
 
+    /**
+     * Checks if the input fields for the secouriste's information are valid.
+     * 
+     * This method checks if the input fields for the secouriste's name, first name, date of birth, email, telephone, and address are valid according to the following rules:
+     * - name and first name must not be empty
+     * - date of birth must be in the format JJ/MM/AAAA
+     * - email must be in the format XXX@XXX.XXX
+     * - telephone must be in the format 0123456789
+     * - address must not be empty
+     * 
+     * If any of the fields are invalid, an alert box is displayed listing the errors.
+     * If all fields are valid, the method returns true.
+     * 
+     * @return true if all input fields are valid, false otherwise
+     */
     private boolean estSaisieValide() {
         String errorMessage = "";
 

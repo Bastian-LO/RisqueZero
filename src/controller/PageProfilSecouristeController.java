@@ -19,6 +19,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for the profil secouriste page
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
+
 public class PageProfilSecouristeController {
     @FXML
     public Button BouttonAccueil;
@@ -64,6 +69,11 @@ public class PageProfilSecouristeController {
     private UserSecouriste user;
     private Secouriste secouriste;
 
+    /**
+     * Sets the current user to the given user
+     * and updates the UI with the secouriste's information
+     * @param user the current user
+     */
     public void setUser(UserSecouriste user) {
         this.user = user;
         this.secouriste = user.getSecouriste();
@@ -72,8 +82,17 @@ public class PageProfilSecouristeController {
 
 
 
+    /**
+     * Updates the UI with the secouriste's information.
+     * <p>
+     * This method updates the labels in the UI with the secouriste's personal information
+     * (ID, name, birthdate, email, phone number, address), as well as their disponibilities
+     * and competences.
+     * <p>
+     * This method is called when the user is set, and is also called by the user when
+     * they want to refresh the information displayed on the page.
+     */
     private void updateUI() {
-        // Mise à jour des informations personnelles
         Info1.setText("- ID : " + this.secouriste.getId());
         Info2.setText("- Nom et Prénom : " + secouriste.getNom() + " " + secouriste.getPrenom());
         Info3.setText("- Date de naissance : " + secouriste.getDateNaissance());
@@ -81,21 +100,24 @@ public class PageProfilSecouristeController {
         Info5.setText("- Téléphone : " + secouriste.getTel());
         Info6.setText("- Adresse : " + secouriste.getAdresse());
 
-        // Mise à jour des disponibilités
         updateDisponibilites();
 
-        // Mise à jour des compétences
         updateCompetences();
     }
 
+    /**
+     * Updates the disponibilities' labels with the secouriste's disponibilities.
+     * <p>
+     * This method clears all the labels and then sets the text of the first 6 labels to the
+     * corresponding disponibilities of the secouriste. If the secouriste has less than 6
+     * disponibilities, the remaining labels are left empty.
+     */
     private void updateDisponibilites() {
         List<Dispos> dispos = new ArrayList<>(secouriste.getDisponibilites());
 
-        // Réinitialiser toutes les labels
         List<Label> dispoLabels = List.of(Dispo1, Dispo2, Dispo3, Dispo4, Dispo5, Dispo6);
         dispoLabels.forEach(label -> label.setText("        "));
 
-        // Afficher jusqu'à 6 disponibilités
         int max = Math.min(dispos.size(), 6);
         for (int i = 0; i < max; i++) {
             Dispos d = dispos.get(i);
@@ -104,27 +126,40 @@ public class PageProfilSecouristeController {
         }
     }
 
+    /**
+     * Updates the competences' labels with the secouriste's competences.
+     * <p>
+     * This method clears all the labels and then sets the text of the first 6 labels to the
+     * corresponding competences of the secouriste. If the secouriste has less than 6
+     * competences, the remaining labels are left empty.
+     */
     private void updateCompetences() {
         List<Competence> competences = new ArrayList<>(secouriste.getCompetences());
 
-        // Réinitialiser toutes les labels
         List<Label> compLabels = List.of(Comp1, Comp2, Comp3, Comp4, Comp5, Comp6);
         compLabels.forEach(label -> label.setText("        "));
 
-        // Afficher jusqu'à 6 compétences
         int max = Math.min(competences.size(), 6);
         for (int i = 0; i < max; i++) {
             compLabels.get(i).setText(competences.get(i).getIntitule());
         }
     }
 
+    /**
+     * Handles the action of clicking the "Accueil" button.
+     * 
+     * This method loads the PageAccueilSecouriste interface, passing the current user data to the controller,
+     * and updates the stage scene to the newly loaded interface. It catches and prints any IOExceptions that occur
+     * during this process.
+     * 
+     * @param event the ActionEvent triggered by clicking the "Accueil" button
+     */
     @FXML
     public void accueilPage(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
             Parent root = loader.load();
 
-            // Passage des données utilisateur
             PageAccueilSecouristeController controller = loader.getController();
             controller.setUser(user);
 
@@ -137,13 +172,21 @@ public class PageProfilSecouristeController {
         }
     }
 
+    /**
+     * Handles the action of clicking the "Ajouter une disponibilit " button.
+     * 
+     * This method loads the PageAccueilAjoutDispo interface, passing the current user data to the controller,
+     * and updates the stage scene to the newly loaded interface. It catches and prints any IOExceptions that occur
+     * during this process.
+     * 
+     * @param event the ActionEvent triggered by clicking the "Ajouter une disponibilit " button
+     */
     @FXML
     public void ajouterDisponibilite(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilAjoutDispo.fxml"));
             Parent root = loader.load();
 
-            // Passage des données utilisateur
             PageAjoutDispoController controller = loader.getController();
             controller.setUser(user);
 
@@ -156,6 +199,15 @@ public class PageProfilSecouristeController {
         }
     }
 
+    /**
+     * Shows an alert with the given title and message.
+     * 
+     * This method is a utility method used to show an alert with a given title and message.
+     * The alert is an INFORMATION type alert, and it is showed using the showAndWait() method.
+     * 
+     * @param title the title of the alert
+     * @param message the message to display in the alert
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

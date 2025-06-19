@@ -18,6 +18,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Controller for the modif DPS page
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
 public class PageModifDPSController {
 
     public TextField heureDebutTextField;
@@ -27,7 +32,6 @@ public class PageModifDPSController {
     public Label dateLabel;
     public TextField heureFinTextField;
     public TextField minuteFinTextField;
-    // Déclaration des éléments FXML
     @FXML
     private Button BouttonAccueil;
     @FXML
@@ -45,27 +49,28 @@ public class PageModifDPSController {
     @FXML
     private DatePicker Calendrier;
 
-    // Champs pour stocker les données
     private DPS dpsEnCours;
 
     private UserAdmin user;
 
 
+    /**
+     * Initializes the controller. Called after the FXML file has been loaded
+     * @param user the current user
+     * @param dps the DPS to modify
+     */
     @FXML
     public void initialize(UserAdmin user, DPS dps) {
         this.dpsEnCours = dps;
         this.user = user;
 
-        // Initialize UI components
         sportTextField.setText(dps.getSport().getNom());
         siteTextField.setText(dps.getLieu().getNom());
         ComboBoxCompetences.getItems().addAll("PSC1", "PSE1", "PSE2", "DEA", "BNSSA");
 
-        // Set date and time fields from DPS
         if (dpsEnCours != null && dpsEnCours.getDateEvt() != null) {
             Calendrier.setValue(dpsEnCours.getDateEvt().toLocalDate());
 
-            // Fixed array indices for time fields
             if (dpsEnCours.getHoraireDepart() != null && dpsEnCours.getHoraireDepart().length >= 2) {
                 heureDebutTextField.setText(String.valueOf(dpsEnCours.getHoraireDepart()[0]));
                 minuteDebutTextField.setText(String.valueOf(dpsEnCours.getHoraireDepart()[1]));
@@ -81,13 +86,16 @@ public class PageModifDPSController {
         chargerDonneesDPS();
     }
 
+    /**
+     * Charges les données pour le DPS en cours
+     * Affiche les compétences manquantes pour le DPS
+     * et ajoute un maximum de 5 items dans la liste
+     */
     private void chargerDonneesDPS() {
         if (dpsEnCours == null) return;
 
-        // Clear existing items
         ListeDeCompetences.getItems().clear();
 
-        // Load available competences
         List<Competence> allCompetences = DAOMngt.getCompetenceDAO().findAll();
         List<Competence> missingCompetences = new ArrayList<>();
 
@@ -104,7 +112,18 @@ public class PageModifDPSController {
         }
     }
 
-    // Handlers définis dans le FXML
+
+    /**
+     * Handles the action of clicking the "Accueil" button.
+     * 
+     * This method prompts the user with a confirmation dialog to ensure
+     * they have saved their changes. If the user confirms, it loads the
+     * DPS page interface, passing the current user data to the controller,
+     * and updates the stage scene to the newly loaded interface. It catches
+     * and prints any IOExceptions that occur during this process.
+     * 
+     * @param event the ActionEvent triggered by clicking the "Accueil" button
+     */
     @FXML
     public void BouttonAccueilHandle(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -129,6 +148,15 @@ public class PageModifDPSController {
         }
     }
 
+    /**
+     * Handles the action of clicking the "Affecter" button.
+     * 
+     * This method loads the affectation page interface, passing the current user data and the
+     * current DPS data to the controller, and updates the stage scene to the newly loaded interface.
+     * It catches and prints any IOExceptions that occur during this process.
+     * 
+     * @param event the ActionEvent triggered by clicking the "Affecter" button
+     */
     @FXML
     public void BouttonAffecterHandle(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAffectation.fxml"));
@@ -145,24 +173,31 @@ public class PageModifDPSController {
         }
     }
 
+    /**
+     * Handles the action of clicking the "Enregistrer" button.
+     * 
+     * This method first validates the required fields and the time entries.
+     * If validations are successful, it retrieves the data from the input fields,
+     * updates the current DPS object with the new values, and saves the changes
+     * to the database. It catches any exceptions that occur during the update
+     * process and shows a success alert upon successful completion.
+     * 
+     * @param event the ActionEvent triggered by clicking the "Enregistrer" button
+     */
     @FXML
     public void BouttonEnregistrerHandle(ActionEvent event) {
-        // Validation des champs obligatoires
         if (!validerChampsObligatoires()) {
             return;
         }
 
-        // Validation des formats de temps
         if (!validerTemps()) {
             return;
         }
 
-        // Récupération des valeurs modifiées
         String sport = sportTextField.getText();
         String site = siteTextField.getText();
         LocalDate date = Calendrier.getValue();
 
-        // Conversion des horaires
         int[] horaireDebut = {
                 Integer.parseInt(heureDebutTextField.getText()),
                 Integer.parseInt(minuteDebutTextField.getText())
@@ -173,7 +208,6 @@ public class PageModifDPSController {
                 Integer.parseInt(minuteFinTextField.getText())
         };
 
-        // Mise à jour du DPS
         dpsEnCours.getSport().setNom(sport);
         dpsEnCours.getLieu().setNom(site);
         dpsEnCours.setdateEvt(new Journee(date));
@@ -188,7 +222,10 @@ public class PageModifDPSController {
         showAlert("Succès", "Modifications enregistrées avec succès", Alert.AlertType.INFORMATION);
     }
 
-    // Méthode de validation des champs obligatoires
+    /**
+     * Valide que les champs obligatoires sont remplis
+     * @return true si les champs sont remplis, false sinon
+     */
     private boolean validerChampsObligatoires() {
         if (sportTextField.getText().isEmpty() ||
                 siteTextField.getText().isEmpty() ||
@@ -202,7 +239,10 @@ public class PageModifDPSController {
         return true;
     }
 
-    // Méthode de validation des formats de temps
+    /**
+     * Valide que les champs temps sont valides
+     * @return true si les champs sont valides, false sinon
+     */
     private boolean validerTemps() {
         boolean valid = true;
 
@@ -214,7 +254,19 @@ public class PageModifDPSController {
         return valid;
     }
 
-    // Méthode utilitaire pour la validation des champs temps
+/**
+ * Checks if the value of a TextField is within a specified range.
+ * 
+ * This method attempts to parse the text of a given TextField to an integer
+ * and verifies if it falls within the specified minimum and maximum values.
+ * If the value is out of range or cannot be parsed, the text color is set
+ * to red and an alert is shown to the user.
+ * 
+ * @param field The TextField whose value is to be validated.
+ * @param min The minimum allowable value.
+ * @param max The maximum allowable value.
+ * @return true if the value is invalid (out of range or non-numeric), false otherwise.
+ */
     private boolean invalideFormatTemps(TextField field, int min, int max) {
         try {
             int value = Integer.parseInt(field.getText());
@@ -234,23 +286,58 @@ public class PageModifDPSController {
         }
     }
 
+/**
+ * Handles the action of clicking the "Supprimer" button.
+ * 
+ * This method logs the deletion action to the console and calls a 
+ * confirmation method to verify if the user wants to proceed with 
+ * deleting the current DPS. If confirmed, the DPS is removed from 
+ * the database and the interface is updated accordingly.
+ * 
+ * @param event the ActionEvent triggered by clicking the "Supprimer" button
+ */
     @FXML
     public void BouttonSupprimerHandle(ActionEvent event) {
         System.out.println("Suppression du DPS");
-        // Confirmation et suppression
         confirmerSuppression();
     }
 
+/**
+ * Handles the action triggered by an event related to the sport input field.
+ * 
+ * This method is currently a placeholder and does not perform any specific
+ * action. It can be implemented to handle actions such as validating the
+ * sport input or updating the DPS object with sport-related data.
+ * 
+ * @param event the ActionEvent triggered by interacting with the sport input field
+ */
     @FXML
     public void sportHandle(ActionEvent event) {
-        // jsp si utile
     }
 
+    /**
+     * Handles the action triggered by an event related to the site input field.
+     * 
+     * This method is currently a placeholder and does not perform any specific
+     * action. It can be implemented to handle actions such as validating the
+     * site input or updating the DPS object with site-related data.
+     * 
+     * @param event the ActionEvent triggered by interacting with the site input field
+     */
     @FXML
     public void siteHandle(ActionEvent event) {
-        //jsp non plus
     }
 
+/**
+ * Handles the selection of a competence from the ComboBox.
+ * 
+ * This method retrieves the selected competence from the ComboBox
+ * and adds it to the current DPS's competence list. If the competence
+ * is not already present in the displayed list of competences, it is
+ * also added to the list view for display purposes.
+ * 
+ * @param event the ActionEvent triggered by selecting an item from the ComboBox
+ */
     @FXML
     public void ComboBoxCompetencesHandle(ActionEvent event) {
         String competenceSelectionnee = ComboBoxCompetences.getValue();
@@ -262,6 +349,12 @@ public class PageModifDPSController {
     }
 
 
+    /**
+     * Shows a confirmation dialog to the user to ensure they want to
+     * permanently delete the current DPS. If the user confirms, the
+     * DPS is removed from the database and the interface is updated
+     * accordingly.
+     */
     private void confirmerSuppression() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
@@ -288,6 +381,13 @@ public class PageModifDPSController {
 
 
 
+    /**
+     * Affiche un message d'erreur dans une boite de dialogue.
+     * 
+     * @param titre le titre de la boite de dialogue
+     * @param message le message a afficher
+     * @param type le type d'alerte a afficher (INFORMATION, WARNING, ERROR)
+     */
     private void showAlert(String titre, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(titre);
@@ -295,22 +395,62 @@ public class PageModifDPSController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    /**
+     * Valide le champ de texte heureDebutTextField en vérifiant si son contenu
+     * est un entier compris entre 0 et 23. Si la validation échoue, affiche
+     * un message d'erreur.
+     * 
+     * @param actionEvent l'ActionEvent déclenché par le changement de valeur
+     *                    du champ de texte
+     */
     public void heureDebutTextFieldHandle(ActionEvent actionEvent) {
         validateTimeField(heureDebutTextField, 0, 23);
     }
 
+/**
+ * Handles the action triggered by an event related to the minute debut input field.
+ * 
+ * This method validates the input in the minuteDebutTextField to ensure it is an integer
+ * between 0 and 59. If the input is invalid, it displays an error alert.
+ * 
+ * @param actionEvent the ActionEvent triggered by changes in the minute debut input field
+ */
     public void minuteDebutTextFieldHandle(ActionEvent actionEvent) {
         validateTimeField(minuteDebutTextField, 0, 59);
     }
 
+    /**
+     * Handles the action triggered by an event related to the heure fin input field.
+     * 
+     * This method validates the input in the heureFinTextField to ensure it is an integer
+     * between 0 and 23. If the input is invalid, it displays an error alert.
+     * 
+     * @param actionEvent the ActionEvent triggered by changes in the heure fin input field
+     */
     public void heureFinTextFieldHandle(ActionEvent actionEvent) {
         validateTimeField(heureFinTextField, 0, 23);
     }
 
+    /**
+     * Handles the action triggered by an event related to the minute fin input field.
+     * 
+     * This method validates the input in the minuteFinTextField to ensure it is an integer
+     * between 0 and 59. If the input is invalid, it displays an error alert.
+     * 
+     * @param actionEvent the ActionEvent triggered by changes in the minute fin input field
+     */
     public void minuteFinTextFieldHandle(ActionEvent actionEvent) {
         validateTimeField(minuteFinTextField, 0, 59);
     }
 
+    /**
+     * Validates the input in the given TextField to ensure it is an integer
+     * between min and max. If the input is invalid, it displays an error alert.
+     * 
+     * @param field the TextField to validate
+     * @param min the minimum value of the range
+     * @param max the maximum value of the range
+     */
     private void validateTimeField(TextField field, int min, int max) {
         try {
             int value = Integer.parseInt(field.getText());

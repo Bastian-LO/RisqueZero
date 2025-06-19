@@ -26,6 +26,11 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * Controller for the planning page
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
+
 public class PagePlanningController {
     private UserSecouriste user;
     private Secouriste secouriste;
@@ -58,6 +63,12 @@ public class PagePlanningController {
     @FXML
     private Hyperlink IDPageSuivante;
 
+/**
+ * Sets the current user and initializes the related secouriste and current week start.
+ * Loads the data for the current week.
+ * 
+ * @param user the UserSecouriste object to be set
+ */
     public void setUser(UserSecouriste user) {
         this.user = user;
         this.secouriste = user.getSecouriste();
@@ -65,9 +76,14 @@ public class PagePlanningController {
         loadWeekData();
     }
 
+
+    /**
+     * Initializes the controller after the FXML file has been loaded.
+     * Sets the cell value factories for the columns and configures the cell style.
+     * Sets the on action for the previous and next week hyperlinks.
+     */
     @FXML
     private void initialize() {
-        // Configuration des colonnes
         nomColumn.setCellValueFactory(data -> 
             new javafx.beans.property.SimpleStringProperty(secouriste != null ? secouriste.getNomComplet() : ""));
         
@@ -86,7 +102,6 @@ public class PagePlanningController {
         ColonneDimanche.setCellValueFactory(data -> 
             new javafx.beans.property.SimpleStringProperty(data.getValue().get(DayOfWeek.SUNDAY)));
 
-        // Configuration du style des cellules
         configureCellStyle(ColonneLundi);
         configureCellStyle(ColonneMardi);
         configureCellStyle(ColonneMercredi);
@@ -95,13 +110,31 @@ public class PagePlanningController {
         configureCellStyle(ColonneSamedi);
         configureCellStyle(ColonneDimanche);
 
-        // Gestion des événements
         IDPagePrecedente.setOnAction(event -> handleSemainePrecedente());
         IDPageSuivante.setOnAction(event -> handleSemaineSuivante());
     }
 
+    /**
+     * Configures the style of the cells in the given column.
+     * If the cell is empty, it sets the text to null and the style to an empty string.
+     * If the cell contains the string "indisponible", it sets the background color to lightcoral and the text fill to white.
+     * Otherwise, it sets the background color to lightgreen.
+     * @param column the TableColumn to be configured
+     */
     private void configureCellStyle(TableColumn<Map<DayOfWeek, String>, String> column) {
         column.setCellFactory(col -> new TableCell<Map<DayOfWeek, String>, String>() {
+/**
+ * Updates the visual representation of a cell in the table.
+ * 
+ * If the cell is empty or the item is null, it clears the text and style.
+ * For non-empty cells, it sets the displayed text to the item value.
+ * Applies a specific style if the item contains the string "indisponible",
+ * setting the background to lightcoral and text color to white.
+ * Otherwise, applies a lightgreen background.
+ * 
+ * @param item the text to display in the cell
+ * @param empty indicates whether this cell is empty
+ */
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -120,17 +153,25 @@ public class PagePlanningController {
         });
     }
 
+    /**
+     * Loads the week data for the secouriste in the table.
+     * 
+     * If the secouriste is null, does nothing.
+     * 
+     * Initializes all days as unavailable.
+     * Then, for each availability of the secouriste, it sets the corresponding day to
+     * a string in the format "HH:MM-HH:MM" where HH:MM is the start and end time of the availability.
+     * Finally, it sets the items of the table to an observable list containing the week data.
+     */
     private void loadWeekData() {
         if (secouriste == null) return;
         
         Map<DayOfWeek, String> weekData = new EnumMap<>(DayOfWeek.class);
         
-        // Initialiser tous les jours comme indisponibles
         for (DayOfWeek day : DayOfWeek.values()) {
             weekData.put(day, "Indisponible");
         }
         
-        // Remplir les disponibilités existantes
         for (Dispos dispos : secouriste.getDisponibilites()) {
             DayOfWeek day = dispos.getLocalDate().getDayOfWeek();
             String timeRange = String.format("%02d:%02d-%02d:%02d",
@@ -145,25 +186,37 @@ public class PagePlanningController {
         IDTableauPlanning.setItems(items);
     }
 
+    /**
+     * Handles the button to go to the previous week.
+     * Goes back by one week and reloads the week data.
+     */
     @FXML
     private void handleSemainePrecedente() {
         currentWeekStart = currentWeekStart.minusWeeks(1);
         loadWeekData();
     }
 
+    /**
+     * Handles the button to go to the next week.
+     * Goes forward by one week and reloads the week data.
+     */
     @FXML
     private void handleSemaineSuivante() {
         currentWeekStart = currentWeekStart.plusWeeks(1);
         loadWeekData();
     }
 
+    /**
+     * Handles the button to go back to the home page.
+     * Goes back to the home page and passes the user to the controller.
+     * @param event the event that triggered this method
+     */
     @FXML
     public void accueilPage(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
             Parent root = loader.load();
 
-            // Passage des données utilisateur
             PageAccueilSecouristeController controller = loader.getController();
             controller.setUser(user);
 
@@ -176,6 +229,11 @@ public class PagePlanningController {
         }
     }
 
+    /**
+     * Shows an alert with the given title and message.
+     * @param title the title of the alert
+     * @param message the message to display in the alert
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

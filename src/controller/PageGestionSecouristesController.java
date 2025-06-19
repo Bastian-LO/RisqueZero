@@ -14,6 +14,10 @@ import model.data.users.UserSecouriste;
 
 import java.io.IOException;
 
+/**
+ * Controller for the gestion secouristes page
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
 public class PageGestionSecouristesController {
 
     @FXML private ListView<Secouriste> secouristesListView;
@@ -21,6 +25,10 @@ public class PageGestionSecouristesController {
 
     public UserAdmin user;
 
+    /**
+     * Initializes the controller. Called after the FXML file has been loaded
+     * @param user the current user
+     */
     @FXML
     public void initialize(UserAdmin user) {
         secouristesListView.getItems().setAll(DAOMngt.getSecouristeDAO().findAll());
@@ -35,11 +43,19 @@ public class PageGestionSecouristesController {
         });
     }
 
+    /**
+     * Handles the event when the "Ajouter" button is clicked.
+     * This method should open a new window or dialog for adding a new secouriste.
+     */
     @FXML
     public void handleAjouterSecouriste() {
 
     }
 
+    /**
+     * Opens a new window or dialog for modifying a secouriste
+     * @param secouriste the secouriste to modify
+     */
     private void ouvrirModificationSecouriste(Secouriste secouriste) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageModifSecouriste.fxml"));

@@ -23,6 +23,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Controller for the inscription page
+ * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
+ */
+
 public class PageInscriptionController {
 
     @FXML
@@ -55,6 +60,18 @@ public class PageInscriptionController {
     @FXML
     private VBox passwordContainer;
 
+    /**
+     * Handles the inscription process when the inscription button is clicked.
+     * 
+     * This method collects user input from various text fields, validates the input,
+     * and creates a new user account if all data is valid. It checks for empty fields,
+     * password confirmation, and existing user account with the same email. If any 
+     * validation fails, it displays an error alert. Upon successful registration, the 
+     * method creates a new UserSecouriste and Secouriste, saves them in the database, 
+     * and navigates to the Secouriste home page.
+     * 
+     * @param actionEvent the event triggered by clicking the inscription button
+     */
     @FXML
     public void inscriptionHandle(ActionEvent actionEvent) {
         String nom = nomTextField.getText();
@@ -103,7 +120,12 @@ public class PageInscriptionController {
     }
 
 
-    // Méthode utilitaire pour afficher des alertes
+    /**
+     * Affiche un message d'erreur dans une boite de dialogue.
+     *
+     * @param title le titre de la boite de dialogue
+     * @param message le message a afficher
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -112,19 +134,25 @@ public class PageInscriptionController {
         alert.showAndWait();
     }
 
+    /**
+     * Handles the action of clicking the "connexion" hyperlink.
+     * 
+     * This method loads the connection page FXML and switches the current 
+     * scene to the connection interface. It retrieves the current stage 
+     * and updates its scene to the newly loaded connection scene. If there 
+     * is an error loading the FXML file, it prints the stack trace.
+     * 
+     * @param actionEvent the event triggered by clicking the "connexion" hyperlink
+     */
     @FXML
     public void connexionHandle(ActionEvent actionEvent) {
         try {
-            // Chargement de la deuxième interface depuis second.fxml
             Parent connexionRoot = FXMLLoader.load(getClass().getResource("../resources/fxml/PageConnexion.fxml"));
 
-            // Création de la nouvelle scène
             Scene connexionScene = new Scene(connexionRoot);
 
-            // Récupération de la fenêtre actuelle
             Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
-            // Changement de la scène
             currentStage.setScene(connexionScene);
             currentStage.setTitle("Connexion");
             currentStage.show();
@@ -133,7 +161,14 @@ public class PageInscriptionController {
         }
     }
 
-    // Navigation entre étapes
+    /**
+     * Handles the action of clicking the "suivant" button.
+     * 
+     * This method shows the information form and hides the password form, the inscription button and the back button.
+     * It also shows the suivant button.
+     * 
+     * @param actionEvent the event triggered by clicking the suivant button
+     */
     @FXML
     public void goToInformation() {
         infoContainer.setVisible(true);
@@ -152,6 +187,14 @@ public class PageInscriptionController {
         backButton.setManaged(false);
     }
 
+    /**
+     * Handles the action of clicking the "precedent" button.
+     * 
+     * This method shows the password form and hides the information form, the inscription button and the suivant button.
+     * It also shows the precedent button.
+     * 
+     * @param actionEvent the event triggered by clicking the precedent button
+     */
     @FXML
     public void goToPassword() {
         infoContainer.setVisible(false);
@@ -169,6 +212,5 @@ public class PageInscriptionController {
         backButton.setVisible(true);
         backButton.setManaged(true);
     }
-
 }
 
