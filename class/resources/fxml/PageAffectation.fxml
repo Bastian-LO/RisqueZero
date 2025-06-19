@@ -9,7 +9,26 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f1f0ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageAffectationController">
    <children>
-      <Button fx:id="BoutonAccueil" layoutX="678.0" layoutY="21.0" mnemonicParsing="false" onAction="#BoutonAccueilHandle" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE">
+      <HBox alignment="CENTER" layoutX="14.0" layoutY="16.0" spacing="5.0">
+         <children>
+            <ImageView fitHeight="56.0" fitWidth="74.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Risque_zéro_-_logo-removebg.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="81.0" layoutY="30.0" text="Risque zéro">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label alignment="CENTER" layoutX="259.0" layoutY="14.0" prefHeight="81.0" prefWidth="333.0" text="Affectation des secouristes" textFill="#004aad" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Button fx:id="BoutonAccueil" layoutX="635.0" layoutY="21.0" mnemonicParsing="false" onAction="#BoutonAccueilHandle" prefHeight="64.0" prefWidth="139.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="21.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -17,39 +36,28 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="81.0" layoutY="30.0" text="Risque zéro">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="259.0" layoutY="14.0" text="Affectation des&#10;  secouristes" textFill="#004aad">
-         <font>
-            <Font name="System Bold" size="55.0" />
-         </font>
-      </Label>
-      <AnchorPane layoutX="28.0" layoutY="176.0" prefHeight="332.0" prefWidth="745.0" style="-fx-background-color: #ffffff;">
+      <AnchorPane layoutX="28.0" layoutY="176.0" prefHeight="332.0" prefWidth="745.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="176.0">
          <children>
             <Label layoutX="36.0" layoutY="50.0" text="Liste des Secouristes :">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <ListView layoutX="35.0" layoutY="103.0" prefHeight="188.0" prefWidth="590.0" />
-            <TextField fx:id="BarreDeRecherche" layoutX="255.0" layoutY="14.0" onAction="#BarreDeRechercheHandle" prefHeight="18.0" prefWidth="196.0" promptText="Recherche t'on secouriste" style="-fx-background-radius: 50;">
+            <ListView layoutX="35.0" layoutY="103.0" prefHeight="188.0" prefWidth="590.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="103.0" />
+            <TextField fx:id="BarreDeRecherche" layoutX="535.0" layoutY="14.0" onAction="#BarreDeRechercheHandle" prefHeight="18.0" prefWidth="196.0" promptText="Recherche t'on secouriste" style="-fx-background-radius: 50;" AnchorPane.leftAnchor="535.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </TextField>
          </children>
       </AnchorPane>
-      <Button fx:id="BoutonEnregistrer" layoutX="655.0" layoutY="524.0" mnemonicParsing="false" onAction="#BoutonEnregistrerHandle" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Enregistrer le(s)&#10; changement(s)" textFill="WHITE">
+      <Button fx:id="BoutonEnregistrer" layoutX="220.0" layoutY="530.0" mnemonicParsing="false" onAction="#BoutonEnregistrerHandle" prefHeight="56.0" prefWidth="412.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Enregistrer le(s) changement(s)" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <font>
+            <Font size="26.0" />
+         </font>
       </Button>
-      <ImageView fitHeight="56.0" fitWidth="74.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../S2.01/class/resources/images/Risque_zéro_-_logo-removebg.png" />
-         </image></ImageView>
    </children>
 </AnchorPane>
