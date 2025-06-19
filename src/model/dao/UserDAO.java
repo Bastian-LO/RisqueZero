@@ -41,7 +41,7 @@ public class UserDAO extends DAO<User> {
     /**
      * Get user by id
      * @param id id of the user
-     * @return user
+     * @return user the user with the given id or null if not found
      */
     public User findById(int id) {
         String sql = "SELECT * FROM utilisateur "
@@ -65,7 +65,7 @@ public class UserDAO extends DAO<User> {
     /**
      * Get user by login
      * @param login login of the user
-     * @return user
+     * @return user the user with the given login or null if not found
      */
     public User findByLogin(String login) {
         String sql = "SELECT * "
@@ -141,7 +141,7 @@ public class UserDAO extends DAO<User> {
         }
     }
     
-        /**
+    /**
      * Creates a User object based on a ResultSet row.
      * The id attribute of the User object is set to the value of the "id" column of the ResultSet.
      * We do this because the id is auto-incremented in the database.
