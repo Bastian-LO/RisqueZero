@@ -27,7 +27,6 @@ public class PageDeGardeController {
             FXMLLoader inscriptionloader = new FXMLLoader(getClass().getResource("../resources/fxml/PageInscription.fxml"));
             Parent inscriptionRoot = inscriptionloader.load();
             PageInscriptionController inscriptionController = inscriptionloader.getController();
-            inscriptionController.initialize();
             // Création de la nouvelle scène
             Scene inscriptionScene = new Scene(inscriptionRoot);
 

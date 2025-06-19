@@ -165,9 +165,5 @@ public class PageInscriptionController {
         backButton.setManaged(true);
     }
 
-    public void initialize() {
-        suivantButton.setVisible(false);
-        suivantButton.setManaged(false);
-    }
 }
 
