@@ -119,12 +119,12 @@ public class PageAccueilSecouristeController {
     // Met à jour les labels des compétences
     private void updateCompetences(ArrayList<Competence> competences) {
         // Réinitialiser toutes les compétences
-        Competence1.setText("-");
-        Competence2.setText("-");
-        Competence3.setText("-");
-        Competence4.setText("-");
-        Competence5.setText("-");
-        Competence6.setText("-");
+        Competence1.setText(" ");
+        Competence2.setText(" ");
+        Competence3.setText(" ");
+        Competence4.setText(" ");
+        Competence5.setText(" ");
+        Competence6.setText(" ");
 
         // Mettre à jour avec les compétences réelles
         if (competences != null) {
@@ -150,12 +150,12 @@ public class PageAccueilSecouristeController {
             }
         } else {
             // Réinitialiser toutes les compétences
-            Competence1.setText("-");
-            Competence2.setText("-");
-            Competence3.setText("-");
-            Competence4.setText("-");
-            Competence5.setText("-");
-            Competence6.setText("-");
+            Competence1.setText(" ");
+            Competence2.setText(" ");
+            Competence3.setText(" ");
+            Competence4.setText(" ");
+            Competence5.setText(" ");
+            Competence6.setText(" ");
         }
 
     }
@@ -163,10 +163,15 @@ public class PageAccueilSecouristeController {
     private void updateDisponibilites(HashSet<Dispos> disponibilites) {
         Label[] disponibiliteLabels = {Dispo1, Dispo2, Dispo3,
                 Dispo4};
-
+        int count = 1;
         // Réinitialiser toutes les disponibilités
         for (Label label : disponibiliteLabels) {
-            label.setText("-");
+            if (label == null) {
+                System.err.println("Le label de disponibilité " + count + " est null!");
+                return;
+            }
+            label.setText(" ");
+            count++;
         }
 
         // Mettre à jour avec les disponibilités réelles
@@ -191,10 +196,16 @@ public class PageAccueilSecouristeController {
     // TODO: TS
     private void updatePlanning(List<String> planningItems) {
         // Réinitialiser les labels
-        Label2.setText("-");
-        Label3.setText("-");
-        Label4.setText("-");
-        Label5.setText("-");
+        Label[] planningLabels = {Label2, Label3, Label4, Label5};
+        int count = 1;
+        for (Label label : planningLabels) {
+            if (label == null) {
+                System.err.println("Le label de planning " + count + " est null!");
+                return;
+            }
+            label.setText(" ");
+            count++;
+        }
 
         // Mettre à jour avec les éléments du planning
         if (planningItems != null && !planningItems.isEmpty()) {
