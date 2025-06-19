@@ -25,6 +25,8 @@ public class PageAccueilSecouristeController {
 
     @FXML
     public Button planningBoutton;
+
+    @FXML
     public Button deconnexionButton;
 
     @FXML
