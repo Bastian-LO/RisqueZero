@@ -17,75 +17,261 @@ public class TestGraphe {
         
         ArrayList<Pair<DPS, Competence>> DPSCompet = new ArrayList<>();
 
-        int[] horaire_depart1 = new int[2];
-        horaire_depart1[0] = 10;
-        horaire_depart1[1] = 0;
-        int[] horaire_fin1 = new int[2];
-        horaire_fin1[0] = 16;
-        horaire_fin1[1] = 30;
+        /**Un évenement un certain jour */
+        int[] horaire_departDPS1 = new int[2];
+        horaire_departDPS1[0] = 10;
+        horaire_departDPS1[1] = 0;
+        int[] horaire_finDPS1 = new int[2];
+        horaire_finDPS1[0] = 16;
+        horaire_finDPS1[1] = 30;
 
-        Journee jour = new Journee(1,1,2030);
+        Journee jour1 = new Journee(1,1,2030);
+
+
+        /**Un évenement sur un autre jour et autre heure */
+        int[] horaire_departDPS2 = new int[2];
+        horaire_departDPS2[0] = 11;
+        horaire_departDPS2[1] = 0;
+        int[] horaire_finDPS2 = new int[2];
+        horaire_finDPS2[0] = 17;
+        horaire_finDPS2[1] = 0;
+
+        Journee jour2 = new Journee(2,2,2030);
+
+
+        /**Un évenement ou c'est les mêmes horaires que le jour1 mais pas le même jour */
+        int[] horaire_departDPS3 = new int[2];
+        horaire_departDPS3[0] = 10;
+        horaire_departDPS3[1] = 0;
+        int[] horaire_finDPS3 = new int[2];
+        horaire_finDPS3[0] = 16;
+        horaire_finDPS3[1] = 30;
+
+        Journee jour3 = new Journee(3,3,2030);
+
+
+        /**Un évenement ou c'est le tout pareil que le jour1 (Horaire,compétences,jour)*/
+        int[] horaire_departDPS4 = new int[2];
+        horaire_departDPS4[0] = 10;
+        horaire_departDPS4[1] = 0;
+        int[] horaire_finDPS4 = new int[2];
+        horaire_finDPS4[0] = 16;
+        horaire_finDPS4[1] = 30;
+
+        Journee jour4 = new Journee(1,1,2030);
+
+
+        /**Un évenement ou c'est le tout pareil que le jour1 mais l'horaire change (compétences,jour) */
+        int[] horaire_departDPS5 = new int[2];
+        horaire_departDPS5[0] = 6;
+        horaire_departDPS5[1] = 0;
+        int[] horaire_finDPS5 = new int[2];
+        horaire_finDPS5[0] = 9;
+        horaire_finDPS5[1] = 0;
+
+        Journee jour5 = new Journee(1,1,2030);
+
+
+        /**Un évenement ou c'est le tout pareil que le jour1 mais avec un lieu différent (Horaire, compétences, jour) */
+        int[] horaire_departDPS6 = new int[2];
+        horaire_departDPS6[0] = 10;
+        horaire_departDPS6[1] = 0;
+        int[] horaire_finDPS6 = new int[2];
+        horaire_finDPS6[0] = 16;
+        horaire_finDPS6[1] = 30;
+
+        Journee jour6 = new Journee(1,1,2030);
+
+
+        /**Un évenement ou c'est juste les compétences qui sont différentes */
+        int[] horaire_departDPS7 = new int[2];
+        horaire_departDPS7[0] = 10;
+        horaire_departDPS7[1] = 0;
+        int[] horaire_finDPS7 = new int[2];
+        horaire_finDPS7[0] = 16;
+        horaire_finDPS7[1] = 30;
+
+        Journee jour7 = new Journee(1,1,2030);
+
 
         Competence comp1 = new Competence("PSC1");
         HashSet<Competence> requis1 = new HashSet<>();
         requis1.add(comp1);
         
         Competence comp2 = new Competence("PSC2", requis1);
+
         Competence comp3 = new Competence("VAO1");
         HashSet<Competence> requis2 = new HashSet<>();
         requis2.add(comp3);
+
         Competence comp4 = new Competence("VAO2", requis2);
+
         Competence comp5 = new Competence("NVE");
 
         ArrayList<Competence> compList = new ArrayList<>();
         compList.add(comp1);
         compList.add(comp2);
         compList.add(comp3);
+        compList.add(comp4);
+        compList.add(comp5);
 
-        Site lieu = new Site("STD", "Stade", 49F, 59F);
+        Site lieu1 = new Site("STD", "Stade", 49F, 59F);
+        Site lieu2 = new Site("VLD", "Velodrome",60F, 30F);
 
-        Sport sport = new Sport("TNS", "Tennis");
+        Sport sport1 = new Sport("TNS", "Tennis");
+        Sport sport2 = new Sport("VL", "Velo");
 
-        DPS dps = new DPS(1L, horaire_depart1, horaire_fin1, jour, compList, lieu, sport);
         ArrayList<DPS> dpss = new ArrayList<>();
-        dpss.add(dps);
+
+        DPS dps1 = new DPS(1L, horaire_departDPS1, horaire_finDPS1, jour1, compList, lieu1, sport1);
+        dpss.add(dps1);
+
+        DPS dps2 = new DPS(2L, horaire_departDPS2, horaire_finDPS2, jour2, compList, lieu1, sport1);
+        dpss.add(dps2);
+
+        DPS dps3 = new DPS(3L, horaire_departDPS3, horaire_finDPS3, jour3, compList, lieu1, sport1);
+        dpss.add(dps3);
+
+        DPS dps4 = new DPS(4L, horaire_departDPS4, horaire_finDPS4, jour4, compList, lieu1, sport1);
+        dpss.add(dps4);
+
+        DPS dps5 = new DPS(5L, horaire_departDPS5, horaire_finDPS5, jour5, compList, lieu1, sport1);
+        dpss.add(dps5);
+
+        DPS dps6 = new DPS(6L, horaire_departDPS6, horaire_finDPS6, jour6, compList, lieu2, sport1);
+        dpss.add(dps6);
+
+        DPS dps7 = new DPS(7L, horaire_departDPS7, horaire_finDPS7, jour7, compList, lieu1, sport2);
+        dpss.add(dps7);
+
 
         for (int i = 0; i < compList.size(); i++){
-            Pair<DPS, Competence> DpsCompetTest = new Pair<DPS,Competence>(dps, compList.get(i));
+            Pair<DPS, Competence> DpsCompetTest = new Pair<DPS,Competence>(dps1, compList.get(i));
             DPSCompet.add(DpsCompetTest);
         }
 
 
         // Création des secouristes
 
-        HashSet<Dispos> secDispos1 = new HashSet<>();
+        HashSet<Dispos> secBastianDispos = new HashSet<>();
 
-        ArrayList<Competence> secComp1 = new ArrayList<>();
-        secComp1.add(comp1);
+        ArrayList<Competence> secBastianComp = new ArrayList<>();
+        secBastianComp.add(comp2);
+        secBastianComp.add(comp4);
+        secBastianComp.add(comp5);
 
-        int[] horaire_depart2 = new int[2];
-        horaire_depart2[0] = 9;
-        horaire_depart2[1] = 30;
-        int[] horaire_fin2 = new int[2];
-        horaire_fin2[0] = 18;
-        horaire_fin2[1] = 30;
+        int[] horaire_departSecouristeBastian = new int[2];
+        horaire_departSecouristeBastian[0] = 9;
+        horaire_departSecouristeBastian[1] = 30;
+        int[] horaire_finSecouristeBastian = new int[2];
+        horaire_finSecouristeBastian[0] = 18;
+        horaire_finSecouristeBastian[1] = 30;
 
-        Secouriste sec1 = new Secouriste(1L, "Lucien", "Martin", "07/08/2009", "martin.lucien@gmail.com", "0708091112", "8 rue des potiers", secComp1, secDispos1);
-        Dispos dispo1 = new Dispos(sec1, jour, horaire_depart2, horaire_fin2);
-        sec1.addDispos(dispo1);
+        Secouriste secBastian = new Secouriste(1L, "Bastian", "Le Ouedec", "03/11/2003", "LeOuedec.Bastian@gmail.com", "0708091112", "8 rue des potiers", secBastianComp, secBastianDispos);
+        Dispos dispo1 = new Dispos(secBastian, jour1, horaire_departSecouristeBastian, horaire_finSecouristeBastian);
+        secBastian.addDispos(dispo1);
 
-        HashSet<Dispos> secDispos2 = new HashSet<>();
+        Dispos dispo2 = new Dispos(secBastian, jour2, horaire_departSecouristeBastian, horaire_finSecouristeBastian);
+        secBastian.addDispos(dispo2);
 
-        ArrayList<Competence> secComp2 = new ArrayList<>();
-        secComp2.add(comp2);
 
-        Secouriste sec2 = new Secouriste(2L, "Jean", "Jacques", "02/02/2002", "jean.jacques@hotmail.com", "0607080910", "7 rue de la chance", secComp2, secDispos2);
-        Dispos dispo2 = new Dispos(sec2, jour, horaire_depart1, horaire_fin1);
-        sec2.addDispos(dispo2);
+
+        HashSet<Dispos> secEnrickDispos = new HashSet<>();
+
+        ArrayList<Competence> secEnrickComp = new ArrayList<>();
+        secEnrickComp.add(comp1);
+        secEnrickComp.add(comp4);
+        secEnrickComp.add(comp5);
+
+        int[] horaire_departSecouristeEnrick = new int[2];
+        horaire_departSecouristeEnrick[0] = 5;
+        horaire_departSecouristeEnrick[1] = 30;
+        int[] horaire_finSecouristeEnrick = new int[2];
+        horaire_finSecouristeEnrick[0] = 12;
+        horaire_finSecouristeEnrick[1] = 30;
+
+        Secouriste secEnrick = new Secouriste(1L, "Mananjean", "Enrick", "07/09/2006", "Mananjean.Enrick@gmail.com", "0708091124", "9 rue des potiers", secEnrickComp, secEnrickDispos);
+        Dispos dispo3 = new Dispos(secEnrick, jour1, horaire_departSecouristeEnrick, horaire_finSecouristeEnrick);
+        secEnrick.addDispos(dispo3);
+
+        Dispos dispo4 = new Dispos(secEnrick, jour2, horaire_departSecouristeEnrick, horaire_finSecouristeEnrick);
+        secEnrick.addDispos(dispo4);
+
+
+        
+        HashSet<Dispos> secElwanDispos = new HashSet<>();
+
+        ArrayList<Competence> secElwanComp = new ArrayList<>();
+        secElwanComp.add(comp2);
+        secElwanComp.add(comp3);
+        secElwanComp.add(comp5);
+
+        int[] horaire_departSecouristeElwan = new int[2];
+        horaire_departSecouristeElwan[0] = 17;
+        horaire_departSecouristeElwan[1] = 30;
+        int[] horaire_finSecouristeElwan = new int[2];
+        horaire_finSecouristeElwan[0] = 23;
+        horaire_finSecouristeElwan[1] = 30;
+
+        Secouriste secElwan = new Secouriste(1L, "Yvin", "Elwan", "25/12/2006", "Yvin.Elwan@gmail.com", "0708091196", "10 rue des potiers", secElwanComp, secElwanDispos);
+        Dispos dispo5 = new Dispos(secElwan, jour1, horaire_departSecouristeElwan, horaire_finSecouristeElwan);
+        secElwan.addDispos(dispo5);
+
+        Dispos dispo6 = new Dispos(secElwan, jour2, horaire_departSecouristeElwan, horaire_finSecouristeElwan);
+        secElwan.addDispos(dispo6);
+
+
+
+        HashSet<Dispos> secEmileDispos = new HashSet<>();
+
+        ArrayList<Competence> secEmileComp = new ArrayList<>();
+        secEmileComp.add(comp5);
+
+        int[] horaire_departSecouristeEmile = new int[2];
+        horaire_departSecouristeEmile[0] = 8;
+        horaire_departSecouristeEmile[1] = 0;
+        int[] horaire_finSecouristeEmile = new int[2];
+        horaire_finSecouristeEmile[0] = 19;
+        horaire_finSecouristeEmile[1] = 0;
+
+        Secouriste secEmile = new Secouriste(1L, "Thevin", "Emile", "14/07/2004", "Thevin.Emile@gmail.com", "0708091141", "11 rue des potiers", secEmileComp, secEmileDispos);
+        Dispos dispo7 = new Dispos(secEmile, jour1, horaire_departSecouristeEmile, horaire_finSecouristeEmile);
+        secEmile.addDispos(dispo7);
+
+        Dispos dispo8 = new Dispos(secEmile, jour2, horaire_departSecouristeEmile, horaire_finSecouristeEmile);
+        secEmile.addDispos(dispo8);
+
+
+
+        HashSet<Dispos> secKillianDispos = new HashSet<>();
+
+        ArrayList<Competence> secKillianComp = new ArrayList<>();
+        secKillianComp.add(comp1);
+
+        int[] horaire_departSecouristeKillian = new int[2];
+        horaire_departSecouristeKillian[0] = 9;
+        horaire_departSecouristeKillian[1] = 30;
+        int[] horaire_finSecouristeKillian = new int[2];
+        horaire_finSecouristeKillian[0] = 18;
+        horaire_finSecouristeKillian[1] = 30;
+
+        Secouriste secKillian = new Secouriste(1L, "Avril", "Killian", "07/04/2006", "Avril.Killian@gmail.com", "0708091156", "12 rue des potiers", secKillianComp, secKillianDispos);
+        Dispos dispo9 = new Dispos(secKillian, jour1, horaire_departSecouristeKillian, horaire_finSecouristeKillian);
+        secKillian.addDispos(dispo9);
+
+        Dispos dispo10 = new Dispos(secKillian, jour2, horaire_departSecouristeKillian, horaire_finSecouristeKillian);
+        secKillian.addDispos(dispo10);
+
+
 
         ArrayList<Secouriste> listSec = new ArrayList<>();
-        listSec.add(sec1);
-        listSec.add(sec2);
+        listSec.add(secBastian);
+        listSec.add(secEnrick);
+        listSec.add(secElwan);
+        listSec.add(secEmile);
+        listSec.add(secKillian);
+
+
 
 
         // Création du graphe
@@ -107,7 +293,7 @@ public class TestGraphe {
             }
         }
 
-        /*
+        /**
         System.out.println("\nAlgorithme glouton : ");
         ArrayList<Affectation> listAffGlouton = graph.glouton();
         for(int i = 0; i < listAffGlouton.size(); i++){
