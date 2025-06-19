@@ -1,6 +1,8 @@
 package model.dao;
 
 import model.data.persistence.*;
+import model.data.service.DAOMngt;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,18 +12,6 @@ import java.util.List;
  * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
  */
 public class DPSDAO extends DAO<DPS> {
-    //===============================
-    //          ATTRIBUTES
-    //===============================
-
-    /** instance of CompetenceDAO used to retrieve competences */
-    private final CompetenceDAO competenceDAO = new CompetenceDAO();
-
-    /** instance of SiteDAO used to retrieve sites */
-    private final SiteDAO siteDAO = new SiteDAO();
-
-    /** instance of SportDAO used to retrieve sports */
-    private final SportDAO sportDAO = new SportDAO();
 
     //===============================
     //            METHODS
@@ -75,8 +65,8 @@ public class DPSDAO extends DAO<DPS> {
                 int[] heureDepart = parseTime(rs.getString("horaire_depart"));
                 int[] heureFin = parseTime(rs.getString("horaire_fin"));
                 Journee journee = new Journee(rs.getDate("date_event").toLocalDate());
-                Site site = siteDAO.findByCode(rs.getString("id_site"));
-                Sport sport = sportDAO.findByCode(rs.getString("id_sport"));
+                Site site = DAOMngt.getSiteDAO().findByCode(rs.getString("id_site"));
+                Sport sport = DAOMngt.getSportDAO().findByCode(rs.getString("id_sport"));
                 
                 // Récupération des compétences
                 ArrayList<Competence> competences = new ArrayList<>();
@@ -85,7 +75,7 @@ public class DPSDAO extends DAO<DPS> {
                     compPstmt.setLong(1, id);
                     ResultSet compRs = compPstmt.executeQuery();
                     while (compRs.next()) {
-                        Competence comp = competenceDAO.findByIntitule(compRs.getString("competence"));
+                        Competence comp = DAOMngt.getCompetenceDAO().findByIntitule(compRs.getString("competence"));
                         if (comp != null) competences.add(comp);
                     }
                 }
@@ -115,7 +105,7 @@ public class DPSDAO extends DAO<DPS> {
             ResultSet rs = pstmt.executeQuery();
             
             while (rs.next()) {
-                Competence comp = competenceDAO.findByIntitule(rs.getString("competence"));
+                Competence comp = DAOMngt.getCompetenceDAO().findByIntitule(rs.getString("competence"));
                 if (comp != null) {
                     competences.add(comp);
                 }

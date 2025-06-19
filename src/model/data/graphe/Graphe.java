@@ -165,15 +165,14 @@ public class Graphe {
         Set<Competence> visited = new HashSet<>();
         Set<Competence> recursionStack = new HashSet<>();
         CompetenceDAO DAOcomp = new CompetenceDAO();
-        boolean ret = true;
         for (Competence comp : DAOcomp.findAll()) {
             if (!visited.contains(comp)) {
                 if (hasCycle(comp, visited, recursionStack)) {
-                    ret = false;
+                    return false;
                 }
             }
         }
-        return ret;
+        return true;
     }
 
     /**
@@ -284,31 +283,48 @@ public class Graphe {
         return result;
     }
 
-    private boolean reserveCreneau(Secouriste sec, DPS dps) {
-        for (Iterator<Dispos> it = sec.getDisponibilites().iterator(); it.hasNext();) {
+    public boolean reserveCreneau(Secouriste sec, DPS dps) {
+        Iterator<Dispos> it = sec.getDisponibilites().iterator();
+        LocalDate dateDPS = dps.getDateEvt().toLocalDate();
+        LocalTime debutDPS = dps.toLocalTime(dps.getHoraireDepart());
+        LocalTime finDPS = dps.toLocalTime(dps.getHoraireFin());
+
+        while (it.hasNext()) {
             Dispos dispo = it.next();
-            if (dispo.getDate().equals(dps.getDateEvt())) {
-                LocalTime debutDispo = dispo.toLocalTime(dispo.getHeureDebut());
-                LocalTime finDispo = dispo.toLocalTime(dispo.getHeureFin());
-                LocalTime debutDPS = dps.toLocalTime(dps.getHoraireDepart());
-                LocalTime finDPS = dps.toLocalTime(dps.getHoraireFin());
 
-                if (!debutDPS.isBefore(debutDispo) && !finDPS.isAfter(finDispo)) {
-                    it.remove(); // Supprime le créneau entier
+            if (!dispo.getDate().toLocalDate().equals(dateDPS)) continue;
 
-                    // Ajoute les segments restants si besoin
-                    if (Duration.between(debutDispo, debutDPS).getSeconds() >= 3600) {
-                        sec.addDispos(new Dispos(sec, dispo.getDate().toLocalDate(), debutDispo, debutDPS));
-                    }
-                    if (Duration.between(finDPS, finDispo).getSeconds() >= 3600) {
-                        sec.addDispos(new Dispos(sec, dispo.getDate().toLocalDate(), finDPS, finDispo));
-                    }
-                    return true;
+            LocalTime debutDispo = dispo.toLocalTime(dispo.getHeureDebut());
+            LocalTime finDispo = dispo.toLocalTime(dispo.getHeureFin());
+
+            // Cherche un chevauchement
+            boolean chevauchement = !finDispo.isBefore(debutDPS) && !debutDispo.isAfter(finDPS);
+            if (!chevauchement) continue;
+
+            // Calcul de la partie avant le DPS
+            if (debutDispo.isBefore(debutDPS)) {
+                Duration avant = Duration.between(debutDispo, debutDPS);
+                if (avant.getSeconds() >= 3600) {
+                    sec.addDispos(new Dispos(sec, dateDPS, debutDispo, debutDPS));
                 }
             }
+
+            // Calcul de la partie après le DPS
+            if (finDPS.isBefore(finDispo)) {
+                Duration apres = Duration.between(finDPS, finDispo);
+                if (apres.getSeconds() >= 3600) {
+                    sec.addDispos(new Dispos(sec, dateDPS, finDPS, finDispo));
+                }
+            }
+
+            // Supprimer la dispo d’origine, on l’a scindée
+            it.remove();
+            return true;
         }
+
         return false;
     }
+
 
     /**
      * Checks if a secourist is available for a DPS and if so, changes their availibility in accordance
@@ -316,7 +332,7 @@ public class Graphe {
      * @param dps the dps
      * @return true if the secourist is available
      */
-    private boolean checkDispos(Secouriste sec, DPS dps){
+    public boolean checkDispos(Secouriste sec, DPS dps){
         boolean ret = false;
         ArrayList<Dispos> newDispos = new ArrayList<>();
         ArrayList<Dispos> aSuppr = new ArrayList<>();
@@ -427,6 +443,5 @@ public class Graphe {
         }
 
         return ret;
-    }
-        */
+    }*/
 }

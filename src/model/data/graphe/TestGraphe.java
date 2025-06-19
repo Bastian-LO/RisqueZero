@@ -1,5 +1,7 @@
 package model.data.graphe;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -307,5 +309,40 @@ public class TestGraphe {
                 System.out.println(pairSecComp.getKey().getNom() + " : " + pairSecComp.getValue());
             }
         }*/
+
+        ArrayList<Competence> compListSecTest = new ArrayList<>();
+        Competence compe1 = new Competence("comp1");
+        compListSecTest.add(compe1);
+
+        HashSet<Dispos> disposSecTest = new HashSet<>();
+
+        Secouriste secTest = new Secouriste(3L, "Testeur", "Test", "03/04/2005", "test@test.test", "0123456789", "1 rue du test", compListSecTest, disposSecTest);
+        secTest.addDispos(new Dispos(secTest, LocalDate.of(2025, 6, 20), LocalTime.of(8, 0), LocalTime.of(18, 0)));
+
+        int[] horaireDepart = new int[2];
+        horaireDepart[0] = 9;
+        horaireDepart[1] = 0;
+        int[] horaireFin = new int[2];
+        horaireFin[0] = 12;
+        horaireFin[1] = 0;
+
+        Journee dateTest = new Journee(LocalDate.of(2025, 6, 20));
+        Site siteTest = new Site("TST", "Site test", 0, 0);
+        Sport sportTest = new Sport("FOT", "Football");
+        DPS dpsTest = new DPS(3L, horaireDepart, horaireFin, dateTest, compListSecTest, siteTest, sport);
+
+        ArrayList<Secouriste> listSecTest = new ArrayList<>();
+        listSecTest.add(secTest);
+        ArrayList<DPS> listDPSTest = new ArrayList<>();
+        listDPSTest.add(dpsTest);
+        Graphe graphTest = new Graphe(listSec, dpss);
+
+        // Test avec les deux méthodes (une à la fois !)
+        boolean DispoOk = graphTest.reserveCreneau(secTest, dpsTest); // ou reserveCreneau(sec, dps)
+        
+        System.out.println("Dispo réservée : " + DispoOk);
+        System.out.println("Dispos restantes : " + secTest.getDisponibilites());
+
+        boolean reserveCreneauOK = graphTest.reserveCreneau(secTest, dpsTest);
     }
 }
