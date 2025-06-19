@@ -247,13 +247,16 @@ public class Graphe {
     }
 
     /**
-     * Returns the set of DPS without (without any duplicate)
-     * @return the set
+     * Returns a copy of the set of DPS without (without any duplicate)
+     * @return the copy
      */
     private Set<DPS> cloneListDPS() {
         Set<DPS> cloneDPS = new HashSet<>();
         for (Pair<DPS, Competence> pair : DPSCompet) {
-            cloneDPS.add(pair.getKey());
+            DPS dps = pair.getKey();
+            DPS copy = new DPS(dps.getId(), dps.getHoraireDepart(), dps.getHoraireFin(), dps.getDateEvt(), dps.getCompetences(), 
+                        dps.getLieu(), dps.getSport());
+            cloneDPS.add(copy);
         }
         return cloneDPS;
     }
@@ -265,7 +268,7 @@ public class Graphe {
     private List<Secouriste> secouristesDisponibles(DPS dps, Competence competence) {
         List<Secouriste> disponibles = new ArrayList<>();
         
-        for (Secouriste secouriste : secouristes) {
+        for (Secouriste secouriste : this.secouristes) {
             boolean hasCompetence = secouriste.getCompetences().contains(competence);
             boolean isAvailable = hasCompetence && estDisponible(secouriste, dps);
             
