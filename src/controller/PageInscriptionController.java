@@ -12,6 +12,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import model.data.persistence.Secouriste;
 import model.data.service.UserMngt;
@@ -47,6 +48,8 @@ public class PageInscriptionController {
     private Button suivantButton;
     @FXML
     private PasswordField confirmPasswordField;
+    @FXML
+    private ImageView backButton;
 
     @FXML
     private VBox infoContainer;
@@ -134,8 +137,12 @@ public class PageInscriptionController {
 
         inscriptionButton.setVisible(false);
         inscriptionButton.setManaged(false);
+
         suivantButton.setVisible(true);
         suivantButton.setManaged(true);
+
+        backButton.setVisible(false);
+        backButton.setManaged(false);
     }
 
     @FXML
@@ -148,8 +155,12 @@ public class PageInscriptionController {
 
         inscriptionButton.setVisible(true);
         inscriptionButton.setManaged(true);
+
         suivantButton.setVisible(false);
         suivantButton.setManaged(false);
+
+        backButton.setVisible(true);
+        backButton.setManaged(true);
     }
 }
 
