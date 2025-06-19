@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,7 +33,6 @@ public class PageModifSecouristeController {
     @FXML private Button deconnexionButton;
 
     private Secouriste secouriste;
-    private Stage dialogStage;
     private UserAdmin user;
 
     /**
@@ -51,11 +51,9 @@ public class PageModifSecouristeController {
  * competences into the relevant UI components.
  *
  * @param secouriste the secouriste whose information is to be displayed and modified
- * @param dialogStage the stage for the current dialog window
  */
-    public void initialize(Secouriste secouriste, Stage dialogStage) {
+    public void initialize(Secouriste secouriste) {
         this.secouriste = secouriste;
-        this.dialogStage = dialogStage;
         remplirChamps();
         chargerCompetences();
     }
@@ -112,8 +110,20 @@ public class PageModifSecouristeController {
         if (estSaisieValide()) {
             mettreAJourSecouriste();
             DAOMngt.getSecouristeDAO().update(secouriste);
-            dialogStage.close();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageGestionSecouristes.fxml"));
+                Parent secouristeRoot = loader.load();
+                PageGestionSecouristesController controller = loader.getController();
+                controller.initialize(user);
+                Scene secouristeScene = new Scene(secouristeRoot);
+                Stage currentStage = (Stage) enregistrerButton.getScene().getWindow();
+                currentStage.setScene(secouristeScene);
+                currentStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     /**
@@ -133,7 +143,18 @@ public class PageModifSecouristeController {
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 DAOMngt.getSecouristeDAO().delete(secouriste);
-                dialogStage.close();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageGestionSecouristes.fxml"));
+                    Parent secouristeRoot = loader.load();
+                    PageGestionSecouristesController controller = loader.getController();
+                    controller.initialize(user);
+                    Scene secouristeScene = new Scene(secouristeRoot);
+                    Stage currentStage = (Stage) enregistrerButton.getScene().getWindow();
+                    currentStage.setScene(secouristeScene);
+                    currentStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
