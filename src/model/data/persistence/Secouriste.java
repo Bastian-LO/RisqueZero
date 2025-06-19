@@ -389,4 +389,13 @@ public class Secouriste{
         ret = Objects.hash(getId(), getNom(), getPrenom(), getDateNaissance(), getAdresse(), getEmail(), getTel(), getDisponibilites(), getCompetences());
         return ret;
     }
+
+    /**
+     * Returns the full name of the secourist in the format "Nom Prénom".
+     * @return the full name as a string
+     */
+    @Override
+    public String toString(){
+        return this.nom + " " + this.prenom;
+    }
 }
