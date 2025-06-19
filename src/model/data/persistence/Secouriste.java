@@ -164,6 +164,14 @@ public class Secouriste{
     }
 
     /**
+     * Returns the full name
+     * @return the full name
+     */
+    public String getNomComplet() {
+        return nom + " " + prenom;
+    }
+
+    /**
      * Returns the birth date
      * @return the birth date
      */

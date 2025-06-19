@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -89,13 +90,12 @@ public class PageAccueilSecouristeController {
     private UserSecouriste user;
     private Secouriste secouriste;
 
-    // Méthode pour initialiser les données de l'utilisateur
     public void setUser(UserSecouriste user) {
         this.user = user;
         this.secouriste = user.getSecouriste();
 
-        // Mise à jour de l'interface
-        updateUI();
+        // On attend que l'interface soit complètement chargée avant de mettre à jour
+        Platform.runLater(this::updateUI);
     }
 
     // Met à jour l'interface avec les données du secouriste

@@ -2,22 +2,29 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.data.persistence.Dispos;
 import model.data.persistence.Secouriste;
 import model.data.users.UserSecouriste;
-import model.data.service.DAOMngt;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class PagePlanningController {
     private UserSecouriste user;
@@ -25,24 +32,31 @@ public class PagePlanningController {
     private LocalDate currentWeekStart;
 
     @FXML
-    private TableView<PlanningRow> tableView;
+    private TableView<Map<DayOfWeek, String>> IDTableauPlanning;
+    @FXML
+    private TableColumn<Map<DayOfWeek, String>, String> nomColumn;
+    @FXML
+    private TableColumn<Map<DayOfWeek, String>, String> ColonneLundi;
+    @FXML
+    private TableColumn<Map<DayOfWeek, String>, String> ColonneMardi;
+    @FXML
+    private TableColumn<Map<DayOfWeek, String>, String> ColonneMercredi;
+    @FXML
+    private TableColumn<Map<DayOfWeek, String>, String> ColonneJeudi;
+    @FXML
+    private TableColumn<Map<DayOfWeek, String>, String> ColonneVendredi;
+    @FXML
+    private TableColumn<Map<DayOfWeek, String>, String> ColonneSamedi;
+    @FXML
+    private TableColumn<Map<DayOfWeek, String>, String> ColonneDimanche;
 
     @FXML
-    private TableColumn<PlanningRow, String> nomColumn;
+    private Button accueilButton;
+
     @FXML
-    private TableColumn<PlanningRow, String> lundiColumn;
+    private Hyperlink IDPagePrecedente;
     @FXML
-    private TableColumn<PlanningRow, String> mardiColumn;
-    @FXML
-    private TableColumn<PlanningRow, String> mercrediColumn;
-    @FXML
-    private TableColumn<PlanningRow, String> jeudiColumn;
-    @FXML
-    private TableColumn<PlanningRow, String> vendrediColumn;
-    @FXML
-    private TableColumn<PlanningRow, String> samediColumn;
-    @FXML
-    private TableColumn<PlanningRow, String> dimancheColumn;
+    private Hyperlink IDPageSuivante;
 
     public void setUser(UserSecouriste user) {
         this.user = user;
@@ -54,76 +68,81 @@ public class PagePlanningController {
     @FXML
     private void initialize() {
         // Configuration des colonnes
-        nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        lundiColumn.setCellValueFactory(new PropertyValueFactory<>("lundi"));
-        mardiColumn.setCellValueFactory(new PropertyValueFactory<>("mardi"));
-        mercrediColumn.setCellValueFactory(new PropertyValueFactory<>("mercredi"));
-        jeudiColumn.setCellValueFactory(new PropertyValueFactory<>("jeudi"));
-        vendrediColumn.setCellValueFactory(new PropertyValueFactory<>("vendredi"));
-        samediColumn.setCellValueFactory(new PropertyValueFactory<>("samedi"));
-        dimancheColumn.setCellValueFactory(new PropertyValueFactory<>("dimanche"));
-
-        // Style des cellules
-        TableColumn[] jours = {lundiColumn, mardiColumn, mercrediColumn, jeudiColumn, 
-                             vendrediColumn, samediColumn, dimancheColumn};
+        nomColumn.setCellValueFactory(data -> 
+            new javafx.beans.property.SimpleStringProperty(secouriste != null ? secouriste.getNomComplet() : ""));
         
-        for (TableColumn<PlanningRow, String> col : jours) {
-            col.setCellFactory(column -> new TableCell<>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                        setStyle("");
-                    } else {
-                        setText(item);
-                        if (item.toLowerCase().contains("indisponible")) {
-                            setStyle("-fx-background-color: lightcoral; -fx-text-fill: white;");
-                        } else {
-                            setStyle("-fx-background-color: lightgreen;");
-                        }
-                    }
-                }
-            });
-        }
+        ColonneLundi.setCellValueFactory(data -> 
+            new javafx.beans.property.SimpleStringProperty(data.getValue().get(DayOfWeek.MONDAY)));
+        ColonneMardi.setCellValueFactory(data -> 
+            new javafx.beans.property.SimpleStringProperty(data.getValue().get(DayOfWeek.TUESDAY)));
+        ColonneMercredi.setCellValueFactory(data -> 
+            new javafx.beans.property.SimpleStringProperty(data.getValue().get(DayOfWeek.WEDNESDAY)));
+        ColonneJeudi.setCellValueFactory(data -> 
+            new javafx.beans.property.SimpleStringProperty(data.getValue().get(DayOfWeek.THURSDAY)));
+        ColonneVendredi.setCellValueFactory(data -> 
+            new javafx.beans.property.SimpleStringProperty(data.getValue().get(DayOfWeek.FRIDAY)));
+        ColonneSamedi.setCellValueFactory(data -> 
+            new javafx.beans.property.SimpleStringProperty(data.getValue().get(DayOfWeek.SATURDAY)));
+        ColonneDimanche.setCellValueFactory(data -> 
+            new javafx.beans.property.SimpleStringProperty(data.getValue().get(DayOfWeek.SUNDAY)));
+
+        // Configuration du style des cellules
+        configureCellStyle(ColonneLundi);
+        configureCellStyle(ColonneMardi);
+        configureCellStyle(ColonneMercredi);
+        configureCellStyle(ColonneJeudi);
+        configureCellStyle(ColonneVendredi);
+        configureCellStyle(ColonneSamedi);
+        configureCellStyle(ColonneDimanche);
+
+        // Gestion des événements
+        IDPagePrecedente.setOnAction(event -> handleSemainePrecedente());
+        IDPageSuivante.setOnAction(event -> handleSemaineSuivante());
     }
 
-    /**
-     * Loads the planning data for the current week of the secouriste.
-     */
-    private void loadWeekData() {
-        HashSet<Dispos> allDispos = DAOMngt.getDisposDAO().findBySecouriste(secouriste.getId());
-        
-        // Créer une ligne pour le secouriste
-        PlanningRow row = new PlanningRow(secouriste.getNom() + " " + secouriste.getPrenom());
-        
-        // Remplir les disponibilités pour chaque jour de la semaine
-        for (int i = 0; i < 7; i++) {
-            LocalDate day = currentWeekStart.plusDays(i);
-            List<Dispos> dayDispos = allDispos.stream()
-                .filter(d -> d.getDate().toLocalDate().equals(day))
-                .collect(Collectors.toList());
-            
-            String disponibilites = dayDispos.isEmpty() 
-                ? "Indisponible" 
-                : dayDispos.stream()
-                    .map(d -> String.format("%02d:%02d-%02d:%02d", 
-                          d.getHeureDebut()[0], d.getHeureDebut()[1],
-                          d.getHeureFin()[0], d.getHeureFin()[1]))
-                    .collect(Collectors.joining(", "));
-            
-            switch (day.getDayOfWeek()) {
-                case MONDAY: row.setLundi(disponibilites); break;
-                case TUESDAY: row.setMardi(disponibilites); break;
-                case WEDNESDAY: row.setMercredi(disponibilites); break;
-                case THURSDAY: row.setJeudi(disponibilites); break;
-                case FRIDAY: row.setVendredi(disponibilites); break;
-                case SATURDAY: row.setSamedi(disponibilites); break;
-                case SUNDAY: row.setDimanche(disponibilites); break;
+    private void configureCellStyle(TableColumn<Map<DayOfWeek, String>, String> column) {
+        column.setCellFactory(col -> new TableCell<Map<DayOfWeek, String>, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if (item.toLowerCase().contains("indisponible")) {
+                        setStyle("-fx-background-color: lightcoral; -fx-text-fill: white;");
+                    } else {
+                        setStyle("-fx-background-color: lightgreen;");
+                    }
+                }
             }
+        });
+    }
+
+    private void loadWeekData() {
+        if (secouriste == null) return;
+        
+        Map<DayOfWeek, String> weekData = new EnumMap<>(DayOfWeek.class);
+        
+        // Initialiser tous les jours comme indisponibles
+        for (DayOfWeek day : DayOfWeek.values()) {
+            weekData.put(day, "Indisponible");
         }
         
-        tableView.setItems(FXCollections.observableArrayList(row));
+        // Remplir les disponibilités existantes
+        for (Dispos dispos : secouriste.getDisponibilites()) {
+            DayOfWeek day = dispos.getLocalDate().getDayOfWeek();
+            String timeRange = String.format("%02d:%02d-%02d:%02d",
+                dispos.getHeureDebut()[0], dispos.getHeureDebut()[1],
+                dispos.getHeureFin()[0], dispos.getHeureFin()[1]);
+            
+            weekData.put(day, timeRange);
+        }
+
+        ObservableList<Map<DayOfWeek, String>> items = FXCollections.observableArrayList();
+        items.add(weekData);
+        IDTableauPlanning.setItems(items);
     }
 
     @FXML
@@ -138,45 +157,30 @@ public class PagePlanningController {
         loadWeekData();
     }
 
-    /**
-     * Internal class representing a row in the planning table.
-     */
-    public static class PlanningRow {
-        private final String nom;
-        private String lundi;
-        private String mardi;
-        private String mercredi;
-        private String jeudi;
-        private String vendredi;
-        private String samedi;
-        private String dimanche;
+    @FXML
+    public void accueilPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
+            Parent root = loader.load();
 
-        public PlanningRow(String nom) {
-            this.nom = nom;
-            this.lundi = "";
-            this.mardi = "";
-            this.mercredi = "";
-            this.jeudi = "";
-            this.vendredi = "";
-            this.samedi = "";
-            this.dimanche = "";
+            // Passage des données utilisateur
+            PageAccueilSecouristeController controller = loader.getController();
+            controller.setUser(user);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Erreur de navigation", "Impossible de charger la page d'accueil");
+            e.printStackTrace();
         }
+    }
 
-        // Getters et setters
-        public String getNom() { return nom; }
-        public String getLundi() { return lundi; }
-        public void setLundi(String lundi) { this.lundi = lundi; }
-        public String getMardi() { return mardi; }
-        public void setMardi(String mardi) { this.mardi = mardi; }
-        public String getMercredi() { return mercredi; }
-        public void setMercredi(String mercredi) { this.mercredi = mercredi; }
-        public String getJeudi() { return jeudi; }
-        public void setJeudi(String jeudi) { this.jeudi = jeudi; }
-        public String getVendredi() { return vendredi; }
-        public void setVendredi(String vendredi) { this.vendredi = vendredi; }
-        public String getSamedi() { return samedi; }
-        public void setSamedi(String samedi) { this.samedi = samedi; }
-        public String getDimanche() { return dimanche; }
-        public void setDimanche(String dimanche) { this.dimanche = dimanche; }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
