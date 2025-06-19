@@ -9,9 +9,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import model.dao.DAO;
+import model.data.persistence.DPS;
+import model.data.service.DAOMngt;
 import model.data.users.UserAdmin;
 
 import java.io.IOException;
+import java.util.List;
 
 public class PageAccueilAdminController {
     @FXML
@@ -52,10 +56,14 @@ public class PageAccueilAdminController {
     }
 
     private void updateDPS() {
+        List<DPS> dps = DAOMngt.getDPSDAO().findAll();
+
+        idEvenementLabel.setText(String.valueOf(dps.get(0).getId()));
     }
 
     private void updateProfileLabels() {
-
+        idProfilLabel.setText(String.valueOf(admin.getId()));
+        mailLabel.setText(admin.getLogin());
     }
 
     public void deconnexionPage(ActionEvent actionEvent) {
