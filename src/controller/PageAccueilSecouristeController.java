@@ -11,10 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.data.persistence.Affectation;
 import model.data.persistence.Competence;
+import model.data.persistence.DPS;
 import model.data.persistence.Dispos;
 import model.data.users.UserSecouriste;
 import model.data.persistence.Secouriste;
+import model.data.service.DAOMngt;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,16 +66,16 @@ public class PageAccueilSecouristeController {
     private Label Dispo4;
 
     @FXML
-    private Label Label2;
+    private Label idEvenementLabel;
 
     @FXML
-    private Label Label3;
+    private Label nomEvenementLabel;
 
     @FXML
-    private Label Label4;
+    private Label siteEvenementLabel;
 
     @FXML
-    private Label Label5;
+    private Label dateEvenementLabel;
 
     @FXML
     private HBox ContenaireCompetences;
@@ -106,13 +109,14 @@ public class PageAccueilSecouristeController {
             // Mettre à jour les disponibilités
             updateDisponibilites(secouriste.getDisponibilites());
 
-            // Mettre à jour le planning (exemple simplifié)
-            // TODO: Mettre à jour le planning en utilisant la base de données
-            updatePlanning(List.of(
-                    "Mission 1 - 15/06 - 10h-12h",
-                    "Mission 2 - 16/06 - 14h-16h",
-                    "Formation - 18/06 - 09h-17h"
-            ));
+            // Mettre à jour le planning
+            List<Affectation> affectations = DAOMngt.getAffectationDAO().findBySecouriste(secouriste.getId());
+            List<String> planning = new ArrayList<>();
+            for (Affectation affectation : affectations) {
+                DPS dps = affectation.getDps();
+                planning.add(dps.toString());
+            }
+            updatePlanning(planning);
         }
     }
 
@@ -196,7 +200,7 @@ public class PageAccueilSecouristeController {
     // TODO: TS
     private void updatePlanning(List<String> planningItems) {
         // Réinitialiser les labels
-        Label[] planningLabels = {Label2, Label3, Label4, Label5};
+        Label[] planningLabels = {idEvenementLabel, nomEvenementLabel, siteEvenementLabel, dateEvenementLabel};
         int count = 1;
         for (Label label : planningLabels) {
             if (label == null) {
@@ -212,16 +216,16 @@ public class PageAccueilSecouristeController {
             for (int i = 0; i < Math.min(planningItems.size(), 4); i++) {
                 switch (i) {
                     case 0:
-                        Label2.setText("- " + planningItems.get(i));
+                        idEvenementLabel.setText("- " + planningItems.get(i));
                         break;
                     case 1:
-                        Label3.setText("- " + planningItems.get(i));
+                        nomEvenementLabel.setText("- " + planningItems.get(i));
                         break;
                     case 2:
-                        Label4.setText("- " + planningItems.get(i));
+                        siteEvenementLabel.setText("- " + planningItems.get(i));
                         break;
                     case 3:
-                        Label5.setText("- " + planningItems.get(i));
+                        dateEvenementLabel.setText("- " + planningItems.get(i));
                         break;
                 }
             }
