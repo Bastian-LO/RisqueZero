@@ -51,38 +51,32 @@ public class PageConnexionController {
         boolean connexionReussie = UserManager.verifyPassword(login, motDePasse);
 
         if (connexionReussie) {
-            // Redirection vers la page principale
             try {
                 User user = UserManager.findUser(login);
-                Parent root = null;
-                if ( user.isAdmin() ) {
+                Stage stage = (Stage) SeConnecterBoutton.getScene().getWindow();
+                
+                if (user.isAdmin()) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilAdmin.fxml"));
-                    try {
-                        root = loader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Parent root = loader.load();
                     PageAccueilAdminController controller = loader.getController();
                     controller.setUser((UserAdmin) user);
+                    stage.setScene(new Scene(root));
                 } else {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAccueilSecouriste.fxml"));
-                    try {
-                        root = loader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Parent root = loader.load();
                     PageAccueilSecouristeController controller = loader.getController();
                     controller.setUser((UserSecouriste) user);
+                    stage.setScene(new Scene(root));
                 }
-                Stage stage = (Stage) SeConnecterBoutton.getScene().getWindow();
-                stage.setScene(new Scene(root));
+                
                 stage.show();
             } catch (Exception e) {
                 e.printStackTrace();
+                showAlert("Erreur", "Impossible de charger l'interface: " + e.getMessage());
             }
         } else {
             showAlert("Erreur de connexion", "Identifiant ou mot de passe incorrect.");
-        }
+    }
     }
 
 
