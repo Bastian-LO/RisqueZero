@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import model.data.users.UserSecouriste;
 
 public class PageAjoutDispoController {
     public Button BouttonAccueil;
@@ -11,16 +12,12 @@ public class PageAjoutDispoController {
     public MenuButton MenuHeureDebut;
     public MenuButton MenuHeureFin;
     public Button BouttonEnregistrer;
+    private UserSecouriste user;
 
-    public void accueilPage(ActionEvent actionEvent) {
+    public void initialize(UserSecouriste user) {
+        this.user = user;
     }
 
-    public void debutHandle(ActionEvent actionEvent) {
-    }
-
-    public void enregistrerHandle(ActionEvent actionEvent) {
-    }
-
-    public void finHandle(ActionEvent actionEvent) {
+    public void calendrierHandle(ActionEvent actionEvent) {
     }
 }
