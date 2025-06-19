@@ -3,6 +3,7 @@ package model.dao;
 import model.data.persistence.Dispos;
 import model.data.persistence.Journee;
 import model.data.persistence.Secouriste;
+import model.data.service.DAOMngt;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -21,8 +22,7 @@ public class DisposDAO extends DAO<Dispos> {
     //           ATTRIBUTES
     // ================================
 
-    /** DAO for Secouriste */
-    private final SecouristeDAO secouristeDAO = new SecouristeDAO();
+    
 
     //=================================
     //           METHODS
@@ -42,7 +42,7 @@ public class DisposDAO extends DAO<Dispos> {
              ResultSet rs = stmt.executeQuery(sql)) {
             
             while (rs.next()) {
-                Secouriste secouriste = secouristeDAO.findById(rs.getLong("id_sec"));
+                Secouriste secouriste = DAOMngt.getSecouristeDAO().findById(rs.getLong("id_sec"));
                 LocalDate localDate = rs.getDate("date_dispo").toLocalDate();
                 Journee journee = new Journee(localDate);
                 if (secouriste != null) {
@@ -70,7 +70,7 @@ public class DisposDAO extends DAO<Dispos> {
         HashSet<Dispos> dispos = new HashSet<>();
         String sql = "SELECT date_dispo, heure_debut, heure_fin FROM dispos WHERE id_sec = ?";
         
-        Secouriste secouriste = secouristeDAO.findById(secouristeId);
+        Secouriste secouriste = DAOMngt.getSecouristeDAO().findById(secouristeId);
         if (secouriste == null){
             return dispos;
         }
