@@ -299,7 +299,7 @@ public class TestGraphe {
 
         Graphe graph = new Graphe(listSec, dpss);
         
-        System.out.println("\nAlgorithme exhaustif : ");
+        /*System.out.println("\nAlgorithme exhaustif : ");
         ArrayList<Affectation> listAff = graph.affectationExhaustive();
 
         for(int i = 0; i < listAff.size(); i++){
@@ -312,7 +312,7 @@ public class TestGraphe {
                 Pair<Secouriste, Competence> pairSecComp = listSecComp.get(j);
                 System.out.println(pairSecComp.getKey().getNom() + " : " + pairSecComp.getValue());
             }
-        }
+        }*/
 
 
         System.out.println("\nAlgorithme glouton : ");

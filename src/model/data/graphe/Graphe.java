@@ -460,7 +460,7 @@ public class Graphe {
     private Secouriste trouverMeilleurSecouriste(DPS dps, Competence competence, Set<Secouriste> secouristesDejaAffectes, 
                                                 ArrayList<Affectation> resultats) {
         Secouriste meilleurSecouriste = null;
-        int minAffectations = Integer.MAX_VALUE;
+        int minAffectations = 1458672849; // nombre absurdement grand pour être sûr qu'on sera forcément inférieur
         
         for (Secouriste secouriste : secouristes) {
             boolean estEligible = !secouristesDejaAffectes.contains(secouriste) && secouriste.getCompetences().contains(competence)
