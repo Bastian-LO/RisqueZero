@@ -3,6 +3,8 @@ package model.dao;
 import model.data.persistence.Competence;
 import model.data.persistence.Dispos;
 import model.data.persistence.Secouriste;
+import model.data.service.DAOMngt;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,12 +18,6 @@ public class SecouristeDAO extends DAO<Secouriste> {
     //================================
     //          ATTRIBUTES
     //================================
-
-    /** instance of CompetenceDAO used to retrieve competences */
-    private final CompetenceDAO competenceDAO = new CompetenceDAO();
-
-    /** instance of DisposDAO used to retrieve dispos */
-    private final DisposDAO disposDAO = new DisposDAO();
 
     //================================
     //          METHODS
@@ -47,7 +43,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
                 // Charger les compétences séparément
                 ArrayList<Competence> competences = findCompetencesBySecouristeId(id);
                 // Charger les disponibilités séparément
-                HashSet<Dispos> disponibilites = new HashSet<>(disposDAO.findBySecouriste(id));
+                HashSet<Dispos> disponibilites = new HashSet<>(DAOMngt.getDisposDAO().findBySecouriste(id));
                 
                 secouristes.add(new Secouriste(
                     id,
@@ -104,7 +100,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
                         rs.getString("tel"),
                         rs.getString("adresse"),
                         competences,
-                        new HashSet<>() // Remplacé par DisposDAO
+                        new HashSet<>()
                     );
                 }
             }
@@ -130,7 +126,7 @@ public class SecouristeDAO extends DAO<Secouriste> {
             ResultSet rs = pstmt.executeQuery();
             
             while (rs.next()) {
-                Competence comp = competenceDAO.findByIntitule(rs.getString("competence"));
+                Competence comp = DAOMngt.getCompetenceDAO().findByIntitule(rs.getString("competence"));
                 if (comp != null) {
                     competences.add(comp);
                 }

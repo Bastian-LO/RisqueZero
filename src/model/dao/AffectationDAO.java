@@ -4,6 +4,8 @@ import model.data.persistence.Affectation;
 import model.data.persistence.Competence;
 import model.data.persistence.DPS;
 import model.data.persistence.Secouriste;
+import model.data.service.DAOMngt;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +15,7 @@ import javafx.util.Pair;
  * DAO for Affectation
  * @author Bastian LEOUEDEC, Killian AVRIL, Enrick MANANJEAN, Elwan YVIN, Emile THEVENIN
  */
-public class AffectationDAO extends DAO<Affectation> {
-    //===============================
-    //          ATTRIBUTES
-    //===============================
-
-    /** instance of SecouristeDAO used to retrieve secouristes */
-    private final SecouristeDAO secouristeDAO = new SecouristeDAO();
-    
-    /** instance of DPSDAO used to retrieve DPS */
-    private final DPSDAO dpsDAO = new DPSDAO();
-
-    /** instance of CompetenceDAO used to retrieve competences */
-    private final CompetenceDAO competenceDAO = new CompetenceDAO();
+public class AffectationDAO extends DAO<Affectation> {    
 
     /**
      * Retrieves all Affectation records from the database.
@@ -44,7 +34,7 @@ public class AffectationDAO extends DAO<Affectation> {
             
             while (rs.next()) {
                 long dpsId = rs.getLong("id_dps");
-                DPS dps = dpsDAO.findById(dpsId);
+                DPS dps = DAOMngt.getDPSDAO().findById(dpsId);
                 
                 if (dps != null) {
                         
@@ -62,7 +52,7 @@ public class AffectationDAO extends DAO<Affectation> {
                     }
                     
                     // Ajouter la paire secouriste/compétence
-                    Secouriste sec = secouristeDAO.findById(rs.getLong("id_sec"));
+                    Secouriste sec = DAOMngt.getSecouristeDAO().findById(rs.getLong("id_sec"));
                     Competence comp = new Competence(rs.getString("competence"));
                     existing.getList().add(new Pair<>(sec, comp));
                 }
@@ -155,7 +145,7 @@ public class AffectationDAO extends DAO<Affectation> {
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     long dpsId = rs.getLong("id_dps");
-                    DPS dps = dpsDAO.findById(dpsId);
+                    DPS dps = DAOMngt.getDPSDAO().findById(dpsId);
                     if (dps != null) {
                         // Récupérer toutes les compétences pour ce secouriste et ce DPS
                         String compSql = "SELECT competence FROM affectation WHERE id_sec = ? AND id_dps = ?";
@@ -165,10 +155,10 @@ public class AffectationDAO extends DAO<Affectation> {
                             ResultSet compRs = compPstmt.executeQuery();
                             
                             ArrayList<Pair<Secouriste, Competence>> pairs = new ArrayList<>();
-                            Secouriste sec = secouristeDAO.findById(idSecouriste);
+                            Secouriste sec = DAOMngt.getSecouristeDAO().findById(idSecouriste);
                             
                             while (compRs.next()) {
-                                Competence comp = competenceDAO.findByIntitule(compRs.getString("competence"));
+                                Competence comp = DAOMngt.getCompetenceDAO().findByIntitule(compRs.getString("competence"));
                                 if (comp != null) {
                                     pairs.add(new Pair<>(sec, comp));
                                 }
@@ -203,7 +193,7 @@ public class AffectationDAO extends DAO<Affectation> {
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     long secId = rs.getLong("id_sec");
-                    Secouriste sec = secouristeDAO.findById(secId);
+                    Secouriste sec = DAOMngt.getSecouristeDAO().findById(secId);
                     if (sec != null) {
                         // Récupérer toutes les compétences pour ce secouriste et ce DPS
                         String compSql = "SELECT competence FROM affectation WHERE id_sec = ? AND id_dps = ?";
@@ -213,10 +203,10 @@ public class AffectationDAO extends DAO<Affectation> {
                             ResultSet compRs = compPstmt.executeQuery();
                             
                             ArrayList<Pair<Secouriste, Competence>> pairs = new ArrayList<>();
-                            DPS dps = dpsDAO.findById(idDPS);
+                            DPS dps = DAOMngt.getDPSDAO().findById(idDPS);
                             
                             while (compRs.next()) {
-                                Competence comp = competenceDAO.findByIntitule(compRs.getString("competence"));
+                                Competence comp = DAOMngt.getCompetenceDAO().findByIntitule(compRs.getString("competence"));
                                 if (comp != null) {
                                     pairs.add(new Pair<>(sec, comp));
                                 }
