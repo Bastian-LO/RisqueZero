@@ -254,20 +254,23 @@ public class Graphe {
     }
 
     private ArrayList<Affectation> affectationExhaustive(ArrayList<Secouriste> secouristes) {
-        // Structure pour stocker les affectations par DPS
         Map<DPS, Map<Secouriste, Competence>> affectationsMap = new HashMap<>();
+        Set<Integer> dejaAffectes = new HashSet<>();
 
         for (Pair<DPS, Competence> poste : DPSCompet) {
             DPS dps = poste.getKey();
             Competence competence = poste.getValue();
 
             for (Secouriste sec : secouristes) {
-                if (sec.getCompetences().contains(competence)
-                        && reserveCreneau(sec, dps)) {
+                if (!dejaAffectes.contains(sec.getId()) &&
+                    sec.getCompetences().contains(competence) &&
+                    reserveCreneau(sec, dps)) {
 
                     affectationsMap
-                            .computeIfAbsent(dps, k -> new HashMap<>())
-                            .put(sec, competence);
+                        .computeIfAbsent(dps, k -> new HashMap<>())
+                        .put(sec, competence);
+
+                    // dejaAffectes.add(sec.getId());
                     break;
                 }
             }
@@ -282,6 +285,7 @@ public class Graphe {
         }
         return result;
     }
+
 
     public boolean reserveCreneau(Secouriste sec, DPS dps) {
         Iterator<Dispos> it = sec.getDisponibilites().iterator();
