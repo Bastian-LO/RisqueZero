@@ -6,29 +6,29 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f0f1ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PageGestionSecouristesController">
    <children>
-      <Button layoutX="631.0" layoutY="28.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="144.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0" />
-      <Label alignment="CENTER" layoutY="14.0" prefWidth="247.0" text="Gestion des&#10;secouristes" textAlignment="RIGHT" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+      <Label alignment="CENTER" layoutY="14.0" prefWidth="247.0" text="Gestion des secouristes" textAlignment="RIGHT" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
          <font>
-            <Font name="System Bold" size="42.0" />
+            <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Button layoutX="671.0" layoutY="523.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="257.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Ajouter un secouriste" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0" />
+      <Button fx:id="accueilButton" layoutX="631.0" layoutY="28.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="144.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Accueil" textFill="WHITE" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0" />
+      <Button fx:id="ajouterSecouristeButton" layoutX="671.0" layoutY="523.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="257.0" style="-fx-background-color: #004aad; -fx-background-radius: 50;" text="Ajouter un secouriste" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0" />
       <HBox alignment="CENTER_LEFT" layoutX="26.0" layoutY="26.0" prefHeight="64.0" prefWidth="223.0" spacing="5.0" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="26.0">
          <children>
-            <ImageView fitHeight="73.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Risque_zéro_-_logo-removebg.png" />
                </image>
             </ImageView>
             <Label text="Risque Zéro">
                <font>
-                  <Font name="System Bold Italic" size="28.0" />
+                  <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
          </children>
       </HBox>
-      <ListView layoutX="60.0" layoutY="152.0" prefHeight="340.0" prefWidth="681.0" AnchorPane.bottomAnchor="108.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="152.0" />
+      <ListView fx:id="secouristesListView" layoutX="60.0" layoutY="152.0" prefHeight="340.0" prefWidth="681.0" AnchorPane.bottomAnchor="108.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="152.0" />
    </children>
 </AnchorPane>
