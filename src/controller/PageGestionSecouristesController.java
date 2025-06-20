@@ -56,7 +56,17 @@ public class PageGestionSecouristesController {
      */
     @FXML
     public void handleAjouterSecouriste() {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/fxml/PageAjoutSecouriste.fxml"));
+            Stage stage = (Stage) ajouterSecouristeButton.getScene().getWindow();
+            Parent root = loader.load();
+            PageAjoutSecouristeController controller = loader.getController();
+            controller.setUser(user);
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

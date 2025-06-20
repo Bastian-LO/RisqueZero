@@ -57,22 +57,22 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <Label fx:id="idEvenementLabel" text="idEvenementLabel">
+                        <Label fx:id="idEvenementLabel" text=" ">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="nomEvenementLabel" text="nomEvenementLabel">
+                        <Label fx:id="nomEvenementLabel" text=" ">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="siteEvenementLabel" text="siteEvenementLabel">
+                        <Label fx:id="siteEvenementLabel" text=" ">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="dateEvenementLabel" text="dateEvenementLabel">
+                        <Label fx:id="dateEvenementLabel" text=" ">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -114,26 +114,12 @@
                         </Label>
                         <HBox spacing="20.0">
                            <children>
-                              <Label fx:id="Competence1" text="Competence1">
+                              <Label fx:id="Competence1" text=" ">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="Competence2" text="Competence2">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox spacing="20.0">
-                           <children>
-                              <Label fx:id="Competence3" text="Competence3">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="Competence4" text="Competence4">
+                              <Label fx:id="Competence2" text=" ">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -142,12 +128,26 @@
                         </HBox>
                         <HBox spacing="20.0">
                            <children>
-                              <Label fx:id="Competence5" text="Competence5">
+                              <Label fx:id="Competence3" text=" ">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="Competence6" text="Competence6">
+                              <Label fx:id="Competence4" text=" ">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="20.0">
+                           <children>
+                              <Label fx:id="Competence5" text=" ">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="Competence6" text=" ">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -171,12 +171,12 @@
                         </Label>
                         <HBox spacing="20.0">
                            <children>
-                              <Label fx:id="Dispo1" text="Dispo1">
+                              <Label fx:id="Dispo1" text=" ">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="Dispo2" text="Dispo2">
+                              <Label fx:id="Dispo2" text=" ">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -185,12 +185,12 @@
                         </HBox>
                         <HBox spacing="20.0">
                            <children>
-                              <Label fx:id="Dispo3" text="Dispo3">
+                              <Label fx:id="Dispo3" text=" ">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="Dispo4" text="Dispo4">
+                              <Label fx:id="Dispo4" text=" ">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
