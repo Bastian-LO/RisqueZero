@@ -94,7 +94,7 @@ public class PageAccueilSecouristeController {
         this.user = user;
         this.secouriste = user.getSecouriste();
 
-        Platform.runLater(this::updateUI);
+        updateUI();
     }
 
     private void updateUI() {
@@ -121,7 +121,7 @@ public class PageAccueilSecouristeController {
         for (Label label : initCompetenceLabels) {
             if (label == null) {
                 System.err.println("Le label de disponibilité " + count + " est null!");
-                return;
+                return; //Permet de ne pas planter l'application
             }
             label.setText(" ");
             count++;
@@ -156,8 +156,8 @@ public class PageAccueilSecouristeController {
             count = 1;
             for (Label label : initCompetenceLabels) {
                 if (label == null) {
-                    System.err.println("Le label de disponibilité " + count + " est null!");
-                    return;
+                    System.err.println("Le label de disponibilité " + count + " est null!"); //Utilisé pour débugger, mais toujours utile
+                    return; //Permet de ne pas planter l'application
                 }
                 label.setText(" ");
                 count++;
